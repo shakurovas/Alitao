@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru_RU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Краткое описание страницы"/>
+    <title>Сайт</title>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">     
+    <link rel="stylesheet" href="assets/css/main.min.css">     
+    
+</head>
+<body>
+    <div class="p-8 ">
+
+        <h1 class="fs-2 fw-bold mb-6">Цветовая палитра</h1>
+
+        <div class="d-flex align-items-center mb-6">
+            <div style="width: 100px; height: 100px; border: 20px;" class="me-4 bg-primary"></div>
+            <p class="text-dark">Primary</p>
+        </div>
+        <div class="d-flex align-items-center mb-6">
+            <div style="width: 100px; height: 100px; border: 20px;" class="me-4 bg-secondary"></div>
+            <p class="text-dark">Secondary</p>
+        </div>
+        <div class="d-flex align-items-center mb-6">
+            <div style="width: 100px; height: 100px; border: 20px;" class="me-4 bg-dark"></div>
+            <p class="text-dark">Dark</p>
+        </div>
+        <div class="d-flex align-items-center mb-6">
+            <div style="width: 100px; height: 100px; border: 20px;" class="me-4 bg-success"></div>
+            <p class="text-dark">Success</p>
+        </div>
+
+        
+
+        <div class="d-flex align-items-center mb-6">
+            <div style="width: 100px; height: 100px; border: 20px;" class="me-4 bg-gray"></div>
+            <p class="text-dark">gray</p>
+        </div>
+
+        <div class="d-flex align-items-center mb-6">
+            <div style="width: 100px; height: 100px; border: 20px;" class="me-4 bg-dark-gray"></div>
+            <p class="text-dark">dark-gray</p>
+        </div>
+
+        <p class="text fs-4">
+            <b class="text-secondary d-block fs-3 mb-4">Внимание!!!</b>
+            <b>Цвета макета были перенесены следующим образом:</b>часть имен классов Bootstrap 5 было переопределено <span class="text-primary">(например .*-primary)</span> , часть добавлено <span class="text-dark-gray">(например .*-dark-gray)</span>, 
+            но принцип именования и использования классов фреймворка Bootsrap сохранился как для новых, так и для добавленных, его можно назвать как <b>СУЩНОСТЬ - ПОСТФИКС</b>  <span class="text-primary">.text-primary</span>, <a class="link-dark-gray" href="#">.link-dark-gray</a> <a class="btn btn-success" href="#">.btn.btn-success</a>  и т.д. 
+        </p>
+    </div>
+    <div class="p-8 ">
+        <div class="py-4">
+            <div class="d-flex align-item-center">
+                <button class="btn btn-primary d-inline-flex align-items-center" >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 12C13.4587 12 14.8576 11.4205 15.8891 10.3891C16.9205 9.35764 17.5 7.95869 17.5 6.5C17.5 5.04131 16.9205 3.64236 15.8891 2.61091C14.8576 1.57946 13.4587 1 12 1C10.5413 1 9.14236 1.57946 8.11091 2.61091C7.07946 3.64236 6.5 5.04131 6.5 6.5C6.5 7.95869 7.07946 9.35764 8.11091 10.3891C9.14236 11.4205 10.5413 12 12 12V12ZM15.6667 6.5C15.6667 7.47246 15.2804 8.40509 14.5927 9.09273C13.9051 9.78036 12.9725 10.1667 12 10.1667C11.0275 10.1667 10.0949 9.78036 9.40728 9.09273C8.71964 8.40509 8.33333 7.47246 8.33333 6.5C8.33333 5.52754 8.71964 4.59491 9.40728 3.90728C10.0949 3.21964 11.0275 2.83333 12 2.83333C12.9725 2.83333 13.9051 3.21964 14.5927 3.90728C15.2804 4.59491 15.6667 5.52754 15.6667 6.5V6.5ZM23 21.1667C23 23 21.1667 23 21.1667 23H2.83333C2.83333 23 1 23 1 21.1667C1 19.3333 2.83333 13.8333 12 13.8333C21.1667 13.8333 23 19.3333 23 21.1667ZM21.1667 21.1593C21.1648 20.7083 20.8843 19.3517 19.6413 18.1087C18.446 16.9133 16.1965 15.6667 12 15.6667C7.80167 15.6667 5.554 16.9133 4.35867 18.1087C3.11567 19.3517 2.837 20.7083 2.83333 21.1593H21.1667Z" fill="white"/>
+                    </svg>
+                    <span class="d-inline-block ms-2">Войти</span>
+                </button>
+
+                <p class="ms-4 mb-0 fs-4">.btn.btn-primary</p>
+            </div>
+            
+        </div>
+        <div class="py-4">
+            <div class="d-flex align-item-center">
+                <button class="btn btn-primary d-inline-flex align-items-center"  disabled>
+                    <img src="assets/img/icons/user.svg" alt="">
+                    <span class="d-inline-block ms-2">Войти</span>
+                </button>
+
+                <p class="ms-4 mb-0 fs-4">.btn.btn-primary:disabled</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-8 ">
+        <h1 class="h1">Шрифты</h1>
+
+        <p class="text mb-5">.text - 16px(1rem)  до 992px | 24px(1.5rem)  после</p>
+
+        
+        <div class="text-dark mb-8">
+            <h2 class="h2">Переопределил шрифты бутсрап</h2>
+            <p class="fs-1">.fs-1 - 48px(3rem)</p>
+            <p class="fs-2">.fs-2  - 36px(2.25rem)</p>
+            <p class="fs-3">.fs-3 - 24px(1.5rem)</p>
+            <p class="fs-4">.fs-4 - 20px(1.25rem)</p>
+            <p class="fs-5">.fs-5 - 16px(1rem)</p>
+            <p class="fs-6">.fs-6 - 14px(.875rem)</p>
+
+            <h2 class="h2 mt-8">Добавил</h2>
+
+            <p class="fs-very-small">.fs-very-small - 12px(.75rem)</p>
+            
+        </div>        
+        
+        <div class="text-dark mb-8">
+            <h2 class="h2 mb-6">Переопределили заголовки</h2>
+
+
+            <h1 class="h1 mb-4">.h1 - 36px | 48px(3rem)</h1>
+            <h1 class="h2 mb-4">.h2 - 24px | 36px(2.25rem)</h1>            
+        </div>
+
+    </div>
+
+
+    <div class="p-8 text-dark mb-6">
+        <h1 class="h1">offsets</h1>
+
+        <h3 class="h3 mb-6">Расширил и переопределил стандартные поля и отступы padding и margin <b class="text-primary">m*-n</b> <b class="text-primary">p*-n</b> </h3>
+        <h4 class="mb-4">Для примера</h4>
+        <p class="fs-4">mb-10 - margin-bottom 64px(4rem)</p>
+        <p class="fs-4">mb-9 - margin-bottom 48px(3rem)</p>
+        <p class="fs-4">mb-8 - margin-bottom 40px(2.5rem)</p>
+        <p class="fs-4">mb-7 - margin-bottom 32px(2rem)</p>
+        <p class="fs-4">mb-6 - margin-bottom 24px(1.5rem)</p>
+        <p class="fs-4">mb-5 - margin-bottom 20px(1.25rem)</p>
+        <p class="fs-4">mb-4 - margin-bottom 16px(1rem)</p>
+        <p class="fs-4">mb-3 - margin-bottom 12px(.75rem)</p>
+        <p class="fs-4">mb-2 - margin-bottom 8px(.5rem)</p>
+        <p class="fs-4">mb-1 - margin-bottom 4px(.25rem)</p>
+
+        <hr>
+
+        <p class="fs-3">Тоже самое можно употреблять и для других отступов</p>
+    </div>
+</body>
+</html>
+

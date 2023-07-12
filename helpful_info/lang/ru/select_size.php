@@ -1,0 +1,19 @@
+<?php
+$MESS['CHOOSING_SIZE_TITLE'] = 'Выбор размера';
+$MESS['SIZE_OF_CLOTHES_DESCRIPTION'] = 'Размеры одежды можно найти в размерных табличках в описании товара';
+$MESS['ITEM_SIZE'] = 'Размер вещи';
+$MESS['SPECIAL_ATTENTION'] = 'Нужно обратить особое внимание';
+$MESS['SHOES_SIZE'] = 'Размер обуви';
+$MESS['TABLE_1_DESCRIPTION'] = 'Таблица соответствия размеров мужской одежды (верхняя одежда, пиджаки, брюки и костюмы)';
+$MESS['RUSSIA'] = 'Россия';
+$MESS['INTERNATIONAL'] = 'Международный';
+$MESS['CHINA'] = 'Китай';
+$MESS['CHEST_GIRTH'] = 'Обхват груди, см';
+$MESS['WAIST_GIRTH'] = 'Обхват талии, см';
+$MESS['NECK_GIRTH'] = 'Обхват шеи, см';
+$MESS['HEIGHT'] = 'Рост, см';
+$MESS['TABLE_2_DESCRIPTION'] = 'Таблица соответствия размеров женской одежды';
+$MESS['HIPS_GIRTH'] = 'Обхват бедер, см';
+$MESS['TABLE_3_DESCRIPTION'] = 'Таблица соответствия размеров мужской обуви';
+$MESS['CM'] = 'См';
+$MESS['TABLE_4_DESCRIPTION'] = 'Таблица соответствия размеров женской обуви';

@@ -1,0 +1,1 @@
+<p class=" d-none d-sm-block">После двоеточия в графе выбора цвета 颜色分类: будут указаны доступные цвета 黑色 宝蓝 西瓜 米色. Скопируйте цвета на китайском языке и вставьте их в <a href="https://translate.google.ru/" class="link-secondary" target="_blank">онлайн-переводчик Google.</a></p>

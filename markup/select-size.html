@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="ru_RU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Краткое описание страницы"/>
+    <title>Alitao.shop</title>
+    <link rel="shortcut icon" href="assets/img/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">     
+    <link rel="stylesheet" href="assets/css/main.min.css">     
+    
+</head>
+<body>
+    <header class="header">
+        <div class="header__top py-3 bg-primary d-none d-md-block">
+            <div class="container fs-6" >
+                <div class="d-flex justify-content-between align-items-center">
+                    <strong class="text-white text-small ">Доставка товаров из Китая в Россию</strong>
+
+                    <div class="d-inline-flex ">
+                        <b class="text-white me-2">Текущий курс:</b>
+                        <b class="text-white">1 ¥ = 12.5 ₽ | 1 $ = 85 ₽</b>
+                        
+                    </div>
+                    
+
+                    <div class="d-inline-flex align-items-center">
+                        <b class="text-white me-3">Наши соцсети</b>
+                        <div class="d-inline-flex">
+                            <a href="#" class="me-3" target="_blank">
+                                <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">                                
+                                    <path d="M13 0C9.55297 0 6.24406 1.37048 3.80859 3.80758C1.37061 6.24564 0.000675329 9.55212 0 13C0 16.4464 1.37109 19.7553 3.80859 22.1924C6.24406 24.6295 9.55297 26 13 26C16.447 26 19.7559 24.6295 22.1914 22.1924C24.6289 19.7553 26 16.4464 26 13C26 9.55358 24.6289 6.24467 22.1914 3.80758C19.7559 1.37048 16.447 0 13 0Z" fill="white"/>
+                                    <path d="M5.88454 12.8628C9.67485 11.2118 12.2017 10.1232 13.4652 9.59736C17.0767 8.09565 17.8263 7.83484 18.3158 7.826C18.4234 7.82428 18.6631 7.85089 18.8195 7.97733C18.9495 8.08397 18.9861 8.22819 19.0044 8.32945C19.0206 8.43061 19.043 8.66115 19.0247 8.84112C18.8297 10.8967 17.9827 15.8851 17.552 18.1875C17.3713 19.1617 17.0117 19.4883 16.6644 19.5202C15.9088 19.5897 15.3359 19.0213 14.6047 18.5422C13.4611 17.792 12.8152 17.3252 11.7041 16.5934C10.4203 15.7476 11.2531 15.2826 11.9844 14.5229C12.1753 14.3241 15.5025 11.2985 15.5655 11.0241C15.5736 10.9898 15.5817 10.8618 15.5045 10.7944C15.4294 10.7267 15.3177 10.7499 15.2364 10.7682C15.1206 10.7942 13.2945 12.0024 9.75204 14.3925C9.23407 14.7488 8.76485 14.9225 8.34235 14.9133C7.87923 14.9034 6.98548 14.6509 6.32126 14.4352C5.50876 14.1705 4.86079 14.0306 4.91766 13.581C4.9461 13.347 5.26907 13.1076 5.88454 12.8628Z" fill="#FF6948"/>
+                                </svg>
+                            </a>
+                            <a href="#" target="_blank">
+                                <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_210_52115)">
+                                        <path d="M10.2798 0.00325L11.0695 0H14.9305L15.7213 0.00325L16.7115 0.0140833L17.1806 0.0216667L17.6334 0.0335833L18.07 0.04875L18.4903 0.0660833L18.8955 0.0888333L19.2855 0.115917L19.6593 0.148417L20.02 0.184167C21.905 0.3965 23.1974 0.8515 24.1724 1.8265C25.1474 2.8015 25.6024 4.09283 25.8148 5.97892L25.8516 6.33967L25.883 6.7145L25.9101 7.1045L25.9318 7.50858L25.9588 8.14558L25.9718 8.58975L25.9859 9.28742L25.9957 10.2787L26 11.3403L25.9989 14.9294L25.9957 15.7202L25.9848 16.7104L25.9773 17.1795L25.9653 17.6323L25.9502 18.0689L25.9328 18.4893L25.9101 18.8944L25.883 19.2844L25.8505 19.6582L25.8148 20.0189C25.6024 21.9039 25.1474 23.1963 24.1724 24.1713C23.1974 25.1463 21.9061 25.6013 20.02 25.8137L19.6593 25.8505L19.2844 25.8819L18.8944 25.909L18.4903 25.9307L17.8533 25.9577L17.4092 25.9707L16.7115 25.9848L15.7203 25.9946L14.6586 25.9989L11.0695 25.9978L10.2787 25.9946L9.2885 25.9837L8.81942 25.9762L8.36658 25.9642L7.93 25.9491L7.50967 25.9317L7.1045 25.909L6.7145 25.8819L6.34075 25.8494L5.98 25.8137C4.095 25.6013 2.80258 25.1463 1.82758 24.1713C0.852583 23.1963 0.397583 21.905 0.18525 20.0189L0.148417 19.6582L0.117 19.2833L0.0899167 18.8933L0.06825 18.4893L0.0411667 17.8522L0.0281667 17.4081L0.0140833 16.7104L0.00433333 15.7192L0 14.6575L0.00108333 11.0684L0.00433333 10.2776L0.0151667 9.28742L0.02275 8.81833L0.0346667 8.3655L0.0498333 7.92892L0.0671667 7.50858L0.0899167 7.10342L0.117 6.71342L0.1495 6.33967L0.18525 5.97892C0.397583 4.09392 0.852583 2.8015 1.82758 1.8265C2.80258 0.8515 4.09392 0.3965 5.98 0.184167L6.34075 0.147333L6.71558 0.115917L7.10558 0.0888333L7.50967 0.0671667L8.14667 0.0400833L8.59083 0.0270833L9.2885 0.013L10.2798 0.00325ZM7.35583 7.90725H4.3875C4.52833 14.6672 7.90833 18.7297 13.8342 18.7297H14.17V14.8622C16.3475 15.0789 17.9942 16.6714 18.655 18.7297H21.7317C20.8867 15.6531 18.6658 13.9522 17.2792 13.3022C18.6658 12.5006 20.6158 10.5506 21.0817 7.90725H18.2867C17.68 10.0522 15.8817 12.0022 14.17 12.1864V7.90725H11.375V15.4039C9.64167 14.9706 7.45333 12.8689 7.35583 7.90725Z" fill="white"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_210_52115">
+                                            <rect width="26" height="26" rx="13" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>                                    
+                            </a>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+        <div class="header__bottom py-md-4 py-5">
+            <div class="container">
+            <div class="d-flex justify-content-center justify-content-xl-between align-items-center position-relative">
+
+                    <a href="index.html" class="d-xl-none back-link">
+                        <img src="assets/img/icons/back.svg" alt="">
+                    </a>
+
+
+                    <a href="index.html">
+                        <img src="assets/img/header-logo.svg" alt="">                    
+                    </a>
+
+                    <ul class="d-xl-flex d-none">
+                        <li class="px-3 active"><a href="/make-order.html" class="link-dark">Cделать заказ</a></li>
+                        <li class="px-3"><a href="/about-us.html" class="link-dark">О нас</a></li>
+                        <li class="px-3"><a href="/index.html#help" class="link-dark">Помощь</a></li>
+                        <li class="px-3"><a href="/terms.html" class="link-dark">Условия</a></li>
+                        <li class="px-3"><a href="/index.html#faq" class="link-dark">Ответы и вопросы</a></li>
+                        <li class="px-3"><a href="/payment.html" class="link-dark">Оплата</a></li>
+                        <li class="px-3"><a href="/delivery.html" class="link-dark">Доставка</a></li>
+                    </ul>
+
+                    <div class="ps-xxl-10 ms-xxl-9 d-xl-flex d-none">
+                        <button class="btn btn-primary d-inline-flex align-items-center" data-bs-toggle="modal" href="#singInModal" role="button">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 12C13.4587 12 14.8576 11.4205 15.8891 10.3891C16.9205 9.35764 17.5 7.95869 17.5 6.5C17.5 5.04131 16.9205 3.64236 15.8891 2.61091C14.8576 1.57946 13.4587 1 12 1C10.5413 1 9.14236 1.57946 8.11091 2.61091C7.07946 3.64236 6.5 5.04131 6.5 6.5C6.5 7.95869 7.07946 9.35764 8.11091 10.3891C9.14236 11.4205 10.5413 12 12 12V12ZM15.6667 6.5C15.6667 7.47246 15.2804 8.40509 14.5927 9.09273C13.9051 9.78036 12.9725 10.1667 12 10.1667C11.0275 10.1667 10.0949 9.78036 9.40728 9.09273C8.71964 8.40509 8.33333 7.47246 8.33333 6.5C8.33333 5.52754 8.71964 4.59491 9.40728 3.90728C10.0949 3.21964 11.0275 2.83333 12 2.83333C12.9725 2.83333 13.9051 3.21964 14.5927 3.90728C15.2804 4.59491 15.6667 5.52754 15.6667 6.5V6.5ZM23 21.1667C23 23 21.1667 23 21.1667 23H2.83333C2.83333 23 1 23 1 21.1667C1 19.3333 2.83333 13.8333 12 13.8333C21.1667 13.8333 23 19.3333 23 21.1667ZM21.1667 21.1593C21.1648 20.7083 20.8843 19.3517 19.6413 18.1087C18.446 16.9133 16.1965 15.6667 12 15.6667C7.80167 15.6667 5.554 16.9133 4.35867 18.1087C3.11567 19.3517 2.837 20.7083 2.83333 21.1593H21.1667Z" fill="white"/>
+                            </svg>
+                            <span class="d-inline-block ms-2">Войти</span>
+                        </button>
+                    </div>
+
+
+                    <button class="hamburger d-inline-block d-xl-none">
+                        <img src="assets/img/icons/hamburger.svg" alt="">
+                    </button>
+            </div>
+            </div>
+        </div>
+    </header>
+    <div class="mobile-menu bg-dark d-xl-none">
+        <div class="mobile-menu__header">
+            <div class="container py-4 d-flex justify-content-between align-items-center">
+
+                <h3 class="fs-2 fw-bold text-white mb-0">Меню</h3>
+
+                <button class="mobile-menu__close">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4.62627 4.62621C5.01679 4.23568 5.64996 4.23568 6.04048 4.62621L27.3738 25.9595C27.7643 26.3501 27.7643 26.9832 27.3738 27.3738C26.9833 27.7643 26.3501 27.7643 25.9596 27.3738L4.62627 6.04042C4.23574 5.6499 4.23574 5.01673 4.62627 4.62621Z" fill="white"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M27.3738 4.62621C27.7643 5.01673 27.7643 5.6499 27.3738 6.04042L6.04048 27.3738C5.64996 27.7643 5.01679 27.7643 4.62627 27.3738C4.23574 26.9832 4.23574 26.3501 4.62627 25.9595L25.9596 4.62621C26.3501 4.23568 26.9833 4.23568 27.3738 4.62621Z" fill="white"/>
+                    </svg>                        
+                </button>
+
+            </div>
+        </div>
+        <nav class="mobile-menu__body ">
+            <div class="container py-2 pb-6 d-flex flex-column flex-grow-1">
+                <ul class="fs-3 fw-bold mb-7">
+                    <li class="py-3"><a href="/make-order.html" class="link-white">Сделать заказ</a></li>
+                    <li class="py-3"><a href="/about-us.html" class="link-white">О нас</a></li>
+                    
+                    <li class="py-3"><a href="/index.html#help" class="link-white">Помощь</a></li>
+                    
+
+
+                    <li class="py-3"><a href="/terms.html" class="link-white">Условия</a></li>
+                    <li class="py-3"><a href="/index.html#faq" class="link-white">Ответы на вопросы</a></li>
+                    <li class="py-3"><a href="/payment.html" class="link-white">Оплата</a></li>                    
+                    <li class="py-3"><a href="/delivery.html" class="link-white">Доставка</a></li>
+                </ul>
+                <div class="d-flex justify-content-center mb-6 ">
+                    <a href="#" class="px-6" target="_blank">
+                        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_506_29843)">
+                                <path d="M32 0C23.515 0 15.37 3.3735 9.375 9.3725C3.37381 15.3739 0.00166235 23.5129 0 32C0 40.4835 3.375 48.6285 9.375 54.6275C15.37 60.6265 23.515 64 32 64C40.485 64 48.63 60.6265 54.625 54.6275C60.625 48.6285 64 40.4835 64 32C64 23.5165 60.625 15.3715 54.625 9.3725C48.63 3.3735 40.485 0 32 0Z" fill="white"/>
+                                <path d="M14.485 31.662C23.815 27.598 30.035 24.9185 33.145 23.624C42.035 19.9275 43.88 19.2855 45.085 19.2637C45.35 19.2595 45.94 19.325 46.325 19.6362C46.645 19.8987 46.735 20.2537 46.78 20.503C46.82 20.752 46.875 21.3195 46.83 21.7625C46.35 26.8225 44.265 39.1015 43.205 44.769C42.76 47.167 41.875 47.971 41.02 48.0495C39.16 48.2205 37.75 46.8215 35.95 45.642C33.135 43.7955 31.545 42.6465 28.81 40.845C25.65 38.763 27.7 37.6185 29.5 35.7485C29.97 35.259 38.16 27.8115 38.315 27.136C38.335 27.0515 38.355 26.7365 38.165 26.5705C37.98 26.404 37.705 26.461 37.505 26.506C37.22 26.57 32.725 29.544 24.005 35.4275C22.73 36.3045 21.575 36.732 20.535 36.7095C19.395 36.685 17.195 36.0635 15.56 35.5325C13.56 34.881 11.965 34.5365 12.105 33.43C12.175 32.854 12.97 32.2645 14.485 31.662Z" fill="#1A2030"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_506_29843">
+                                    <rect width="64" height="64" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                            
+                    </a>
+                    <a href="#" class="px-6" target="_blank">
+                        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_506_29846)">
+                                <path d="M25.304 0.008L27.248 0H36.752L38.6987 0.008L41.136 0.0346667L42.2907 0.0533333L43.4053 0.0826667L44.48 0.12L45.5147 0.162667L46.512 0.218667L47.472 0.285333L48.392 0.365333L49.28 0.453333C53.92 0.976 57.1013 2.096 59.5013 4.496C61.9013 6.896 63.0213 10.0747 63.544 14.7173L63.6347 15.6053L63.712 16.528L63.7787 17.488L63.832 18.4827L63.8987 20.0507L63.9307 21.144L63.9653 22.8613L63.9893 25.3013L64 27.9147L63.9973 36.7493L63.9893 38.696L63.9627 41.1333L63.944 42.288L63.9147 43.4027L63.8773 44.4773L63.8347 45.512L63.7787 46.5093L63.712 47.4693L63.632 48.3893L63.544 49.2773C63.0213 53.9173 61.9013 57.0987 59.5013 59.4987C57.1013 61.8987 53.9227 63.0187 49.28 63.5413L48.392 63.632L47.4693 63.7093L46.5093 63.776L45.5147 63.8293L43.9467 63.896L42.8533 63.928L41.136 63.9627L38.696 63.9867L36.0827 63.9973L27.248 63.9947L25.3013 63.9867L22.864 63.96L21.7093 63.9413L20.5947 63.912L19.52 63.8747L18.4853 63.832L17.488 63.776L16.528 63.7093L15.608 63.6293L14.72 63.5413C10.08 63.0187 6.89867 61.8987 4.49867 59.4987C2.09867 57.0987 0.978667 53.92 0.456 49.2773L0.365333 48.3893L0.288 47.4667L0.221333 46.5067L0.168 45.512L0.101333 43.944L0.0693333 42.8507L0.0346667 41.1333L0.0106667 38.6933L0 36.08L0.00266667 27.2453L0.0106667 25.2987L0.0373333 22.8613L0.056 21.7067L0.0853333 20.592L0.122667 19.5173L0.165333 18.4827L0.221333 17.4853L0.288 16.5253L0.368 15.6053L0.456 14.7173C0.978667 10.0773 2.09867 6.896 4.49867 4.496C6.89867 2.096 10.0773 0.976 14.72 0.453333L15.608 0.362667L16.5307 0.285333L17.4907 0.218667L18.4853 0.165333L20.0533 0.0986667L21.1467 0.0666667L22.864 0.032L25.304 0.008ZM18.1067 19.464H10.8C11.1467 36.104 19.4667 46.104 34.0533 46.104H34.88V36.584C40.24 37.1173 44.2933 41.0373 45.92 46.104H53.4933C51.4133 38.5307 45.9467 34.344 42.5333 32.744C45.9467 30.7707 50.7467 25.9707 51.8933 19.464H45.0133C43.52 24.744 39.0933 29.544 34.88 29.9973V19.464H28V37.9173C23.7333 36.8507 18.3467 31.6773 18.1067 19.464Z" fill="white"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_506_29846">
+                                    <rect width="64" height="64" rx="32" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>                        
+                    </a>
+                </div>
+
+
+                <div class="fw-bold text-center fs-3">
+                    <div class="mb-2 text-white">
+                        Текущий курс:
+                    </div>
+                    <div class="text-primary">
+                        1 ¥ = 12.5 ₽ | 1 $ = 85 ₽
+                    </div>
+                </div>
+
+                <div class="mt-8 flex-grow-1 d-flex align-items-end" >
+                    <a href="/mobile-sing-in.html" class="btn btn-primary py-3 d-inline-flex align-items-center justify-content-center">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 12C13.4587 12 14.8576 11.4205 15.8891 10.3891C16.9205 9.35764 17.5 7.95869 17.5 6.5C17.5 5.04131 16.9205 3.64236 15.8891 2.61091C14.8576 1.57946 13.4587 1 12 1C10.5413 1 9.14236 1.57946 8.11091 2.61091C7.07946 3.64236 6.5 5.04131 6.5 6.5C6.5 7.95869 7.07946 9.35764 8.11091 10.3891C9.14236 11.4205 10.5413 12 12 12V12ZM15.6667 6.5C15.6667 7.47246 15.2804 8.40509 14.5927 9.09273C13.9051 9.78036 12.9725 10.1667 12 10.1667C11.0275 10.1667 10.0949 9.78036 9.40728 9.09273C8.71964 8.40509 8.33333 7.47246 8.33333 6.5C8.33333 5.52754 8.71964 4.59491 9.40728 3.90728C10.0949 3.21964 11.0275 2.83333 12 2.83333C12.9725 2.83333 13.9051 3.21964 14.5927 3.90728C15.2804 4.59491 15.6667 5.52754 15.6667 6.5V6.5ZM23 21.1667C23 23 21.1667 23 21.1667 23H2.83333C2.83333 23 1 23 1 21.1667C1 19.3333 2.83333 13.8333 12 13.8333C21.1667 13.8333 23 19.3333 23 21.1667ZM21.1667 21.1593C21.1648 20.7083 20.8843 19.3517 19.6413 18.1087C18.446 16.9133 16.1965 15.6667 12 15.6667C7.80167 15.6667 5.554 16.9133 4.35867 18.1087C3.11567 19.3517 2.837 20.7083 2.83333 21.1593H21.1667Z" fill="white"/>
+                        </svg>
+                        <span class="d-inline-block fs-4 ms-2">Войти</span>
+                    </a>
+                </div>
+            </div>
+
+            
+
+
+            
+        </nav>
+    </div>
+
+
+<div class="modal fade text-dark" id="singInModal" aria-hidden="true" aria-labelledby="singInModalLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">          
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <h5 class="h2 text-center mb-6"  id="singInModalLabel">Войти</h5>
+            <p class="fs-5 text-center mb-7">Укажите ваш Email и пароль для входа</p>
+
+
+            <form action="/" data-target="desktop-sing-in" class="mb-4">
+                <div class="mb-4" data-field="login">
+                    <label for="sing-in-email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="sing-in-email" placeholder="Введите Email" name="login" required>                    
+                </div>
+
+                <div class="mb-7" data-field="password">
+                    <label for="sing-in-password" class="form-label">Пароль</label>
+                    <input type="password" class="form-control" id="sing-in-password" placeholder="Введите пароль" name="password" required>                     
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <button class="btn btn-primary fs-5 px-8 py-3">Войти</button>
+
+                    <span class="fs-5 d-inline-block link-secondary" data-bs-target="#recoveryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Забыли пароль?</span>
+                </div>
+            </form>
+
+            <hr class="text-gray my-4"/>
+            <p class="text-center py-4">или</p>
+            <div class="d-flex justify-content-center">
+                <button class="link-secondary" data-bs-target="#singUpModal" data-bs-toggle="modal" data-bs-dismiss="modal">Зарегестрируйте новый профиль</button>
+
+                
+            </div>
+            
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+<div class="modal fade text-dark" id="singUpModal" aria-hidden="true" aria-labelledby="singUpModalLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">          
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <h5 class="h2 text-center mb-6"  id="singUpModalLabel">Регистрация</h5>
+            <p class="fs-5 text-center mb-7">Укажите ваш Email и пароль для регистрации</p>
+
+
+            <form action="/" data-target="desktop-sing-up" >
+                <div class="mb-4" data-field="login">
+                    <label for="sing-in-email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="sing-in-email" placeholder="Введите Email" name="login" required>                    
+                </div>
+                
+                <div class="mb-7" data-field="password">
+                    <label for="sing-in-password" class="form-label">Пароль</label>
+                    <input type="password" class="form-control" id="sing-in-password" placeholder="Введите пароль" name="password" required>                     
+                </div>
+
+                <div class="form-check d-flex align-items-center mb-7">
+                  <input class="form-check-input me-2" type="checkbox" value="" id="approve-ppd" checked data-target-btn="#sing-up-btn">
+                  <label class="form-check-label fs-6" for="approve-ppd">
+                    Я даю согласие на <a class="link-secondary" href="/proccessing-personal-data.html" target="_blank">обработку персональных данных</a>
+                  </label>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <button class="btn btn-success fs-5 px-1 py-3" id="sing-up-btn">Зарегистрироваться</button>
+                    <span class="fs-5 d-inline-block link-secondary " data-bs-target="#singInModal" data-bs-toggle="modal" data-bs-dismiss="modal">У меня есть профиль</span>
+                </div>
+            </form>
+            
+            
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+<div class="modal fade text-dark" id="recoveryModal" aria-hidden="true" aria-labelledby="recoveryModalLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">          
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <h5 class="h2 text-center mb-6"  id="recoveryModalLabel">Восстановление пароля</h5>
+            <p class="fs-5 text-center mb-7">Введите email адрес который вы указали при регистрации, на него будет выслано письмо с инструкцией для восстановления доступа к сайту.</p>
+
+
+            <form action="/" data-target="desktop-recovery" class="mb-7">
+                <div class="mb-7" data-field="login">
+                    <label for="sing-in-email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="sing-in-email" placeholder="Введите Email" name="login" required>                    
+                </div>                
+                
+                <div class="d-flex justify-content-between align-items-center">
+                    <button class="btn btn-success fs-5 px-6 py-3">Восстановить</button>
+                    <span class="fs-5 d-inline-block link-secondary " data-bs-target="#singInModal" data-bs-toggle="modal" data-bs-dismiss="modal">Я вспомнил пароль</span>
+                </div>
+            </form>
+            <hr class="text-gray my-4"/>
+            <p class="text-center py-4">или</p>
+            <div class="d-flex justify-content-center">
+                <button class="link-secondary" data-bs-target="#singUpModal" data-bs-toggle="modal" data-bs-dismiss="modal">Зарегестрируйте новый профиль</button>
+
+                
+            </div>
+            
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+<div class="modal fade text-dark" id="resetPassword" aria-hidden="true" aria-labelledby="resetPasswordLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">          
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <h5 class="h2 text-center mb-6"  id="resetPasswordLabel">Восстановление пароля</h5>
+            
+            <form action="/" data-target="desktop-reset-password">
+
+                <!--Для Login-->
+                <input type="hidden" name="login" value="test-login">
+                <!--Для Login-->
+
+                <div class="mb-4" data-field="password">
+                  <label for="recovery-password" class="form-label">Новый пароль</label>
+                  <input type="password" class="form-control" id="recovery-password" placeholder="Введите пароль" name="password" required>                     
+                </div>
+                <div class="mb-7" data-field="retype-password">
+                  <label for="recovery-password-2" class="form-label">Пароль</label>
+                  <input type="password" class="form-control" id="recovery-password-2" placeholder="Повторите пароль" name="retype" required>                     
+                </div>
+                <button class="btn btn-success fs-5 px-6 py-3">Восстановить</button>
+            </form>            
+                        
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+<div class="modal modal-send-question fade text-dark" id="sendQuestion" aria-hidden="true" aria-labelledby="sendQuestionLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content send-question">
+        <div class="modal-header">          
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <h5 class="h1 text-center mb-4"  id="sendQuestionLabel">Остались вопросы?</h5>
+            <p class="fs-5 text-center mb-9">Оставьте нам заявку и мы обязательно с вами свяжемся</p>
+
+
+            <form action="/" data-target="desktop-send-question" class="mb-4">
+                <div class="mb-6" data-field="name">
+                    <label for="sq-name" class="form-label">Имя</label>
+                    <input type="text" class="form-control" id="sq-name" placeholder="Ваше имя" name="name" required>                    
+                </div>
+
+                <div class="mb-6" data-field="contact">
+                    <label for="sq-contact" class="form-label">Контактный Email/Телефон</label>
+                    <input type="text" class="form-control" id="sq-contact" placeholder="Контактный Email/Телефон" name="contact" required>                     
+                </div>
+                <div class="mb-6" data-field="contact">
+                  <label for="sq-message" class="form-label">Введите ваше сообщение</label>
+                  <textarea class="form-control" id="sq-message" rows="6" placeholder="Введите ваше сообщение" name="message"></textarea>
+                </div>
+
+
+                
+                <div class="d-flex justify-content-center ">
+                    <button class="btn btn-primary fs-5 px-9 py-3">Отправить</button>
+                </div>
+            </form>            
+            
+        </div>
+        
+      </div>
+    </div>
+  </div>
+      
+
+
+    
+
+<main>
+
+    <article class="container pt-7 mt-1 pb-10 mb-4  text">
+        <h1 class="h1 mb-lg-4 mb-5">Выбор размера</h1>
+        <p class="mb-lg-6 mb-8"><strong class="text-dark">Размеры одежды можно найти в размерных табличках в описании товара</strong></p>
+        <h3 class="text-dark fs-lg-3 fs-5">Размер вещи.</h3>
+        <p class="mb-lg-8 mb-6">Размеры одежды можно найти в размерных табличках в описании товара.</p>
+
+        <p class="mb-lg-7 mb-0"><strong class="text-dark">Нужно обратить особое внимание:</strong></p>
+        <p>В таблицах даются замеры САМИХ  ВЕЩЕЙ, а не замеры человека!!!</p>
+        <p class="mb-lg-7 mb-4">Это значит, чтобы представить как вещь выглядит в реале, Вам нужно взять свою вещь, замерить ее, и полученные данные сравнить с табличными. К примеру, выбираете Вы юбку. Возьмите свою юбку, замерьте ее и то, что получилось сравните с замерами из таблицы. Таким образом будет гораздо понятнее.</p>
+        <p>Размеры, которые есть в наличии, как правило, указаны справа от главного фото!</p>
+        <p class="mb-lg-7 mb-6">В размерной таблице могут быть указаны  S , M , L ,XL, но, если около фото написано только М, значит на данный момент остальных размеров нет в наличии.</p>
+
+        <h3 class="text-dark fs-lg-3 fs-5 mb-lg-7 mb-6">Размер обуви.</h3>
+        <p class="mb-lg-7 mb-6">Очень важно правильно измерить свою стопу.</p>
+        <p class="mb-lg-7 mb-0">Это делается так: Положите к стене линейку или см.ленту и встаньте не нее. Пятка должна упираться в стену, не слишком плотно, но упираться. Теперь сверху вертикально отметьте на ленте точку, где заканчивается самый длинный палец ноги. Измерьте расстояние между стеной и точкой, это и будет длина ступни.</p>
+        
+
+        <div class="py-lg-6 py-4 mb-4 pb-2 text-dark">
+            <p class="fw-bold  fs-5 mb-lg-4 mb-2">Таблица соответствия размеров мужской одежды (верхняя одежда, пиджаки, брюки и костюмы)</p>
+            
+            <div class="d-sm-none d-flex justify-content-center">
+                <img src="assets/img/select-size/table-1.png" alt="" class="img">
+            </div>
+
+            <div class="d-none d-sm-block">
+                <table width="100%" class="fs-5 text-dark">
+                    <tbody>
+                        <tr>
+                            <th class="text-dark">Россия</th>
+                            <td>46-48</td>
+                            <td>48-50</td>
+                            <td>50-52</td>
+                            <td>52-54</td>
+                            <td>54-56</td>
+                            <td>56-58</td>
+                        </tr>
+                        <tr>
+                            <th>Международеый</th>
+                            <td>S</td>
+                            <td>M</td>
+                            <td>L</td>
+                            <td>XL</td>
+                            <td>XXL</td>
+                            <td>XXXL</td>
+                        </tr>
+    
+                        <tr>
+                            <th>Китай</th>
+                            <td>S-M</td>
+                            <td>M-L</td>
+                            <td>L-XL</td>
+                            <td>XL-XXL</td>
+                            <td>XXL</td>
+                            <td></td>
+                        </tr>
+    
+                        <tr>
+                            <th>Обхват груди, см</th>
+                            <td>92</td>
+                            <td>96</td>
+                            <td>100</td>
+                            <td>104</td>
+                            <td>108</td>
+                            <td></td>
+                        </tr>
+    
+                        <tr>
+                            <th>Обхват талии, см</th>
+                            <td>80</td>
+                            <td>84</td>
+                            <td>88</td>
+                            <td>92</td>
+                            <td>96</td>
+                            <td></td>
+                        </tr>
+    
+                        <tr>
+                            <th>Обхват шеи, см</th>
+                            <td>39</td>
+                            <td>40-41</td>
+                            <td>41-42</td>
+                            <td>42-43</td>
+                            <td>43-44</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Рост, см</th>
+                            <td>164-170</td>
+                            <td>170-176</td>
+                            <td>176-182</td>
+                            <td>182-188</td>
+                            <td>188 ></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+
+        <div class="py-lg-6 py-4 pb-2 text-dark">
+            <p class="fw-bold fs-5 mb-2 mb-lg-4">Таблица соответствия размеров женской одежды</p>
+            <div class="d-sm-none d-flex justify-content-center">
+                <img src="assets/img/select-size/table-2.png" alt="" class="img">
+            </div>
+            <div class="d-none d-sm-block">
+                <table width="100%" class="fs-5 text-dark">
+                    <tbody>
+                        <tr>
+                            <th class="text-dark">Россия</th>
+                            <td>40</td>
+                            <td>42</td>
+                            <td>44</td>
+                            <td>46</td>
+                            <td>48</td>
+                            <td>50</td>
+                            <td>52</td>
+                            <td>54</td>
+                            <td>56</td>
+                            <td>58</td>
+                            
+                        </tr>
+                        <tr>
+                            <th>Международеый</th>
+                            <td>XS</td>
+                            <td>XS</td>
+                            <td>S</td>
+                            <td>M</td>
+                            <td>M</td>
+                            <td>L</td>
+                            <td>XL</td>
+                            <td>XL</td>
+                            <td>XXL</td>
+                            <td>XXXL</td>
+                        </tr>
+    
+                        <tr>
+                            <th>Китай</th>
+                            
+                            <td></td>
+                            <td></td>
+
+                            <td>S</td>
+                            <td>M</td>
+                            <td>M</td>
+                            <td>L</td>
+                            <td>L</td>
+                            <td>XL</td>
+                            <td>XL</td>
+                            <td>XXL</td>
+                        </tr>
+    
+                        <tr>
+                            <th>Обхват груди, см</th>
+                            <td></td>
+                            <td></td>
+
+                            <td>88</td>
+                            <td>92</td>
+                            <td>96</td>
+                            <td>100</td>
+                            <td>104</td>
+                            <td>108</td>
+                            <td>112</td>
+                            <td>116</td>
+                        </tr>
+    
+                        <tr>
+                            <th>Обхват бедер, см</th>
+                            <td></td>
+                            <td></td>
+
+                            <td>96</td>
+                            <td>100</td>
+                            <td>104</td>
+                            <td>108</td>
+                            <td>112</td>
+                            <td>116</td>
+                            <td>120</td>
+                            <td>124</td>
+                            
+                        </tr>
+    
+                        <tr>
+                            <th>Рост, см</th>
+                            <td></td>
+                            <td></td>
+
+                            <td> &lt; 164</td>
+                            <td>164 -</td>
+                            <td>170</td>
+                            <td>170 -</td>
+                            <td>176</td>
+                            <td>176 -</td>
+                            <td>182</td>
+                            <td>182 &gt;</td>
+                        </tr>
+                       
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+        <div class="py-lg-6 py-4 pb-2 text-dark">
+            <p class="fw-bold fs-5 mb-2 mb-lg-4">Таблица соответствия размеров мужской обуви</p>
+            <div class="d-sm-none d-flex justify-content-center">
+                <img src="assets/img/select-size/table-3.png" alt="" class="img">
+            </div>
+            <div class="d-none d-sm-block">
+                <table width="100%" class="fs-5 text-dark">
+                    <tbody>
+                        <tr>
+                            <th>См.</th>
+                            <td>25</td>
+                            <td>25,5</td>
+                            <td>26</td>
+                            <td>26,5</td>
+                            <td>27</td>
+                            <td>27,5</td>
+                            <td>28</td>
+                            <td>28,5</td>
+                            <td>29</td>
+                            <td>29,5</td>
+                            <td>30</td>
+                            <td>31</td>
+                            <td>32</td>
+                        </tr>
+                        <tr>
+                            <th>Россия</th>
+                            <td>39</td>
+                            <td>39,5</td>
+                            <td>40</td>
+                            <td>40,5</td>
+                            <td>41</td>
+                            <td>41,5</td>
+                            <td>42</td>
+                            <td>42,5</td>
+                            <td>43</td>
+                            <td>43,5</td>                        
+                            <td>44</td>
+                            <td>45</td>
+                            <td>46</td>
+                        </tr>
+                        <tr>
+                            <th>Китай</th>
+                            <td>38,5</td>
+                            <td>39</td>
+                            <td>39,5</td>
+                            <td>40</td>
+                            <td>41</td>
+                            <td>42</td>
+                            <td>43</td>
+                            <td>44</td>
+                            <td>45</td>
+                            <td>46</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+        <div class="py-lg-6 py-4 pb-2 text-dark mb-6">
+            <p class="fw-bold fs-5 mb-2 mb-lg-4">Таблица соответствия размеров женской обуви</p>
+            <div class="d-sm-none d-flex justify-content-center">
+                <img src="assets/img/select-size/table-4.png" alt="" class="img">
+            </div>
+            <div class="d-none d-sm-block">
+                <table width="100%" class="fs-5 text-dark">
+                    <tbody>
+                        <tr>
+                            <th>См.</th>
+                            
+                            <td>21,5</td>
+                            <td>22</td>
+                            <td>22,5</td>
+                            <td>23</td>
+                            <td>23,5</td>
+                            <td>24</td>
+                            <td>24,5</td>
+                            <td>25</td>
+                            <td>25,5</td>
+                            <td>26</td>
+                        </tr>
+                        <tr>
+                            <th>Россия</th>
+                            <td>35</td>
+                            <td>35,5</td>
+                            <td>36</td>
+                            <td>36,5</td>
+                            <td>37</td>
+                            <td>37,5</td>
+                            <td>38</td>
+                            <td>38,5</td>
+                            <td>39</td>
+                            <td>39,5</td>
+                        </tr>
+                        <tr>
+                            <th>Китай</th>
+                            <td>34</td>
+                            <td>34</td>
+                            <td>35</td>
+                            <td>35</td>
+                            <td>36-37</td>
+                            <td>37-38</td>
+                            <td>38</td>
+                            <td>38-39</td>
+                            <td>39-40</td>
+                            <td>40</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+        <p class="text-dark mb-lg-9 mb-6"><b>Внимание! Женская обувь больше 39-го российского размера в Китае встречается довольно редко. Для более удобного подбора необходимого размера обуви, нужно измерить длину стопы в сантиметрах и написать нам.</b></p>
+        <p class="fs-lg-2 fs-5 text-dark"><strong>В случае возникновения вопросов вы всегда можете задать их нашим менеджерам!</strong></p>
+        <p class="fs-lg-2 fs-5 text-dark"><strong>Желаем Вам удачных покупок со Alitao.shop</strong></p>
+    </article>
+    
+</main>
+
+
+
+    <footer class="footer bg-dark ">
+
+        <div class="footer__top py-7 mb-2">
+            <div class="container px-xxl-10">
+                <div class="d-flex justify-content-sm-between justify-content-center text-sm-start text-center flex-column flex-sm-row">
+                    <div class="footer__col d-none d-lg-block">
+                        <h3 class="h5 text-white fw-bold mb-3">Меню</h3>
+                        <ul>
+                            <li class="mb-1"><a href="/make-order.html" class="link-gray">Сделать заказ</a></li>
+                            <li class="mb-1"><a href="/about-us.html" class="link-gray">О нас</a></li>
+                            <li class="mb-1"><a href="/index.html#help" class="link-gray">Помощь</a></li>
+                            <li class="mb-1"><a href="/terms.html" class="link-gray">Условия</a></li>
+                            <li class="mb-1"><a href="/index.html#faq" class="link-gray">Вопросы и ответы</a></li>
+                            <li class="mb-1"><a href="/payment.html" class="link-gray">Оплата</a></li>
+                            <li><a href="/delivery.html" class="link-gray">Доставка</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer__col d-none d-lg-block">
+                        <h3 class="h5 text-white fw-bold mb-3">Полезные ссылки</h3>
+                        <ul>
+                            <li class="mb-1"><a href="/how-place-order.html" class="link-gray">Как оформить заказ</a></li>
+                            <li class="mb-1"><a href="/payment.html" class="link-gray">Как оплатить заказ</a></li>
+                            <li class="mb-1"><a href="/select-size.html" class="link-gray">Выбор размера</a></li>
+                            <li class="mb-1"><a href="/search-in-taobao.html" class="link-gray">Поиск товара на Таобао</a></li>
+                            <li class="mb-1"><a href="/select-color.html" class="link-gray">Как выбрать цвет</a></li>
+                            <li class="mb-1"><a href="/delivery.html" class="link-gray">Сколько стоит доставка</a></li>
+                        </ul>
+                    </div>
+
+
+
+                    <div class="footer__col mb-3 mb-sm-0">
+                        <h3 class="h5 text-white fw-bold mb-3">Время работы</h3>
+                        <ul>
+                            <li class="mb-2">
+                                <p class="text-gray fs-6 mb-0">Москва 14:36</p>
+                                <p class="text-white  mb-0">Рабочий день с 4:00 по 13:00</p>
+                                
+                            </li>
+                            <li class="mb-2">
+                                <p class="text-gray fs-6 mb-0">Пекин 19:36</p>
+                                <p class="text-white  mb-0">Рабочий день с 9:00 по 18:00</p>
+                                
+                            </li>
+                            <li class="mb-1">
+                                <p class="text-gray fs-6 mb-0">Воскресенье</p>
+                                <p class="text-white  mb-0">Выходной</p>
+                                
+                            </li>
+                        </ul>
+                    </div>
+
+
+                    
+                    <div class="footer__col mb-3 mb-sm-0 fs-6">
+                        <h3 class="h5 text-white fw-bold mb-3">Наши адреса</h3>
+                        <ul>
+                            <li class="mb-2">
+                                <p class="text-gray  mb-0">Адрес в Маньчжурии </p>
+                                <p class="text-white  mb-0">内蒙古满洲里市道北一道街金源新村3号楼14号门市  任雪飞 15947305556</p>
+                                
+                            </li>
+                            <li class="mb-2">
+                                <p class="text-gray  mb-0">Адрес в Гуанчжоу</p>
+                                <p class="text-white  mb-0">王佳豪，广东省 广州市 白云区 石门街滘心大路81号中北仓储园B栋131-134号友和338库，13191337755</p>
+                                
+                            </li>
+                            <li>
+                                <p class="text-gray  mb-0">Адрес в России</p>
+                                <p class="text-white  mb-0">Москва , Ленинский проспект, 42</p>
+                                
+                            </li>
+                        </ul>
+                    </div>
+
+                    
+                    <div class="footer__col">
+                        <h3 class="h5 text-white fw-bold mb-3">Связь с нами</h3>
+                        <ul>
+                            <div class="d-sm-block d-flex justify-content-between flex-wrap">
+                                <li class="mb-2">
+                                    <p class="text-gray fs-6 mb-0 text-start">Номер в Китае</p>
+                                    <a href="tel:+861234567890" class="link-white">+86 123 456-78-90</a>
+                                    
+                                </li>
+                                <li class="mb-8">
+                                    <p class="text-gray fs-6 mb-0 text-start">Номер в России</p>
+                                    <a href="tel:+71234567890" class="link-white  ">+7 123 456-78-90</a>
+                                    
+                                </li>
+                            </div>
+                            
+                            <li class="d-flex justify-content-center justify-content-sm-start">
+                                <a href="#" class="me-3" target="_blank">
+                                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_524_11594)">
+                                            <path d="M20 0C14.6969 0 9.60625 2.10844 5.85938 5.85781C2.10863 9.60868 0.00103897 14.6956 0 20C0 25.3022 2.10938 30.3928 5.85938 34.1422C9.60625 37.8916 14.6969 40 20 40C25.3031 40 30.3938 37.8916 34.1406 34.1422C37.8906 30.3928 40 25.3022 40 20C40 14.6978 37.8906 9.60719 34.1406 5.85781C30.3938 2.10844 25.3031 0 20 0Z" fill="white"/>
+                                            <path d="M9.05312 19.7888C14.8844 17.2488 18.7719 15.5741 20.7156 14.7651C26.2719 12.4548 27.425 12.0535 28.1781 12.0399C28.3437 12.0373 28.7125 12.0782 28.9531 12.2727C29.1531 12.4368 29.2094 12.6587 29.2375 12.8144C29.2625 12.9701 29.2969 13.3248 29.2687 13.6016C28.9687 16.7641 27.6656 24.4385 27.0031 27.9807C26.725 29.4794 26.1719 29.9819 25.6375 30.031C24.475 30.1379 23.5938 29.2635 22.4687 28.5263C20.7094 27.3723 19.7156 26.6541 18.0062 25.5282C16.0312 24.2269 17.3125 23.5116 18.4375 22.3429C18.7312 22.0369 23.85 17.3823 23.9469 16.9601C23.9594 16.9073 23.9719 16.7104 23.8531 16.6066C23.7375 16.5026 23.5656 16.5382 23.4406 16.5663C23.2625 16.6063 20.4531 18.4651 15.0031 22.1423C14.2062 22.6904 13.4844 22.9576 12.8344 22.9435C12.1219 22.9282 10.7469 22.5398 9.725 22.2079C8.475 21.8007 7.47812 21.5854 7.56562 20.8938C7.60937 20.5338 8.10625 20.1654 9.05312 19.7888Z" fill="#1A2030"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_524_11594">
+                                                <rect width="40" height="40" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                                                                
+                                </a>                   
+                                <a href="#" target="_blank">
+                                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_524_11597)">
+                                            <path d="M15.815 0.005L17.03 0H22.97L24.1867 0.005L25.71 0.0216667L26.4317 0.0333333L27.1283 0.0516667L27.8 0.075L28.4467 0.101667L29.07 0.136667L29.67 0.178333L30.245 0.228333L30.8 0.283333C33.7 0.61 35.6883 1.31 37.1883 2.81C38.6883 4.31 39.3883 6.29667 39.715 9.19833L39.7717 9.75333L39.82 10.33L39.8617 10.93L39.895 11.5517L39.9367 12.5317L39.9567 13.215L39.9783 14.2883L39.9933 15.8133L40 17.4467L39.9983 22.9683L39.9933 24.185L39.9767 25.7083L39.965 26.43L39.9467 27.1267L39.9233 27.7983L39.8967 28.445L39.8617 29.0683L39.82 29.6683L39.77 30.2433L39.715 30.7983C39.3883 33.6983 38.6883 35.6867 37.1883 37.1867C35.6883 38.6867 33.7017 39.3867 30.8 39.7133L30.245 39.77L29.6683 39.8183L29.0683 39.86L28.4467 39.8933L27.4667 39.935L26.7833 39.955L25.71 39.9767L24.185 39.9917L22.5517 39.9983L17.03 39.9967L15.8133 39.9917L14.29 39.975L13.5683 39.9633L12.8717 39.945L12.2 39.9217L11.5533 39.895L10.93 39.86L10.33 39.8183L9.755 39.7683L9.2 39.7133C6.3 39.3867 4.31167 38.6867 2.81167 37.1867C1.31167 35.6867 0.611667 33.7 0.285 30.7983L0.228333 30.2433L0.18 29.6667L0.138333 29.0667L0.105 28.445L0.0633333 27.465L0.0433333 26.7817L0.0216667 25.7083L0.00666667 24.1833L0 22.55L0.00166667 17.0283L0.00666667 15.8117L0.0233333 14.2883L0.035 13.5667L0.0533333 12.87L0.0766667 12.1983L0.103333 11.5517L0.138333 10.9283L0.18 10.3283L0.23 9.75333L0.285 9.19833C0.611667 6.29833 1.31167 4.31 2.81167 2.81C4.31167 1.31 6.29833 0.61 9.2 0.283333L9.755 0.226667L10.3317 0.178333L10.9317 0.136667L11.5533 0.103333L12.5333 0.0616667L13.2167 0.0416667L14.29 0.02L15.815 0.005ZM11.3167 12.165H6.75C6.96667 22.565 12.1667 28.815 21.2833 28.815H21.8V22.865C25.15 23.1983 27.6833 25.6483 28.7 28.815H33.4333C32.1333 24.0817 28.7167 21.465 26.5833 20.465C28.7167 19.2317 31.7167 16.2317 32.4333 12.165H28.1333C27.2 15.465 24.4333 18.465 21.8 18.7483V12.165H17.5V23.6983C14.8333 23.0317 11.4667 19.7983 11.3167 12.165Z" fill="white"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_524_11597">
+                                                <rect width="40" height="40" rx="20" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                        
+                                </a>                   
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer__bottom py-sm-6 py-2 ">
+            <div class="container px-xxl-10 d-flex justify-content-evenly justify-content-sm-between  align-items-center">
+                <a href="/index.html">
+                    <img src="assets/img/footer-logo.svg" alt="">
+                </a>
+
+                <span class="text-white">© 2023 Alitao.shop</span>
+            </div>
+        </div>
+    </footer>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/swiper-bundle.min.js"></script>
+    <script src="assets/js/imask.js"></script>
+    <script src="assets/js/forms.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
