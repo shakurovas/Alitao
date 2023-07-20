@@ -48,20 +48,24 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-/*Десктот форма авторизации*/
-const deskSingInForm = document.querySelector('form[data-target="desktop-sing-in"]');
+/*Десктоп форма авторизации*/
+const deskSingInForm = document.querySelectorAll('form[data-target="desktop-sing-in"]');
 
-/*Десктот форма регистрации*/
-const deskSingUpForm = document.querySelector('form[data-target="desktop-sing-up"]');
+/*Десктоп форма регистрации*/
+const deskSingUpForm = document.querySelectorAll('form[data-target="desktop-sing-up"]');
 
-/*Десктот форма Восстановления*/
-const deskRecoveryForm = document.querySelector('form[data-target="desktop-recovery"]');
+/*Десктоп форма Восстановления*/
+const deskRecoveryForm = document.querySelectorAll('form[data-target="desktop-recovery"]');
 
-/*Десктот форма сброса пароля*/
+/*Десктоп форма сброса пароля*/
 const deskResetPasswordForm = document.querySelector('form[data-target="desktop-reset-password"]');
 
-/*Десктот форма смена пароля*/
+/*Десктоп форма смена пароля*/
 const deskChangePasswordForm = document.querySelector('form[data-target="desktop-change-password"]');
+
+/*Десктоп форма с вопросами*/
+const deskQuestionsForm = document.querySelectorAll('form[data-target="desktop-send-question"]');
+
 
 
 /*Обработчик скрытия ошибок по фокусу*/
@@ -83,7 +87,7 @@ if (inputFormControls.length){
 }
 
 
-/*Варианты ответов для Тестировния*/
+/*Варианты ответов для Тестирования*/
 let singInResponse = {
     login: {
         state: "error",
@@ -131,207 +135,193 @@ let changePasswordResponse = {
 
 /* Отправка модальной формы авторизации */
 if ( deskSingInForm ){
-    deskSingInForm.addEventListener('submit', function(event){
-        event.preventDefault();
-        
-        
+    for (let i = 0; i < deskSingInForm.length; i++) {
+        deskSingInForm[i].addEventListener('submit', function(event){
+            event.preventDefault();
+            
+            let login = deskSingInForm[i].getElementsByTagName('div')[0].getElementsByTagName('input')[0].value;
 
-
-        let data_body = 'login=' + this.login.value + "&password=" + this.password.value;
-        
-        fetch("script-name.php", {
-            method: "POST",
-            body: data_body,
-            headers:{"content-type": "application/x-www-form-urlencoded"} 
-        })
-        .then( (response) => {
-            if (response.status !== 200) {
-                return Promise.reject();
+            try {
+                var password = deskSingInForm[i].getElementsByTagName('div')[2].getElementsByTagName('input')[0];
+            } catch(e) {
+                var password = deskSingInForm[i].getElementsByTagName('div')[1].getElementsByTagName('input')[0];
             }
-            this.password.value = "";
-            this.login.value = "";
             
-
-        })
-        .then(i => console.log(i))
-        .catch(() => {
+            let data_body = 'login=' + login + "&password=" + password.value;
             
-            /*
-                1. singInResponse заменить на response    
-                2. Переместить блок кода в первый then
-            */
-            for (key in singInResponse) {
-
-
-                let responseLine = singInResponse[key];
-                let fieldWrap = this.querySelector('[data-field="'+key+'"]');
-                
-                let state = responseLine["state"];
-                let message = responseLine["message"];
-
-                if ( !fieldWrap.classList.contains(state) ){
-                    fieldWrap.classList.add(state);
-                    let textMessage = document.createElement('p');
-                    textMessage.innerHTML = message;
-                    textMessage.classList.add('text-response');
-                    fieldWrap.append(textMessage);
+            fetch("/auth/ajax/ajax_authorization.php", {
+                method: "POST",
+                body: data_body,
+                headers:{"content-type": "application/x-www-form-urlencoded"} 
+            })
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (response) {
+                response = JSON.parse(response);
+                console.log(response);
+    
+                for (key in response) {
+                    if ((response[key]['state'] == 'success')) {
+                        deskSingInForm[i].submit();
+                        // window.location.href = "/auth/personal.php";
+                    } else {
+                        let responseLine = response[key];
+                        let fieldWrap = deskSingInForm[i].querySelector('[data-field="'+key+'"]');
+                        
+                        let state = responseLine["state"];
+                        let message = responseLine["message"];
+        
+                        if ( !fieldWrap.classList.contains(state) ){
+                            fieldWrap.classList.add(state);
+                            let textMessage = document.createElement('p');
+                            textMessage.innerHTML = message;
+                            textMessage.classList.add('text-response');
+                            fieldWrap.append(textMessage);
+                        }
+                    }
                 }
-
-                
-                
-            }
-
-        });
-
-
-
-    })
+            });
+        })
+    }
 }
 
 /* Отправка модальной формы регистрации */
 if ( deskSingUpForm ){
-    deskSingUpForm.addEventListener('submit', function(event){
-        event.preventDefault();
-
-        let data_body = 'login=' + this.login.value + "&password=" + this.password.value;
+    for (let i = 0; i < deskSingUpForm.length; i++) {
+        deskSingUpForm[i].addEventListener('submit', function(event){
+            event.preventDefault();
+    
+            let data_body = 'login=' + deskSingUpForm[i].querySelector('#register-email').value + "&password=" + deskSingUpForm[i].querySelector('#register-password').value;
+            
+            fetch("/auth/ajax/ajax_registration.php", {
+                method: "POST",
+                body: data_body,
+                headers:{"content-type": "application/x-www-form-urlencoded"} 
+            })
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (response) {
+                response = JSON.parse(response);
+                console.log(response);
+    
+                for (key in response) {
+                    if ((response[key]['state'] == 'success')) {
+                        event.target.submit();
+                    } else {
+                        let responseLine = response[key];
+                        let fieldWrap = deskSingUpForm[i].querySelector('[data-field="'+key+'"]');
+                        
+                        let state = responseLine["state"];
+                        let message = responseLine["message"];
         
-        fetch("script-name.php", {
-            method: "POST",
-            body: data_body,
-            headers:{"content-type": "application/x-www-form-urlencoded"} 
-        })
-        .then( (response) => {
-            if (response.status !== 200) {
-                return Promise.reject();
-            }
-            this.password.value = "";
-            this.login.value = "";
-            
-
-        })
-        .then(i => console.log(i))
-        .catch(() => {
-            
-            /*
-                1. singUpResponse заменить на response    
-                2. Переместить блок кода в первый then
-            */
-            for (key in singUpResponse) {
-
-
-                let responseLine = singUpResponse[key];
-                let fieldWrap = this.querySelector('[data-field="'+key+'"]');
-                
-                let state = responseLine["state"];
-                let message = responseLine["message"];
-
-                if ( !fieldWrap.classList.contains(state) ){
-                    fieldWrap.classList.add(state);
-                    let textMessage = document.createElement('p');
-                    textMessage.innerHTML = message;
-                    textMessage.classList.add('text-response');
-                    fieldWrap.append(textMessage);
+                        if ( !fieldWrap.classList.contains(state) ){
+                            fieldWrap.classList.add(state);
+                            let textMessage = document.createElement('p');
+                            textMessage.innerHTML = message;
+                            textMessage.classList.add('text-response');
+                            fieldWrap.append(textMessage);
+                        }
+                    }
                 }
-
-                
-                
-            }
-
-        });
-
-
-
-    })
+            });
+        })
+    }
 }
+
+// если нажимают кнопку "закрыть", то окно восстановления пароля должно закрываться 
+let passwordChangeBtnClose = document.querySelectorAll('.btn-close')[3];
+let passwordChangeModal = document.querySelector('#resetPassword');
+
+passwordChangeBtnClose.addEventListener('click', function() {
+    passwordChangeModal.classList.remove("show");
+    passwordChangeModal.style.display = 'none';
+    passwordChangeModal.setAttribute('aria-hidden', 'true');
+});
 
 
 /* Отправка формы восстановления пароля*/
 if ( deskRecoveryForm ){
-    deskRecoveryForm.addEventListener('submit', function(event){
-        event.preventDefault();
-
-        let data_body = 'login=' + this.login.value;
-        
-        fetch("script-name.php", {
-            method: "POST",
-            body: data_body,
-            headers:{"content-type": "application/x-www-form-urlencoded"} 
-        })
-        .then( (response) => {
-            if (response.status !== 200) {
-                return Promise.reject();
-            }
-            this.login.value = "";
+    for (let i = 0; i < deskRecoveryForm.length; i++) {
+        deskRecoveryForm[i].addEventListener('submit', function(event){
+            event.preventDefault();
+            // let login = deskRecoveryForm[i].getElementsByTagName('div')[0].getElementsByTagName('input')[0].value;
+            // console.log(this.login.value);
+    
+            let data_body = 'login=' + this.login.value
             
-
-        })
-        .then(i => console.log(i))
-        .catch(() => {
-            
-            /*
-                1. recoveryResponse заменить на response    
-                2. Переместить блок кода в первый then
-            */
-            for (key in recoveryResponse) {
-
-
-                let responseLine = recoveryResponse[key];
-                let fieldWrap = this.querySelector('[data-field="'+key+'"]');
-                
-                let state = responseLine["state"];
-                let message = responseLine["message"];
-
-                if ( !fieldWrap.classList.contains(state) ){
-                    fieldWrap.classList.add(state);
-                    let textMessage = document.createElement('p');
-                    textMessage.innerHTML = message;
-                    textMessage.classList.add('text-response');
-                    fieldWrap.append(textMessage);
+            fetch("/auth/ajax/ajax_password_recovery.php", {
+                method: "POST",
+                body: data_body,
+                headers:{"content-type": "application/x-www-form-urlencoded"} 
+            })
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (response) {
+                response = JSON.parse(response);
+                console.log(response);
+    
+                for (key in response) {
+                    let responseLine = response[key];
+                    let fieldWrap = deskRecoveryForm[i].querySelector('[data-field="'+key+'"]');
+                    // console.log(fieldWrap);
+                    let state = responseLine["state"];
+                    let message = responseLine["message"];
+    
+                    if ( !fieldWrap.classList.contains(state) ){
+                        fieldWrap.classList.add(state);
+                        let textMessage = document.createElement('p');
+                        textMessage.innerHTML = message;
+                        textMessage.classList.add('text-response');
+                        fieldWrap.append(textMessage);
+                    }
                 }
-
-                
-                
-            }
-
-        });
-
-
-
-    })
+            });
+        })
+    }
 }
 
 
 if ( deskResetPasswordForm ){
     deskResetPasswordForm.addEventListener('submit', function(event){
         event.preventDefault();
-
+        // если пароль и повторение пароля совпадают
         if ( this.password.value ===  this.retype.value){
 
-            let data_body = 'login=' + this.login.value + "&password=" + this.password.value;
+            let checkword = deskResetPasswordForm.getElementsByTagName('input')[1].value;
+            let data_body = 'login=' + this.login.value + "&password=" + this.password.value + "&checkword=" + checkword;
         
-            fetch("script-name.php", {
+            fetch("/auth/ajax/ajax_password_change.php", {
                 method: "POST",
                 body: data_body,
                 headers:{"content-type": "application/x-www-form-urlencoded"} 
             })
-            .then( (response) => {
-                if (response.status !== 200) {
-                    return Promise.reject();
-                }
-                this.login.value = "";
-                this.password.value = "";
-                
-    
+            .then(function (response) {
+                return response.text();
             })
-            .then(i => console.log(i))
-            .catch(() => {
-                
-                
+            .then(function (response) {
+                response = JSON.parse(response);
+    
+                for (key in response) {
+                    let responseLine = response[key];
+                    let fieldWrap = deskResetPasswordForm.querySelector('[data-field="'+key+'"]');
+                    let state = responseLine["state"];
+                    let message = responseLine["message"];
+
+                    if ( !fieldWrap.classList.contains(state) ){
+                        fieldWrap.classList.add(state);
+                        let textMessage = document.createElement('p');
+                        textMessage.innerHTML = message;
+                        textMessage.classList.add('text-response');
+                        fieldWrap.append(textMessage);
+                    }
+                }
             });
-
-
-        } else{
-            let fieldWrap = this.querySelector('[data-field="retype-password"]');
+        // если пароль и повторение пароля не совпадают
+        } else {
+            let fieldWrap = deskResetPasswordForm.querySelector('[data-field="retype-password"]');
                 
                 
             if ( !fieldWrap.classList.contains('error') ){
@@ -341,10 +331,7 @@ if ( deskResetPasswordForm ){
                 textMessage.classList.add('text-response');
                 fieldWrap.append(textMessage);
             }
-
-            
         }
-
     })
 }
 
@@ -357,54 +344,27 @@ if ( deskChangePasswordForm ){
 
         let data_body = 'old_password=' + this.old_password.value + "&new_password=" + this.new_password.value;
         
-        fetch("/auth/ajax_password_check.php", {
+        fetch("/auth/ajax/ajax_password_check.php", {
             method: "POST",
             body: data_body,
             headers:{"content-type": "application/x-www-form-urlencoded"} 
         })
-        .then( (response) => {
-            console.log(response);
-            if (response.status !== 200) {
-                
-                return Promise.reject();
-            }
-            for (key in response) {
-
-
-                let responseLine = response[key];
-                let fieldWrap = this.querySelector('[data-field="'+key+'"]');
-                
-                let state = responseLine["state"];
-                let message = responseLine["message"];
-
-                if ( !fieldWrap.classList.contains(state) ){
-                    fieldWrap.classList.add(state);
-                    let textMessage = document.createElement('p');
-                    textMessage.innerHTML = message;
-                    textMessage.classList.add('text-response');
-                    fieldWrap.append(textMessage);
-                }
-
-                
-                
-            }
-            this.password.value = "";
-            this.login.value = "";
-            
-
+        .then(function (response) {
+            return response.text();
         })
-        .then(i => console.log(i))
-        .catch(() => {
-            
-            /*
-                1. changePasswordResponse заменить на response    
-                2. Переместить блок кода в первый then
-            */
-            for (key in changePasswordResponse) {
+        .then(function (response) {
+            response = JSON.parse(response);
 
+            // убираем строки с сообщениями до вывода новых и делаем цвет границы инпутов дефолтным (чтобы не выделялись красным)
+            let textResponseLines = document.querySelectorAll('.text-response');
+            for (let i=0; i < textResponseLines.length; i++) {
+                if (typeof textResponseLines[i] !== 'undefined' && textResponseLines[i] != null) 
+                textResponseLines[i].remove();
+            }
 
-                let responseLine = changePasswordResponse[key];
-                let fieldWrap = this.querySelector('[data-field="'+key+'"]');
+            for (key in response) {
+                let responseLine = response[key];
+                let fieldWrap = deskChangePasswordForm.querySelector('[data-field="'+key+'"]');
                 
                 let state = responseLine["state"];
                 let message = responseLine["message"];
@@ -420,6 +380,110 @@ if ( deskChangePasswordForm ){
         });
     })
 }
+
+
+/* Отправка модальной формы с вопросом */
+if ( deskQuestionsForm ){
+    for (let i = 0; i < deskQuestionsForm.length; i++) {
+        deskQuestionsForm[i].addEventListener('submit', function(event){
+            event.preventDefault();
+
+            let textResponseLines = deskQuestionsForm[i].querySelectorAll('.text-response');
+            for (let i=0; i < textResponseLines.length; i++) {
+                if (typeof textResponseLines[i] !== 'undefined' && textResponseLines[i] != null) 
+                textResponseLines[i].remove();
+            }
+            
+            let name = deskQuestionsForm[i].getElementsByTagName('div')[0].getElementsByTagName('input')[0].value;
+            let contact = deskQuestionsForm[i].getElementsByTagName('div')[1].getElementsByTagName('input')[0].value;
+            let question = deskQuestionsForm[i].getElementsByTagName('div')[2].getElementsByTagName('textarea')[0].value;
+
+            if (name != '' && contact != '' && question != '') {
+                let data_body = 'name=' + name + "&contact=" + contact + '&question=' + question;
+            
+                fetch("/ajax/ajax_questions_form.php", {
+                    method: "POST",
+                    body: data_body,
+                    headers:{"content-type": "application/x-www-form-urlencoded"} 
+                })
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (response) {
+                    response = JSON.parse(response);
+                    console.log(response);
+        
+                    for (key in response) {
+                        let responseLine = response[key];
+                        let fieldWrap = deskQuestionsForm[i].querySelector('[data-field="'+key+'"]');
+                        let state = responseLine["state"];
+                        let message = responseLine["message"];
+        
+                        // console.log(fieldWrap);
+                        if ( !fieldWrap.classList.contains(state) ){
+                            fieldWrap.classList.add(state);
+                            let textMessage = document.createElement('p');
+                            textMessage.innerHTML = message;
+                            textMessage.classList.add('text-response');
+                            fieldWrap.append(textMessage);
+                        }
+                        // console.log(fieldWrap);
+                    }
+                });
+            } else {  // если какое-то из полей не заполнено
+                if (name == '') {
+                    var fieldWrap = deskQuestionsForm[i].querySelector('[data-field="name"]');
+                } else if (contact == '') {
+                    var fieldWrap = deskQuestionsForm[i].querySelector('[data-field="contact"]');
+                } else if (question == '') {
+                    var fieldWrap = deskQuestionsForm[i].querySelector('[data-field="question"]');
+                }
+                
+                if ( !fieldWrap.classList.contains('error') ){
+                    fieldWrap.classList.add('error');
+                    let textMessage = document.createElement('p');
+                    textMessage.innerHTML = 'Заполните поле';
+                    textMessage.classList.add('text-response');
+                    fieldWrap.append(textMessage);
+                }
+            }
+        })
+    }
+}
+
+
+// при закрытии окна с вопросом очищаем все поля
+let questionsModalCloseBtn = document.querySelector('#questions-modal-close');
+
+questionsModalCloseBtn.addEventListener('click', function() {
+    for (let i = 0; i < deskQuestionsForm.length; i++) {
+
+        let textResponseLines = deskQuestionsForm[i].querySelectorAll('.text-response');
+        for (let i=0; i < textResponseLines.length; i++) {
+            if (typeof textResponseLines[i] !== 'undefined' && textResponseLines[i] != null) 
+            textResponseLines[i].remove();
+        }
+
+        let fieldWraps = [
+            deskQuestionsForm[i].querySelector('[data-field="name"]'),
+            deskQuestionsForm[i].querySelector('[data-field="contact"]'),
+            deskQuestionsForm[i].querySelector('[data-field="question"]')
+        ];
+
+        for (let i=0; i < fieldWraps.length; i++) {
+            if (fieldWraps[i].classList.contains('error')){
+                fieldWraps[i].classList.remove('error');
+            }
+            if (fieldWraps[i].classList.contains('success')){
+                fieldWraps[i].classList.remove('success');
+            }
+        }
+
+        deskQuestionsForm[i].getElementsByTagName('div')[2].getElementsByTagName('textarea')[0].value = '';
+        deskQuestionsForm[i].querySelector('#sq-message').style.border = '#959595 1px solid';
+    }
+});
+
 
 //Обработка изменения значения кастомного selecta
 //за основу взят компонент BS 5 dropdown

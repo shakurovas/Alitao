@@ -58,3 +58,4 @@ $MESS['PASSWORD_CHANGE'] = 'Смена пароля';
 $MESS['ENTER_PREVIOUS_PASSWORD'] = 'Введите старый пароль';
 $MESS['ENTER_NEW_PASSWORD'] = 'Введите новый пароль';
 $MESS['CHANGE_PASSWORD_BTN'] = 'Изменить пароль';
+$MESS['PROFILE_TITLE'] = 'Профиль';

@@ -26,7 +26,7 @@ $fields = Array(
   "PERSONAL_ZIP" => $_POST['zipindex'],
   "UF_MOSCOW_TIME_DIFFERENCE" => $_POST['time_difference'],
   "UF_NOTIFY_ABOUT_ORDERS" => (bool)$_POST['notification'],
-  "LOGIN" => $_POST['nickname'],
+  "UF_NICKNAME" => $_POST['nickname'],
   "LID" => "ru",
   "ACTIVE" => "Y"
   );

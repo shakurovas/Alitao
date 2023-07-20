@@ -1,4 +1,6 @@
-<?php require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+<?php
+require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+
 $APPLICATION->SetTitle("Профиль пользователя");
 
 use \Bitrix\Main\Localization\Loc;
@@ -6,29 +8,9 @@ Loc::loadMessages(__FILE__);
 
 if ($USER->IsAuthorized())
 {
-    $rsUser = CUser::GetByID($USER->GetID()); //получаем ID авторизованного пользователя и сразу же его поля
+    $rsUser = CUser::GetByID($USER->GetID());  // получаем ID авторизованного пользователя и сразу же его поля
     $arUser = $rsUser->Fetch();
-
-    $phone = trim($arUser['PERSONAL_PHONE']);
-    $phone = preg_replace(
-        array(
-            '/[\+]?([7|8])[-|\s]?\([-|\s]?(\d{3})[-|\s]?\)[-|\s]?(\d{3})[-|\s]?(\d{2})[-|\s]?(\d{2})/',
-            '/[\+]?([7|8])[-|\s]?(\d{3})[-|\s]?(\d{3})[-|\s]?(\d{2})[-|\s]?(\d{2})/',
-            '/[\+]?([7|8])[-|\s]?\([-|\s]?(\d{4})[-|\s]?\)[-|\s]?(\d{2})[-|\s]?(\d{2})[-|\s]?(\d{2})/',
-            '/[\+]?([7|8])[-|\s]?(\d{4})[-|\s]?(\d{2})[-|\s]?(\d{2})[-|\s]?(\d{2})/',	
-            '/[\+]?([7|8])[-|\s]?\([-|\s]?(\d{4})[-|\s]?\)[-|\s]?(\d{3})[-|\s]?(\d{3})/',
-            '/[\+]?([7|8])[-|\s]?(\d{4})[-|\s]?(\d{3})[-|\s]?(\d{3})/',					
-        ), 
-        array(
-            '+7 $2 $3-$4-$5', 
-            '+7 $2 $3-$4-$5', 
-            '+7 $2 $3-$4-$5', 
-            '+7 $2 $3-$4-$5', 	
-            '+7 $2 $3-$4', 
-            '+7 $2 $3-$4', 
-        ), 
-        $phone
-    );
+  
 }
 ?>
 
@@ -42,10 +24,10 @@ if ($USER->IsAuthorized())
                             <a href="/auth/personal.php" class="cabinet__nav-link active link-dark"><?=Loc::getMessage('MY_PROFILE');?></a>
                         </li>                
                         <li>
-                            <a href="/my-orders.html" class="cabinet__nav-link link-dark"><?=Loc::getMessage('MY_ORDERS');?></a>                
+                            <a href="/order/my_orders.php" class="cabinet__nav-link link-dark"><?=Loc::getMessage('MY_ORDERS');?></a>                
                         </li>
                         <li>
-                            <a href="/history-orders.html" class="cabinet__nav-link link-dark"><?=Loc::getMessage('HISTORY');?></a>                
+                            <a href="/order/history.php" class="cabinet__nav-link link-dark"><?=Loc::getMessage('HISTORY');?></a>                
                         </li>
                         <li>
                             <a href="/?logout=yes&<?=bitrix_sessid_get();?>" class="cabinet__nav-link link-dark"><?=Loc::getMessage('EXIT');?></a>                
@@ -65,11 +47,23 @@ if ($USER->IsAuthorized())
                             <?php endif;?>
                         </div>
                         <div class="user__data fs-3 text-dark">
-                            <p class="h2 fs-2 mb-8 mb-lg-6"><?=$USER->GetFullName();?></p>
+                            <p class="h2 fs-2 mb-8 mb-lg-6">
+                                <?php if ($USER->GetFullName()) {
+                                    echo $USER->GetFullName();
+                                } else {
+                                    echo Loc::getMessage('ENTER_YOUR_DATA');
+                                }?>
+                            </p>
                             
                             <div class="mb-2 d-xl-flex">
-                                <p class="fw-bold  mb-2 mb-xl-0 me-xl-2"><?=Loc::getMessage('FULL_NAME');?></p>
-                                <p><?=$arUser['LAST_NAME'] . ' ' . $arUser['NAME'] . ' ' . $arUser['SECOND_NAME'];?></p>
+                                <p class="fw-bold  mb-2 mb-xl-0 me-xl-2"><?=Loc::getMessage('FULL_NAME');?>:</p>
+                                <p>
+                                    <?php if ($arUser['LAST_NAME'] && $arUser['NAME'] && $arUser['SECOND_NAME']) {
+                                        echo $arUser['LAST_NAME'] . ' ' . $arUser['NAME'] . ' ' . $arUser['SECOND_NAME'];
+                                    } else {
+                                        echo Loc::getMessage('NO_INFO');
+                                    }?>
+                                </p>
                             </div>
 
                             <div class="mb-2 d-xl-flex">
@@ -104,7 +98,13 @@ if ($USER->IsAuthorized())
                             
                             <div class="mb-2 d-xl-flex">
                                 <p class="fw-bold  mb-2 mb-xl-0 me-xl-2"><?=Loc::getMessage('PHONE');?>:</p>
-                                <p><?=$phone;?></p>
+                                <p>
+                                    <?php if ($arUser['PERSONAL_PHONE']) {
+                                        echo phoneFormat(trim($arUser['PERSONAL_PHONE']));
+                                    } else {
+                                        echo Loc::getMessage('NO_INFO');
+                                    }?>
+                                </p>
                                 
                             </div>
 
@@ -114,7 +114,13 @@ if ($USER->IsAuthorized())
                             </div>
                             <div class="mb-2 d-xl-flex">
                                 <p class="fw-bold  mb-2 mb-xl-0 me-xl-2"><?=Loc::getMessage('MOSCOW_TIME_DIFFERENCE');?>:</p>
-                                <p><?php echo $arUser['UF_MOSCOW_TIME_DIFFERENCE'];?></p>
+                                <p>
+                                    <?php if ($arUser['UF_MOSCOW_TIME_DIFFERENCE']) {
+                                        echo $arUser['UF_MOSCOW_TIME_DIFFERENCE'];
+                                    } else {
+                                        echo Loc::getMessage('NO_INFO');
+                                    }?>
+                                </p>
                             </div>
 
                             <div class="d-flex py-4 py-xl-2">

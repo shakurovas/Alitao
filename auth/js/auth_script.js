@@ -1,3 +1,4 @@
+// для сохранения изменений при редактировании профиля
 function saveChanges()
 {
     // заберём из формы заполненные поля
@@ -13,7 +14,7 @@ function saveChanges()
 
     // отправляем
     $.ajax({
-        url: '/auth/ajax_change_data.php',
+        url: '/auth/ajax/ajax_change_data.php',
         method: 'post',
         dataType: 'html',
         data: objData,
@@ -23,35 +24,50 @@ function saveChanges()
     });
 }
 
-let changePasswordBtn = document.querySelector('#change-password-btn');
-changePasswordBtn.addEventListener('click', function() {
-    $oldPassword = document.getElementById('old-password').value;
-    $newPassword = document.getElementById('new-password').value;
-    $.ajax({
-        url: '/auth/ajax_password_check.php',
-        method: 'post',
-        dataType: 'html',
-        data: {
-            'old_password': $oldPassword,
-            'new_password': $newPassword
-        },
-        success: function(data){
-            alert(data);
-            // if (data) {
-            //     // открыть модалку, что пароль успешно изменён
-            // } else {
-            //     let divOldPassword = document.querySelector('[data-field="old_password"]');
-            //     let inputOldPassword = document.querySelector('#old-password');
-            //     let textMessage = document.createElement('div');
-            //     textMessage.innerHTML = 'Неверный пароль';
-            //     textMessage.classList.add('text-response', 'error');
-            //     // textMessage.style.color = '#D82500';
-            //     // inputOldPassword.style.border = '#D82500';
-            //     // divOldPassword.append(textMessage);
-            //     divOldPassword.insertAdjacentHTML('afterEnd', textMessage.outerHTML)
-            //     // divOldPassword.parentNode.insertBefore(textMessage, divOldPassword);
-            // }
-        }
-    });
-});
 
+// очищение полей старого и нового пароля при нажатии на кнопку "закрыть окно"
+let changePasswordCloseBtn = document.querySelector('#change-password-close');
+if (typeof changePasswordCloseBtn !== 'undefined' && changePasswordCloseBtn != null) {
+    changePasswordCloseBtn.addEventListener('click', function() {
+        document.getElementById('old-password').value = '';
+        document.getElementById('new-password').value = '';
+
+        let textResponseLines = document.querySelectorAll('.text-response');
+        for (let i=0; i < textResponseLines.length; i++) {
+            if (typeof textResponseLines[i] !== 'undefined' && textResponseLines[i] != null) 
+            textResponseLines[i].remove();
+        }
+        document.getElementById('old-password').style.border = '1px solid #959595';
+        document.getElementById('new-password').style.border = '1px solid #959595';
+    });
+}
+
+
+// сохранение нового загруженного фото
+let changePhotoBtn = document.querySelector('#change-photo-btn');
+changePhotoBtn.addEventListener('click', function(event) {
+    $.ajax( {
+      url: '/auth/ajax/ajax_change_photo.php',
+      type: 'POST',
+      data: new FormData($("#change-photo")[0]),
+      processData: false,
+      contentType: false,
+      enctype: 'multipart/form-data',
+      success: function(data) {
+        // обрабатываем возможные ошибки, останавливаем отправку формы и выводим сообщения об ошибках
+        if (data == 'INVALID_FILE_SIZE'){  // уведомление о том, что превышен размер файла
+          event.preventDefault();
+          alert('Размер фото превышает допустимый');
+        } else if (data =='INVALID_FILE_TYPE'){  // уведомление о том, что не тот тип файла (не картинка)
+          event.preventDefault();
+          alert('Загружаемый файл должен быть изображением');  
+        } else if (data == 'NO_PHOTO_ADDED') {  // уведомление о том, что файл не загружен
+          event.preventDefault();
+          alert('Вы не загрузили фото');
+        } else if (data == 'SOMETHING_WENT_WRONG') {  // уведомление о том, что что-то пошло не так по какой-то другой причине, не перечисленной выше
+          event.preventDefault();
+          alert('Что-то пошло не так. Попробуйте снова или загрузите другой файл');
+        }
+      }
+    }); 
+})

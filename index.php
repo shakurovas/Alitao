@@ -440,7 +440,7 @@ Loc::loadMessages(__FILE__);
                 <p class="text text-dark mb-6"><?=Loc::getMessage('ASK_MORE_QUESTIONS');?></p>
 
                 <button  class="btn btn-lg btn-primary w-100 w-sm-auto d-none d-lg-inline-block" data-bs-toggle="modal" href="#sendQuestion" role="button"><?=Loc::getMessage('ASK_A_QUESTION');?></button>
-                <a  class="btn btn-lg btn-primary w-100 w-sm-auto d-lg-none"  href="/mobile-send-question.html"><?=Loc::getMessage('ASK_A_QUESTION');?></a>
+                <a  class="btn btn-lg btn-primary w-100 w-sm-auto d-lg-none"  href="/mobile_send_question.php"><?=Loc::getMessage('ASK_A_QUESTION');?></a>
             </div>
         </section>
     </main>

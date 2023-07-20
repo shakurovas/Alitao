@@ -19,7 +19,7 @@ Loc::loadMessages(__FILE__);
                 "AREA_FILE_RECURSIVE" => "Y",
                 "EDIT_TEMPLATE" => "",
                 "COMPONENT_TEMPLATE" => ".default",
-                "PATH" => "/include/privacy_polotic.php"
+                "PATH" => "/include/privacy_policy.php"
             ),
             false
         );?>

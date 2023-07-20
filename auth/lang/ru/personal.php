@@ -15,3 +15,4 @@ $MESS['NO_PHOTO_TEXT'] = 'Нет фото';
 $MESS['NO_INFO'] = 'Не указано';
 $MESS['STREET'] = 'ул.';
 $MESS['NEED_TO_BE_AUTHORIZED'] = 'Вы не авторизованы';
+$MESS['ENTER_YOUR_DATA'] = 'Заполните свой профиль';

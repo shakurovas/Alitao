@@ -14,27 +14,6 @@ Asset::getInstance()->addJs("/auth/js/auth_script.js");
         <?php
         $rsUser = CUser::GetByID($USER->GetID()); //получаем ID авторизованного пользователя и сразу же его поля
         $arUser = $rsUser->Fetch();
-    
-        $phone = trim($arUser['PERSONAL_PHONE']);
-        $phone = preg_replace(
-            array(
-                '/[\+]?([7|8])[-|\s]?\([-|\s]?(\d{3})[-|\s]?\)[-|\s]?(\d{3})[-|\s]?(\d{2})[-|\s]?(\d{2})/',
-                '/[\+]?([7|8])[-|\s]?(\d{3})[-|\s]?(\d{3})[-|\s]?(\d{2})[-|\s]?(\d{2})/',
-                '/[\+]?([7|8])[-|\s]?\([-|\s]?(\d{4})[-|\s]?\)[-|\s]?(\d{2})[-|\s]?(\d{2})[-|\s]?(\d{2})/',
-                '/[\+]?([7|8])[-|\s]?(\d{4})[-|\s]?(\d{2})[-|\s]?(\d{2})[-|\s]?(\d{2})/',	
-                '/[\+]?([7|8])[-|\s]?\([-|\s]?(\d{4})[-|\s]?\)[-|\s]?(\d{3})[-|\s]?(\d{3})/',
-                '/[\+]?([7|8])[-|\s]?(\d{4})[-|\s]?(\d{3})[-|\s]?(\d{3})/',					
-            ), 
-            array(
-                '+7 $2 $3-$4-$5', 
-                '+7 $2 $3-$4-$5', 
-                '+7 $2 $3-$4-$5', 
-                '+7 $2 $3-$4-$5', 	
-                '+7 $2 $3-$4', 
-                '+7 $2 $3-$4', 
-            ), 
-            $phone
-        );
         ?>
         <section class="container pt-7 mt-1 pb-10 mb-4 text">
             <div class="cabinet">
@@ -44,10 +23,10 @@ Asset::getInstance()->addJs("/auth/js/auth_script.js");
                             <a href="/auth/personal.php" class="cabinet__nav-link active link-dark"><?=Loc::getMessage('MY_PROFILE');?></a>
                         </li>                
                         <li>
-                            <a href="/my-orders.html" class="cabinet__nav-link  link-dark"><?=Loc::getMessage('MY_ORDERS');?></a>                
+                            <a href="/order/my_orders.php" class="cabinet__nav-link  link-dark"><?=Loc::getMessage('MY_ORDERS');?></a>                
                         </li>
                         <li>
-                            <a href="/history-orders.html" class="cabinet__nav-link link-dark"><?=Loc::getMessage('HISTORY');?></a>                
+                            <a href="/order/history.php" class="cabinet__nav-link link-dark"><?=Loc::getMessage('HISTORY');?></a>                
                         </li>
                         <li>
                             <a href="/?logout=yes&<?=bitrix_sessid_get();?>" class="cabinet__nav-link link-dark"><?=Loc::getMessage('EXIT');?></a>                
@@ -59,13 +38,22 @@ Asset::getInstance()->addJs("/auth/js/auth_script.js");
 
                 <section class="cabinet__content">
                     <div class="user">
-                        <div class="user__photo">
+                        <div class="user__photo" style="display: flex; flex-direction: column; justify-content: flex-start;">
                             <?php if (!empty($arUser['PERSONAL_PHOTO'])):?>
                                 <img src="<?=CFile::GetPath($arUser['PERSONAL_PHOTO']);?>" alt="" width="182" height="251">
                             <?php else:?>
                                 <?=Loc::getMessage('NO_PHOTO_TEXT');?>
                             <?php endif;?>
+                            <form class="fs-5" id="change-photo" action="/auth/personal.php" method="POST" enctype="multipart/form-data">
+                                <input type="hidden" name="old_photo_id" value="<?php echo $arUser['PERSONAL_PHOTO']?>">
+                                <input type="file" name="photo" accept="image/*" width="182" height="251" style="width: 100%; font-size: 10px; margin-top: 10px;">
+                                <input type="submit" id="change-photo-btn" value="<?=GetMessage('CHANGE_PHOTO');?>" style="width: 100%; font-size: 10px; margin-top: 10px;">
+                            </form>
+                            <p style="font-size: 10px; margin-top: 10px;">
+                                <?=GetMessage('TIME_FOR_PHOTO_UPDATE');?>
+                            </p>
                         </div>
+                        
                         <div class="user__data fs-3 text-dark">
                             
                             <p class="h2 fs-2 mb-8 mb-lg-3"><?=$USER->GetFullName();?></p>
@@ -104,7 +92,7 @@ Asset::getInstance()->addJs("/auth/js/auth_script.js");
         
                                 <div class="mb-2 d-xl-flex">
                                     <p class="fw-bold  mb-2 mb-xl-0 me-xl-2"><?=Loc::getMessage('PHONE');?>:</p>
-                                    <p><?=$phone;?></p>
+                                    <p><?=$arUser['PERSONAL_PHONE'];?></p>
                                     
                                 </div>
         
@@ -127,10 +115,11 @@ Asset::getInstance()->addJs("/auth/js/auth_script.js");
                             </div>
 
                             <!-- <form action="/auth/personal.php" class="fs-5"> -->
-                            <form class="fs-5" id="save-changes-btn" action="/auth/personal.php" method="POST" onsubmit="return saveChanges();">
+                            <form class="fs-5" id="save-changes-btn" action="/auth/personal.php" method="POST" onsubmit="return saveChanges();" enctype="multipart/form-data">
+                                <!-- <input type="file" name="photo" accept="image/*"> -->
                                 <div class="mb-4">
                                     <label for="nickname" class="form-label mb-0"><?=Loc::getMessage('NICK_OR_NAME');?></label>
-                                    <input type="text" class="form-control py-2 py-1" id="nickname" placeholder="<?=Loc::getMessage('NICK_OR_NAME');?>" name="nickname" required value="<?=$arUser['LOGIN'];?>">                     
+                                    <input type="text" class="form-control py-2 py-1" id="nickname" placeholder="<?=Loc::getMessage('NICK_OR_NAME');?>" name="nickname" required value="<?=$arUser['UF_NICKNAME'];?>">                     
                                 </div>
 
                                 <div class="mb-4">
@@ -162,7 +151,7 @@ Asset::getInstance()->addJs("/auth/js/auth_script.js");
                                 <div class="row mb-4">
                                     <div class="col-12 col-lg-6 mb-4 mb-lg-0">
                                         <label for="phone" class="form-label mb-0"><?=Loc::getMessage('CONTACT_PHONE_NUMBER');?></label>
-                                        <input type="tel" class="form-control py-2 py-1" id="phone" placeholder="<?=Loc::getMessage('CONTACT_PHONE_NUMBER');?>" name="phone" required value="<?=$phone;?>">                     
+                                        <input type="tel" class="form-control py-2 py-1" id="phone" placeholder="<?=Loc::getMessage('CONTACT_PHONE_NUMBER');?>" name="phone" required value="<?=$arUser['PERSONAL_PHONE'];?>">                     
                                     </div>
                                     <div class="col-12 col-lg-6">
                                         <label for="email" class="form-label mb-0"><?=Loc::getMessage('EMAIL_ADDRESS');?></label>
