@@ -1,0 +1,22 @@
+<?php
+$MESS['SPECIFY_THE_POSITION_PARAMETERS'] = 'Укажите параметры позиции';
+$MESS['PASTE_LINK_FROM_THE_SITE'] = 'Вставьте ссылку на страницу товара с';
+$MESS['OR_THE_OTHERS'] = 'или других площадок Китая';
+$MESS['GOOD_NAME'] = 'Название товара';
+$MESS['SPECIFY_GOOD_NAME'] = 'Укажите название товара';
+$MESS['COST'] = 'Стоимость';
+$MESS['OF_THE_GOOD'] = 'Товара';
+$MESS['SIZE'] = 'Размер';
+$MESS['DELIVERY'] = 'Доставка';
+$MESS['SPECIFY_SIZE'] = 'Укажите размер';
+$MESS['THROUGH_CHINA'] = 'По Китаю';
+$MESS['COLOUR'] = 'Цвет';
+$MESS['SPECIFY_COLOUR'] = 'Укажите цвет';
+$MESS['NOTE'] = 'Примечание';
+$MESS['ENTER_NOTE'] = 'Введите примечание';
+$MESS['SUMMATION'] = 'Сумма';
+$MESS['SERVICES'] = 'Услуги';
+$MESS['TOTAL'] = 'Итого';
+$MESS['PHOTOREPORT_IS_NEEDED'] = 'Мне нужен фотоотчёт этой позиции';
+$MESS['ADD_GOOD'] = 'Добавить товар';
+$MESS['NEED_TO_BE_AUTHORIZED'] = 'Для совершения заказа необходимо авторизоваться';

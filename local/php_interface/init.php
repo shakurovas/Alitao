@@ -21,7 +21,7 @@ class Handlers
     public static function OnAfterUserAuthorizeHandler($arUser)
     {
         if (strpos($_SERVER['REQUEST_URI'], '/bitrix/admin/') === false) {
-            LocalRedirect('/auth/personal.php');
+            LocalRedirect('/auth/personal.php?login=yes');
         }
     }
 }

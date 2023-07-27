@@ -55,7 +55,7 @@ Loc::loadLanguageFile(__FILE__);
                                     $dtMoscow->setTimestamp($timestamp); //adjust the object to correct timestamp
                                     $dtPeking->setTimestamp($timestamp); //adjust the object to correct timestamp
                                 ?>
-                                <p class="text-gray fs-6 mb-0"><?=Loc::getMessage('MOSCOW');?> <?=$dtMoscow->format('H:i');?></p>
+                                <p class="text-gray fs-6 mb-0"><?=Loc::getMessage('MOSCOW');?> <span id="moscow-time"><?=$dtMoscow->format('H:i');?></span></p>
                                 <?$APPLICATION->IncludeComponent(
                                     "bitrix:main.include", 
                                     ".default", 
@@ -71,7 +71,7 @@ Loc::loadLanguageFile(__FILE__);
                                 );?>
                             </li>
                             <li class="mb-2">
-                                <p class="text-gray fs-6 mb-0"><?=Loc::getMessage('PEKING');?> <?=$dtPeking->format('H:i');?></p>
+                                <p class="text-gray fs-6 mb-0"><?=Loc::getMessage('PEKING');?> <span id="peking-time"><?=$dtPeking->format('H:i');?></span></p>
                                 
                                 <?$APPLICATION->IncludeComponent(
                                     "bitrix:main.include", 
@@ -168,6 +168,19 @@ Loc::loadLanguageFile(__FILE__);
                                             "EDIT_TEMPLATE" => "",
                                             "COMPONENT_TEMPLATE" => ".default",
                                             "PATH" => "/include/chinese_phone_number.php"
+                                        ),
+                                        false
+                                    );?>
+                                    <?$APPLICATION->IncludeComponent(
+                                        "bitrix:main.include", 
+                                        ".default", 
+                                        array(
+                                            "AREA_FILE_SHOW" => "file",
+                                            "AREA_FILE_SUFFIX" => "inc",
+                                            "AREA_FILE_RECURSIVE" => "Y",
+                                            "EDIT_TEMPLATE" => "",
+                                            "COMPONENT_TEMPLATE" => ".default",
+                                            "PATH" => "/include/chinese_phone_number_2.php"
                                         ),
                                         false
                                     );?>                        

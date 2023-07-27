@@ -126,7 +126,7 @@ if ($USER->IsAuthorized())
                             <div class="d-flex py-4 py-xl-2">
                                 <a class="btn btn-outline-secondary me-4 px-xl-9" href="/auth/profile_edit.php"><?=Loc::getMessage('EDIT');?></a>
                                 <button class="btn btn-outline-secondary px-xl-9 d-none d-md-inline-block" data-bs-toggle="modal" href="#changePassword" role="button"><?=Loc::getMessage('CHANGE_PASSWORD');?></button>
-                                <a class="btn btn-outline-secondary d-md-none" href="/auth/mobile_change_password.php"><?=Loc::getMessage('CHANGE_PASSWORD');?></a>
+                                <a class="btn btn-outline-secondary d-md-none" href="/auth/mobile_profile_change_password.php"><?=Loc::getMessage('CHANGE_PASSWORD');?></a>
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,20 @@
+<?php
+$MESS['MAKE_AN_ORDER_TITLE'] = 'Сделать заказ';
+$MESS['ORDER_CONTENTS'] = 'Состав заказа';
+$MESS['DELIVERY_ADDRESS'] = 'Адрес доставки';
+$MESS['CONFIRMATION'] = 'Подтверждение';
+$MESS['NO_GOODS_ADDED'] = 'Вы ещё не добавили товары';
+$MESS['HOW_TO_ADD_GOOD'] = 'Как добавить товар';
+$MESS['PASTE_LINK'] = 'Вставьте ссылку на страницу товара с';
+$MESS['OR_OTHER_SITES'] = 'или других площадок Китая';
+$MESS['ADD_GOOD'] = 'Добавить товар';
+$MESS['TOTAL_WITH_COMMISSION'] = 'Итого с учётом комисии';
+$MESS['CONTINUE'] = 'Продолжить';
+$MESS['PRODUCT_LINK'] = 'Ссылка на товар';
+$MESS['COLOUR'] = 'Цвет';
+$MESS['SIZE'] = 'Размер';
+$MESS['SUMMATION'] = 'Сумма';
+$MESS['DELIVERY'] = 'Доставка';
+$MESS['SERVICES'] = 'Услуги';
+$MESS['TOTAL'] = 'Итого';
+$MESS['NOT_SPECIFIED'] = 'Не указан';

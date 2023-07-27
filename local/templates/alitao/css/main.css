@@ -2327,7 +2327,8 @@ hr {
 @media (min-width: 1200px) {
   .order-item {
     grid-template-rows: repeat(5, auto);
-    grid-template-columns: 8% 13.5% 25.25% 20% 13% 8% 24px;
+    /* grid-template-columns: 8% 13.5% 25.25% 20% 13% 8% 24px; */
+    grid-template-columns: 8% 13.5% 25.25% 12% 20% 10% 24px !important;
     grid-template-areas: "col_title_1 col_title_2 col_title_3 col_title_4 qty_col summ_col controls" "num_order products_order date_order messages_order qty_col summ_col controls" "num_order products_order pay_state messages_order qty_col summ_col controls" "num_order products_order order_state messages_order qty_col summ_col controls" "num_order products_order deep_btn messages_order qty_col summ_col controls";
     padding-bottom: 0;
     border-bottom: none;

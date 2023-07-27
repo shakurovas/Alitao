@@ -61,7 +61,7 @@ const deskRecoveryForm = document.querySelectorAll('form[data-target="desktop-re
 const deskResetPasswordForm = document.querySelector('form[data-target="desktop-reset-password"]');
 
 /*Десктоп форма смена пароля*/
-const deskChangePasswordForm = document.querySelector('form[data-target="desktop-change-password"]');
+const deskChangePasswordForm = document.querySelectorAll('form[data-target="desktop-change-password"]');
 
 /*Десктоп форма с вопросами*/
 const deskQuestionsForm = document.querySelectorAll('form[data-target="desktop-send-question"]');
@@ -143,8 +143,12 @@ if ( deskSingInForm ){
 
             try {
                 var password = deskSingInForm[i].getElementsByTagName('div')[2].getElementsByTagName('input')[0];
+                if (typeof password === 'undefined') {
+                    var password = deskSingInForm[i].getElementsByTagName('div')[1].getElementsByTagName('input')[0];
+                }
             } catch(e) {
                 var password = deskSingInForm[i].getElementsByTagName('div')[1].getElementsByTagName('input')[0];
+                console.log(password);
             }
             
             let data_body = 'login=' + login + "&password=" + password.value;
@@ -339,46 +343,48 @@ if ( deskResetPasswordForm ){
 
 /* Отправка модальной формы смены пароля */
 if ( deskChangePasswordForm ){
-    deskChangePasswordForm.addEventListener('submit', function(event){
-        event.preventDefault();
-
-        let data_body = 'old_password=' + this.old_password.value + "&new_password=" + this.new_password.value;
-        
-        fetch("/auth/ajax/ajax_password_check.php", {
-            method: "POST",
-            body: data_body,
-            headers:{"content-type": "application/x-www-form-urlencoded"} 
-        })
-        .then(function (response) {
-            return response.text();
-        })
-        .then(function (response) {
-            response = JSON.parse(response);
-
-            // убираем строки с сообщениями до вывода новых и делаем цвет границы инпутов дефолтным (чтобы не выделялись красным)
-            let textResponseLines = document.querySelectorAll('.text-response');
-            for (let i=0; i < textResponseLines.length; i++) {
-                if (typeof textResponseLines[i] !== 'undefined' && textResponseLines[i] != null) 
-                textResponseLines[i].remove();
-            }
-
-            for (key in response) {
-                let responseLine = response[key];
-                let fieldWrap = deskChangePasswordForm.querySelector('[data-field="'+key+'"]');
-                
-                let state = responseLine["state"];
-                let message = responseLine["message"];
-
-                if ( !fieldWrap.classList.contains(state) ){
-                    fieldWrap.classList.add(state);
-                    let textMessage = document.createElement('p');
-                    textMessage.innerHTML = message;
-                    textMessage.classList.add('text-response');
-                    fieldWrap.append(textMessage);
+    for (let i = 0; i < deskChangePasswordForm.length; i++) {
+        deskChangePasswordForm[i].addEventListener('submit', function(event){
+            event.preventDefault();
+    
+            let data_body = 'old_password=' + this.old_password.value + "&new_password=" + this.new_password.value;
+            
+            fetch("/auth/ajax/ajax_password_check.php", {
+                method: "POST",
+                body: data_body,
+                headers:{"content-type": "application/x-www-form-urlencoded"} 
+            })
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (response) {
+                response = JSON.parse(response);
+    
+                // убираем строки с сообщениями до вывода новых и делаем цвет границы инпутов дефолтным (чтобы не выделялись красным)
+                let textResponseLines = document.querySelectorAll('.text-response');
+                for (let i=0; i < textResponseLines.length; i++) {
+                    if (typeof textResponseLines[i] !== 'undefined' && textResponseLines[i] != null) 
+                    textResponseLines[i].remove();
                 }
-            }
-        });
-    })
+    
+                for (key in response) {
+                    let responseLine = response[key];
+                    let fieldWrap = deskChangePasswordForm[i].querySelector('[data-field="'+key+'"]');
+                    
+                    let state = responseLine["state"];
+                    let message = responseLine["message"];
+    
+                    if ( !fieldWrap.classList.contains(state) ){
+                        fieldWrap.classList.add(state);
+                        let textMessage = document.createElement('p');
+                        textMessage.innerHTML = message;
+                        textMessage.classList.add('text-response');
+                        fieldWrap.append(textMessage);
+                    }
+                }
+            });
+        })
+    }
 }
 
 
@@ -579,22 +585,46 @@ const moOrderRemoveBtns = document.querySelectorAll('.mo-order__remove');
 const moOrderEditBtns = document.querySelectorAll('.mo-order__edit');
 
 if ( moOrderRemoveBtns.length && moOrderEditBtns.length){
-    moOrderRemoveBtns.forEach( btn => {
-        btn.addEventListener('click', function(){
-            
-            const parent = this.closest('.mo-order');
-            parent.remove();
-
-
-            let activeOrders = document.querySelectorAll('.mo-order');
-
-            if ( !activeOrders.length ){
-                document.querySelector('.order-calc-block').classList.add('d-none');
-                document.querySelector('.mo-instructions').classList.remove('d-none');
+    for (let i = 0; i < moOrderRemoveBtns.length; i++) {
+        // moOrderRemoveBtns.forEach( btn => {
+            moOrderRemoveBtns[i].addEventListener('click', function(){
+                console.log(111);
+                let linkOfGoodToDelete = document.querySelectorAll('.link-of-good')[i].href;
                 
-            }
-        })
-    })
+
+                $.ajax( {
+                    url: '/order/ajax/ajax_remove_good.php',
+                    method: 'POST',
+                    dataType: 'html',
+                    data: {link: linkOfGoodToDelete},
+                    success: function(data) {
+                      console.log(data);
+                    }
+                });
+
+
+                const parent = this.closest('.mo-order');
+                parent.remove();
+    
+    
+                let activeOrders = document.querySelectorAll('.mo-order');
+    
+                if ( !activeOrders.length ){
+                    document.querySelector('.order-calc-block').classList.add('d-none');
+                    document.querySelector('.mo-instructions').classList.remove('d-none');
+                    
+                }
+
+                // // если все заказы удалили, то нужно снова показать блок "добавить заказ с полем для ссылки"
+                let moOrderRemoveBtnsMinus1 = document.querySelectorAll('.mo-order__remove');
+                let instructionsBeforeGoodsHided = document.querySelector('.mo-instructions');
+                if (!moOrderRemoveBtnsMinus1.length && instructionsBeforeGoodsHided) {
+                    instructionsBeforeGoodsHided.style.display = 'block'; 
+                }
+            })
+        // })
+    }
+    
 
     function sendValueInInput(parent, fieldName, fieldType = ''){
         const productValue = parent.querySelector('[data-target-field = "' +fieldName+ '"  ]').innerHTML;            
@@ -628,23 +658,21 @@ if ( moOrderRemoveBtns.length && moOrderEditBtns.length){
         
 }
 
-let btnAddProduct = document.querySelectorAll('.btn-add-product');
-
+let btnAddProduct = document.querySelectorAll('.btn-add-product-before-goods');
+console.log(btnAddProduct);
 if ( btnAddProduct.length ){
            
     btnAddProduct.forEach( btn => {
         btn.addEventListener('click', function(){
-        
             const pageInputValue = document.querySelector('[name = "mo-product-link"]').value;                    
-            const modalInput = document.querySelector('[name = "product_link"]'); 
+            const modalInput = document.querySelector('[name = "product_link"]');
             modalInput.value = pageInputValue;
+            console.log(pageInputValue);
         })
     } )
-    
 
-
-    
 }
+
 
 let removeUploadImgBtn = document.querySelectorAll('.products-photo-grid__item-remove');
 let  productPhotoGrid =  document.querySelector('.products-photo-grid');
@@ -729,3 +757,22 @@ if (zipIndex.length){
     })
 }
 
+
+
+// обновление времени
+let pekingTime = document.querySelector('#peking-time');
+let moscowTime = document.querySelector('#moscow-time');
+
+setInterval(function() {
+    $.ajax( {
+        url: '/ajax/ajax_time_updater.php',
+        method: 'POST',
+        dataType: 'html',
+        data: {},
+        success: function(data) {
+          data = JSON.parse(data);
+          pekingTime.innerHTML = data['peking_time'];
+          moscowTime.innerHTML = data['moscow_time'];
+        }
+    });
+}, 60000);

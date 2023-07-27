@@ -8,7 +8,7 @@ if ($_FILES['photo']['error'] == '1'){
     echo 'INVALID_FILE_SIZE';
     die();
 }
-AddMessage2Log($_FILES);
+
 // если есть вложение
 if (isset($_FILES['photo']) && !empty($_FILES['photo']['tmp_name'])) {
     // проверяем расширение (что это картинка):
