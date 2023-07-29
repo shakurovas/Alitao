@@ -20,6 +20,8 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 
 IncludeTemplateLangFile(__FILE__);
 
+$this->addExternalJS("/local/components/alitao/main.register/templates/alitao_registration_mobile/js/script.js");
+
 if($arResult["SHOW_SMS_FIELD"] == true)
 {
 	CJSCore::Init('phone_auth');
@@ -45,14 +47,14 @@ if($arResult["SHOW_SMS_FIELD"] == true)
 	</div>
 
 	<div class="form-check d-flex align-items-center mb-7">
-		<input class="form-check-input me-2" type="checkbox" value="" id="approve-ppd" checked data-target-btn="#sing-up-btn">
+		<input class="form-check-input me-2 agree-checkbox-mobile" type="checkbox" value="" id="approve-ppd" checked data-target-btn="#sing-up-btn">
 		<label class="form-check-label fs-very-small" for="approve-ppd">
 		<?=GetMessage('I_AGREE');?> <a class="link-secondary" href="/personal_data_processing/" target="_blank"><?=GetMessage('AGREE_FOR_DATA_PROCESSING');?></a>
 		</label>
 	</div>
 
 	<input type="hidden" name="register_submit_button" value="<?=GetMessage('REGISTER');?>" />
-	<button type="submit" class="btn btn-success fs-4 w-100 mb-6" id="sing-up-btn"><?=GetMessage('REGISTER');?></button>
+	<button type="submit" class="btn btn-success fs-4 w-100 mb-6 sign-up-button-mobile" id="sing-up-btn"><?=GetMessage('REGISTER');?></button>
 
 
 	<a href="/auth/mobile_authorization.php" class="fs-4 d-block w-100 text-center link-secondary"><?=GetMessage('I_ALREADY_HAVE_A_PROFILE');?></a>

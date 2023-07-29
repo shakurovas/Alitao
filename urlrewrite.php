@@ -24,4 +24,12 @@ $arUrlRewrite=array (
     'PATH' => '/news/index.php',
     'SORT' => 100,
   ),
+  3 => 
+  array (
+    'CONDITION' => '#^/#',
+    'RULE' => '',
+    'ID' => 'alitao:main.register',
+    'PATH' => '/local/templates/alitao/header.php',
+    'SORT' => 100,
+  ),
 );

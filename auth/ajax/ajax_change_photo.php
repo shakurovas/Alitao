@@ -15,15 +15,15 @@ if (isset($_FILES['photo']) && !empty($_FILES['photo']['tmp_name'])) {
     if (strpos($_FILES['photo']['type'], 'image') !== false){
         // закачиваем файл в /upload/users_pics
         $name = $_FILES['photo']['name'];
-        $uploads_dir = $_SERVER['DOCUMENT_ROOT'].'/upload/users_pics';
-        $isMoved = move_uploaded_file($_FILES['photo']['tmp_name'], "$uploads_dir/$name");
+        $uploadsDir = $_SERVER['DOCUMENT_ROOT'].'/upload/users_pics';
+        $isMoved = move_uploaded_file($_FILES['photo']['tmp_name'], "$uploadsDir/$name");
         if ($isMoved){
             // если всё ок:
             $user = new CUser;
             $arFields = [];
 
             // $fileId = CFile::SaveFile($_FILES["personal-photo"],'avatar');
-            $arFile = CFile::MakeFileArray($_SERVER["DOCUMENT_ROOT"]."/upload/users_pics/".$name);
+            $arFile = CFile::MakeFileArray($_SERVER["DOCUMENT_ROOT"] . "/upload/users_pics/" . $name);
             $arFile['del'] = "Y";
             $arFile['old_file'] = $_POST['old_photo_id'];
             $arFields['PERSONAL_PHOTO'] = $arFile;
@@ -31,7 +31,7 @@ if (isset($_FILES['photo']) && !empty($_FILES['photo']['tmp_name'])) {
             $result = $user->Update($USER->GetID(), $arFields);
 
             // удаляем временный файл:
-            unlink ($uploads_dir."/".$name);
+            unlink ($uploadsDir."/".$name);
         } else {
             echo 'ERROR_FILE_MOVED';
         }

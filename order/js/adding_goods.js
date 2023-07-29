@@ -4,24 +4,36 @@
 // let addGoodsBtnCart = document.querySelectorAll('.add-goods-btn-cart');
 // for (let i = 0; i < addGoodsBtnCart.length; i++) {
 //   addGoodsBtnCart[i].addEventListener('click', function() {
-//     let modalBackDropDiv = document.querySelector('.modal-backdrop');
-//     if (typeof modalBackDropDiv === 'undefined' || modalBackDropDiv == null) {
-//       let newDiv = document.createElement("div");
-//       newDiv.classList.add('modal-backdrop', 'show', 'fade');
-//       document.querySelector('body').appendChild(newDiv);
+    // document.querySelector('#product-link').value = ''; 
+    // document.querySelector('#product-name').value = ''; 
+    // document.querySelector('#product-price').value = ''; 
+    // document.querySelector('#product-size').value = ''; 
+    // document.querySelector('#delivery-price').value = ''; 
+    // document.querySelector('#product-color').value = ''; 
+    // document.querySelector('#product-comment').value = ''; 
+    // document.querySelector('#product-qty').value = ''; 
+    // document.querySelector('input[name="files[]"').value = ''; 
+    // document.querySelector('#photoreport').checked = true; 
+    
+    // let modalBackDropDiv = document.querySelector('.modal-backdrop');
+    // if (typeof modalBackDropDiv === 'undefined' || modalBackDropDiv == null) {
+    //   let newDiv = document.createElement("div");
+    //   newDiv.classList.add('modal-backdrop', 'show', 'fade');
+    //   document.querySelector('body').appendChild(newDiv);
 
-//       let modalBackdropDiv = document.querySelector('.modal-backdrop');
-//       modalBackdropDiv.remove();
+    //   let modalBackdropDiv = document.querySelector('.modal-backdrop');
+    //   modalBackdropDiv.remove();
 
-//       document.querySelector('body').appendChild(newDiv);
+    //   document.querySelector('body').appendChild(newDiv);
 
-//       let htmlBody = document.querySelector('body');
-//       htmlBody.classList.remove('modal-open');
-//       // htmlBody.style.removeProperty('overflow');
-//       // htmlBody.style.removeProperty('padding-right');
-//       // htmlBody.style.removeProperty('opacity');
-//     }
-
+    //   let htmlBody = document.querySelector('body');
+    //   htmlBody.classList.remove('modal-open');
+    //   // htmlBody.style.removeProperty('overflow');
+    //   // htmlBody.style.removeProperty('padding-right');
+    //   // htmlBody.style.removeProperty('opacity');
+    // }
+//   });
+// }
   
 
 //     // let MakeOrderModal = document.querySelector('#makeOrderModal');
@@ -49,13 +61,19 @@
 //   })
 // }
 
+// let fuckBtn = document.querySelector('#fuck');
+// fuckBtn.addEventListener('click', function() {
+//   console.log(this);
+// });
+
 
 let addGoodBtn = document.querySelector('#add-good-btn');
 let goodsList = document.querySelector('#goods-list');
 
 if (addGoodBtn) {
-  addGoodBtn.addEventListener('click', function(){
+  addGoodBtn.addEventListener('click', function(event){
   
+    event.preventDefault();
     let link = document.querySelector('#product-link').value; 
     let name = document.querySelector('#product-name').value; 
     let price = document.querySelector('#product-price').value; 
@@ -64,68 +82,184 @@ if (addGoodBtn) {
     let colour = document.querySelector('#product-color').value; 
     let comment = document.querySelector('#product-comment').value; 
     let quantity = document.querySelector('#product-qty').value; 
+    let photos = document.querySelector('input[name="files[]"').files; 
     let photoreport = document.querySelector('#photoreport').checked; 
+
+    if (photoreport) {
+      var photoreportValue = 1;
+    } else {
+      var photoreportValue = 0;
+    } 
     // console.log(link, name, price, size, delivery_cost, colour, comment, quantity, photoreport);
 
-    dataToSend = {
-        link: link,
-        name: name,
-        price: price,
-        size: size,
-        delivery_cost: delivery_cost,
-        colour: colour,
-        comment: comment,
-        quantity: quantity,
-        photoreport: photoreport
+    var form_data = new FormData();
+    for (let i=0; i < photos.length; i++) {
+      form_data.append('file[]', photos[i]);
     }
-    console.log(dataToSend);
+    form_data.append('link', link);
+    form_data.append('name', name);
+    form_data.append('price', price);
+    form_data.append('size', size);
+    form_data.append('delivery_cost', delivery_cost);
+    form_data.append('colour', colour);
+    form_data.append('comment', comment);
+    form_data.append('quantity', quantity);
+    form_data.append('photoreport', photoreportValue);
+
+    console.log(form_data);
+
+    // dataToSend = {
+    //     link: link,
+    //     name: name,
+    //     price: price,
+    //     size: size,
+    //     delivery_cost: delivery_cost,
+    //     colour: colour,
+    //     comment: comment,
+    //     quantity: quantity,
+    //     photos: form_data,
+    //     photoreport: photoreport
+    // }
+    console.log(form_data);
 
     $.ajax( {
       url: '/order/ajax/ajax_add_good.php',
       method: 'POST',
       dataType: 'html',
-      data: dataToSend,
+      data: form_data,
+      processData: false,
+      contentType: false,
       success: function(data) {
-        // console.log(data);
-        data = JSON.parse(data);
-        
-        console.log(data['goods_string']);
-        goodsList.innerHTML = data['goods_string'];
+        console.log(data);
+        if (data == 'INVALID_FILE_SIZE'){  // уведомление о том, что превышен размер файла
+          // event.preventDefault();
+          alert('Размер фото превышает допустимый');
+        } else if (data =='INVALID_FILE_TYPE'){  // уведомление о том, что не тот тип файла (не картинка)
+          // event.preventDefault();
+          alert('Загружаемый файл должен быть изображением');  
+        } else if (data == 'NO_PHOTO_ADDED') {  // уведомление о том, что файл не загружен
+          // event.preventDefault();
+          alert('Вы не загрузили фото');
+        } else if (data == 'SOMETHING_WENT_WRONG') {  // уведомление о том, что что-то пошло не так по какой-то другой причине, не перечисленной выше
+          // event.preventDefault();
+          alert('Что-то пошло не так. Попробуйте снова или загрузите другой файл');
+        } else {
+          let buttonsToClear = document.querySelectorAll('.delete-after-add-goods');
+          for (let i = 0; i < buttonsToClear.length; i++) {
+            buttonsToClear[i].remove();
+          }
+          data = JSON.parse(data);
+          console.log(data['goods_string']);
+          // console.log(data['buttons_string']);
+          goodsList.innerHTML = data['goods_string'];
+
+          if (typeof data['buttons_string'] !== 'undefined' && data['buttons_string'] != null && data['buttons_string'] != '') {
+            goodsList.insertAdjacentHTML( 'afterEnd', data['buttons_string']);
+            // goodsList.innerHTML += data['buttons_string'];
+          }
+
+          // event.target.click();
+          link = ''; 
+          name = ''; 
+          price = '';
+          size = '';
+          delivery_cost = ''; 
+          colour = ''; 
+          link = ''; 
+          comment = ''; 
+          quantity = ''; 
+          photoreport = true;
+          document.querySelector('input[name="files[]"').value = '';
+        }
+        location.reload();
       }
     });
 
-    let MakeOrderModal = document.querySelector('#makeOrderModal');
-    MakeOrderModal.style.display = 'none';
-    MakeOrderModal.classList.remove('show');
-    MakeOrderModal.setAttribute('aria-modal', 'false');
-    MakeOrderModal.setAttribute('aria-hidden', 'true');
-    MakeOrderModal.removeAttribute('role');
+    // // var formdata = new FormData();
+    // // var filedata = document.querySelector("#product-photo");
+    // // console.log(filedata.prop('files'));
+    // // var i = 0, len = filedata.files.length, file;
+    // // for (; i < len; i++) {
+    // //     file = filedata.files[i];
+    // //     formdata.append("file", file);
+    // // }
+    // // console.log(formdata);
+    // // $('#upload').on('click', function() {
+      
+    //   var form_data = new FormData();
+    //   for (let i=0; i < photos.length; i++) {
+    //     form_data.append('file[]', photos[i]);
+    //   }
+      
+    //   for (var key of form_data.entries()) {
+    //     console.log(key[0] + ', ' + key[1]);
+    //   }
+                
+      
+    //   console.log(form_data);  //Выводим инфо по файлам которые будут отправлены на сервер              
 
-    let htmlBody = document.querySelector('body');
-    htmlBody.classList.remove('modal-open');
-    htmlBody.style.removeProperty('overflow');
-    htmlBody.style.removeProperty('padding-right');
-    htmlBody.style.removeProperty('opacity');
+    //   $.ajax( {
+    //     url: '/order/ajax/ajax_add_photos.php',
+    //     type: 'POST',
+    //     dataType: 'text', 
+    //     data: form_data,
+    //     processData: false,
+    //     contentType: false,
+    //     // enctype: 'multipart/form-data',
+    //     success: function(data) {
+    //       console.log(JSON.parse(data));
+    //       // обрабатываем возможные ошибки, останавливаем отправку формы и выводим сообщения об ошибках
+    //       if (data == 'INVALID_FILE_SIZE'){  // уведомление о том, что превышен размер файла
+    //         // event.preventDefault();
+    //         alert('Размер фото превышает допустимый');
+    //       } else if (data =='INVALID_FILE_TYPE'){  // уведомление о том, что не тот тип файла (не картинка)
+    //         // event.preventDefault();
+    //         alert('Загружаемый файл должен быть изображением');  
+    //       } else if (data == 'NO_PHOTO_ADDED') {  // уведомление о том, что файл не загружен
+    //         // event.preventDefault();
+    //         alert('Вы не загрузили фото');
+    //       } else if (data == 'SOMETHING_WENT_WRONG') {  // уведомление о том, что что-то пошло не так по какой-то другой причине, не перечисленной выше
+    //         // event.preventDefault();
+    //         alert('Что-то пошло не так. Попробуйте снова или загрузите другой файл');
+    //       }
+    //     }
+    //   });
+    // // }); 
 
-    link = ''; 
-    name = ''; 
-    price = '';
-    size = '';
-    delivery_cost = ''; 
-    colour = ''; 
-    link = ''; 
-    comment = ''; 
-    quantity = ''; 
-    photoreport = true;
+    // let MakeOrderModal = document.querySelector('#makeOrderModal');
+    // MakeOrderModal.style.display = 'none';
+    // MakeOrderModal.classList.remove('show');
+    // MakeOrderModal.setAttribute('aria-modal', 'false');
+    // MakeOrderModal.setAttribute('aria-hidden', 'true');
+    // MakeOrderModal.removeAttribute('role');
 
-    let modalBackdropDiv = document.querySelector('.modal-backdrop');
-    modalBackdropDiv.remove();
+    // let htmlBody = document.querySelector('body');
+    // htmlBody.classList.remove('modal-open');
+    // htmlBody.style.removeProperty('overflow');
+    // htmlBody.style.removeProperty('padding-right');
+    // htmlBody.style.removeProperty('opacity');
+
+    // link = ''; 
+    // name = ''; 
+    // price = '';
+    // size = '';
+    // delivery_cost = ''; 
+    // colour = ''; 
+    // link = ''; 
+    // comment = ''; 
+    // quantity = ''; 
+    // photoreport = true;
+
+    // let modalBackdropDiv = document.querySelector('.modal-backdrop');
+    // modalBackdropDiv.remove();
     // modalBackdropDiv.classList.remove('show');
 
     let instructionsBeforeGoods = document.querySelector('.mo-instructions');
     if (instructionsBeforeGoods)
-      instructionsBeforeGoods.style.dispay = 'none'; 
+      instructionsBeforeGoods.style.display = 'none'; 
   });
+
+  
 }
 
 
@@ -214,12 +348,6 @@ let allTotalCost = document.querySelector('#total-with-commission-cost');
 if (minusList.length) {
   for (let i = 0; i < minusList.length; i++) {
     minusList[i].addEventListener('click', function() {
-      // console.log(productCostYuanList.innerHTML.replace(/\s/g, ""));
-      // console.log(productCostRubList.innerHTML.replace(/\s/g, "").replace(/\s/g, ""));
-      // console.log(totalCostYuanListNone.innerHTML.replace(/\s/g, ""));
-      // console.log(totalCostRubListNone.innerHTML.replace(/\s/g, ""));
-      // console.log(totalCostYuanList.innerHTML.replace(/\s/g, ""));
-      // console.log(totalCostRubList.innerHTML.replace(/\s/g, ""));
     
       let price = parseFloat(this.dataset.price);
       let rate = parseFloat(this.dataset.rate);
@@ -236,6 +364,21 @@ if (minusList.length) {
       }
   
       allTotalCost.innerHTML = 'Итого с учётом комисии: ' + sum.toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ') + ' ₽  ';
+
+      dataToSend = {
+        'quantity': productQuantityInputList[i].value,
+        'link': this.closest('.mo-order').querySelector('a').href
+      };
+
+      $.ajax( {
+        url: '/order/ajax/ajax_edit_quantity.php',
+        method: 'POST',
+        dataType: 'html',
+        data: dataToSend,
+        success: function(data) {
+          console.log(data);
+        }
+      });
     })
     plusList[i].addEventListener('click', function() {
     
@@ -243,13 +386,14 @@ if (minusList.length) {
       let rate = parseFloat(this.dataset.rate);
     
       console.log(productCostYuanList[i].innerHTML.replace(/\s/g, ""));
-      console.log(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1));
+      // console.log(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1));
+      console.log(deliveryCostYuanList[i].innerHTML.replace(/\s/g, ""));
       console.log(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1));
     
       productCostYuanList[i].innerHTML = (price * productQuantityInputList[i].value).toFixed(2);
       productCostRubList[i].innerHTML = '₽ ' + (price * productQuantityInputList[i].value * rate).toFixed(2);
       totalCostYuanListNone[i].innerHTML = '¥ ' +  (parseFloat(productCostYuanList[i].innerHTML.replace(/\s/g, "")) + parseFloat(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "")) + parseFloat(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2);
-      totalCostRubListNone[i].innerHTML = '( ₽ ' +  (parseFloat(productCostRubList[i].innerHTML.replace(/\s/g, "").replace(/\s/g, "").slice(1)) + parseFloat(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2) + ')';
+      totalCostRubListNone[i].innerHTML = '( ₽ ' +  (parseFloat(productCostRubList[i].innerHTML.replace(/\s/g, "").replace(/\s/g, "").slice(1)) + parseFloat(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "")) + parseFloat(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2) + ')';
       totalCostYuanList[i].innerHTML = '¥ ' + (parseFloat(productCostYuanList[i].innerHTML) + parseFloat(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "")) + parseFloat(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2);
       totalCostRubList[i].innerHTML = '₽ ' + (parseFloat(productCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(deliveryCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(servicesCostRubList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2);
     
@@ -259,6 +403,21 @@ if (minusList.length) {
       }
   
       allTotalCost.innerHTML = 'Итого с учётом комисии: ' + sum.toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ') + ' ₽  ';
+
+      dataToSend = {
+        'quantity': productQuantityInputList[i].value,
+        'link': this.closest('.mo-order').querySelector('a').href
+      };
+
+      $.ajax( {
+        url: '/order/ajax/ajax_edit_quantity.php',
+        method: 'POST',
+        dataType: 'html',
+        data: dataToSend,
+        success: function(data) {
+          console.log(data);
+        }
+      });
     })
   }
 }
@@ -296,4 +455,3 @@ for (let i = 0; i < askForBillBtns.length; i++) {
     jivo_api.open();
   });
 }
-

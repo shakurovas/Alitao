@@ -10,3 +10,4 @@ $MESS['OF_GOODS'] = 'Товаров';
 $MESS['OF_POSITIONS'] = 'Позиций';
 $MESS['TOTAL'] = 'Итого';
 $MESS['STATUS'] = 'Статус';
+

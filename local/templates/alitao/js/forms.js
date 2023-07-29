@@ -588,9 +588,10 @@ if ( moOrderRemoveBtns.length && moOrderEditBtns.length){
     for (let i = 0; i < moOrderRemoveBtns.length; i++) {
         // moOrderRemoveBtns.forEach( btn => {
             moOrderRemoveBtns[i].addEventListener('click', function(){
-                console.log(111);
-                let linkOfGoodToDelete = document.querySelectorAll('.link-of-good')[i].href;
-                
+                const parentOrder = this.closest('.mo-order');
+                // console.log(parentOrder)
+            
+                let linkOfGoodToDelete = parentOrder.querySelector('a').href;
 
                 $.ajax( {
                     url: '/order/ajax/ajax_remove_good.php',
@@ -603,8 +604,8 @@ if ( moOrderRemoveBtns.length && moOrderEditBtns.length){
                 });
 
 
-                const parent = this.closest('.mo-order');
-                parent.remove();
+                // const parent = this.closest('.mo-order');
+                parentOrder.remove();
     
     
                 let activeOrders = document.querySelectorAll('.mo-order');
@@ -627,8 +628,8 @@ if ( moOrderRemoveBtns.length && moOrderEditBtns.length){
     
 
     function sendValueInInput(parent, fieldName, fieldType = ''){
-        const productValue = parent.querySelector('[data-target-field = "' +fieldName+ '"  ]').innerHTML;            
-        const productInput = document.querySelector('[name = "' +fieldName+ '" ]'); 
+        const productValue = parent.querySelector('[data-target-field = "' + fieldName + '"  ]').innerHTML;            
+        const productInput = document.querySelector('[name = "' + fieldName + '" ]'); 
         
         if (    fieldType === 'textarea' ){
             productInput.innerHTML = productValue;
@@ -643,13 +644,54 @@ if ( moOrderRemoveBtns.length && moOrderEditBtns.length){
     moOrderEditBtns.forEach( btn => {
         btn.addEventListener('click', function(){            
             const parent = this.closest('.mo-order');
-                
+            
+            document.querySelector('[name = "product_link"]').value = parent.querySelector('a').href; 
             sendValueInInput(parent, "product_name");
             sendValueInInput(parent, "product_color");
             sendValueInInput(parent, "product_size");
             sendValueInInput(parent, "product_comment", 'textarea');
             sendValueInInput(parent, "delivery_price", );
             sendValueInInput(parent, "product_price");
+            
+            // узнаём значение чекбокса с доп. услугой (заполнен/не заполнен)
+            $.ajax( {
+                url: '/order/ajax/ajax_checkbox_value.php',
+                method: 'POST',
+                dataType: 'html',
+                data: {link: parent.querySelector('a').href},
+                success: function(data) {
+                    console.log(data);
+                    console.log(typeof data);
+                    if (Number(data)) {
+                        document.querySelector('#photoreport').checked = true;
+                    } else {
+                        document.querySelector('#photoreport').checked = false;
+                    }
+                }
+            });
+
+
+            document.querySelector('#product-cost-calc').innerHTML = parent.querySelector('[data-target-field="product_price"]').innerHTML;
+            document.querySelector('#delivery-cost-calc').innerHTML = parent.querySelector('[data-target-field="delivery_price"]').innerHTML;
+            
+            let servicesValueDesktop = parent.querySelector('.services-cost-yuan-list');
+            let servicesValueMobile = parent.querySelector('.services-cost-yuan-list-none');
+            // console.log(servicesValueDesktop);
+            if (typeof servicesValueDesktop.innerHTML !== 'undefined' && servicesValueDesktop.innerHTML != null) {
+                document.querySelector('#services-cost-calc').innerHTML = servicesValueDesktop.innerHTML.replace(/\s/g, "").slice(1);
+            } else if (typeof servicesValueMobile !== 'undefined' && servicesValueMobile != null) {
+                document.querySelector('#services-cost-calc').innerHTML = servicesValueMobile.innerHTML.replace(/\s/g, "").slice(1);
+            }
+
+
+            let costValueDesktop = parent.querySelector('.total-cost-yuan-list');
+            let costValueMobile = parent.querySelector('.total-cost-yuan-list-none');
+            if (typeof costValueDesktop.innerHTML !== 'undefined' && costValueDesktop.innerHTML != null) {
+                document.querySelector('#total-cost-calc').innerHTML = costValueDesktop.innerHTML.replace(/\s/g, "").slice(1);
+            } else if (typeof costValueMobile !== 'undefined' && costValueMobile != null) {
+                document.querySelector('#total-cost-calc').innerHTML = costValueMobile.innerHTML.replace(/\s/g, "").slice(1);
+            }
+            
             
             let qty = parent.querySelector('input[name="product_qty"]').value;
             document.querySelector('.mo-modal input[name="product_qty"]').value = qty;
@@ -659,15 +701,15 @@ if ( moOrderRemoveBtns.length && moOrderEditBtns.length){
 }
 
 let btnAddProduct = document.querySelectorAll('.btn-add-product-before-goods');
-console.log(btnAddProduct);
-if ( btnAddProduct.length ){
+// console.log(btnAddProduct);
+if ( btnAddProduct.length ) {
            
     btnAddProduct.forEach( btn => {
         btn.addEventListener('click', function(){
             const pageInputValue = document.querySelector('[name = "mo-product-link"]').value;                    
             const modalInput = document.querySelector('[name = "product_link"]');
             modalInput.value = pageInputValue;
-            console.log(pageInputValue);
+            // console.log(pageInputValue);
         })
     } )
 
@@ -691,7 +733,7 @@ if ( productPhotoGrid ){
     
 }
 
-const inpProductPhoto = document.querySelector('input[name="product_photo"');
+const inpProductPhoto = document.querySelector('input[name="files[]"');
 if ( inpProductPhoto ){
     inpProductPhoto.onchange = function(event) {
         var target = event.target;

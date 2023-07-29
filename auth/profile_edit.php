@@ -109,7 +109,7 @@ Asset::getInstance()->addJs("/auth/js/auth_script.js");
 
                             
                             <div class="d-flex py-4 py-xl-2 mb-2 mb-lg-0">
-                                <a class="btn btn-secondary me-4 px-xl-9" href="/auth/profile_edit.php"><?=Loc::getMessage('EDIT');?></a>
+                                <a class="btn btn-secondary me-4 px-xl-9" href="/auth/personal.php"><?=Loc::getMessage('EDIT');?></a>
                                 <button id="change-password-btn" class="btn btn-outline-secondary px-xl-9 d-none d-md-inline-block" data-bs-toggle="modal" href="#changePassword" role="button"><?=Loc::getMessage('CHANGE_PASSWORD');?></button>
                                 <a class="btn btn-outline-secondary d-md-none" href="/auth/mobile_change_password.php" ><?=Loc::getMessage('CHANGE_PASSWORD');?></a>
                             </div>
@@ -184,6 +184,10 @@ Asset::getInstance()->addJs("/auth/js/auth_script.js");
                                         </div>                  
                                     </div>
                                 </div>
+
+                                <!-- <div style="color: #FF6948; margin-bottom: 15px;">
+                                    Изменения будут применены в течение нескольких секунд           
+                                </div>  -->
 
                                 <button id="save-profile-changes-btn" class="btn btn-primary w-100 w-lg-auto fs-4 fs-lg-5"><?=Loc::getMessage('SAVE_CHANGES_BTN');?></button>
                             </form>

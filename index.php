@@ -43,7 +43,7 @@ Loc::loadMessages(__FILE__);
                     );?>
 
                     <div class="hero__btn-wrap">
-                        <a href="/make-order.html" class="btn btn-lg btn-primary w-100 w-sm-auto"><?=Loc::getMessage('MAKE_AN_ORDER');?></a>
+                        <a href="<?php echo $isMobile ? '/order/mobile_add_edit_order.php' : '/order/make_order_step_1.php';?>" class="btn btn-lg btn-primary w-100 w-sm-auto"><?=Loc::getMessage('MAKE_AN_ORDER');?></a>
                     </div>
                 </div>
                 
@@ -353,7 +353,7 @@ Loc::loadMessages(__FILE__);
                 </div>
                 </div>
                 <div class="mt-lg-10 mt-6">
-                    <a href="/make-order.html" class="btn btn-lg btn-primary w-100 w-sm-auto"><?=Loc::getMessage('MAKE_AN_ORDER');?></a>
+                    <a href="<?php echo $isMobile ? '/order/mobile_add_edit_order.php' : '/order/make_order_step_1.php';?>" class="btn btn-lg btn-primary w-100 w-sm-auto"><?=Loc::getMessage('MAKE_AN_ORDER');?></a>
                 </div>
             </div>
 

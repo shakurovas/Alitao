@@ -1,0 +1,52 @@
+Host: 83.166.240.147:443
+Date: 2023-07-28 20:07:37
+artartart
+#0: include(string)
+	/home/bitrix/www/bitrix/modules/main/classes/general/component.php:607
+#1: CBitrixComponent->__includeComponent
+	/home/bitrix/www/bitrix/modules/main/classes/general/component.php:684
+#2: CBitrixComponent->includeComponent
+	/home/bitrix/www/bitrix/modules/main/classes/general/main.php:1072
+#3: CAllMain->IncludeComponent
+	/home/bitrix/www/local/templates/alitao/header.php:378
+#4: include_once(string)
+	/home/bitrix/www/bitrix/modules/main/include/prolog_after.php:110
+#5: require(string)
+	/home/bitrix/www/bitrix/modules/main/include/prolog.php:11
+----------
+Host: 83.166.240.147:443
+Date: 2023-07-28 20:07:37
+array (
+  'EMAIL' => 'nataly@yandex.ru',
+  'PASSWORD' => 'Nataly123456',
+)
+#0: include(string)
+	/home/bitrix/www/bitrix/modules/main/classes/general/component.php:607
+#1: CBitrixComponent->__includeComponent
+	/home/bitrix/www/bitrix/modules/main/classes/general/component.php:684
+#2: CBitrixComponent->includeComponent
+	/home/bitrix/www/bitrix/modules/main/classes/general/main.php:1072
+#3: CAllMain->IncludeComponent
+	/home/bitrix/www/local/templates/alitao/header.php:378
+#4: include_once(string)
+	/home/bitrix/www/bitrix/modules/main/include/prolog_after.php:110
+#5: require(string)
+	/home/bitrix/www/bitrix/modules/main/include/prolog.php:11
+----------
+Host: 83.166.240.147:443
+Date: 2023-07-28 20:07:37
+array (
+)
+#0: include(string)
+	/home/bitrix/www/bitrix/modules/main/classes/general/component.php:607
+#1: CBitrixComponent->__includeComponent
+	/home/bitrix/www/bitrix/modules/main/classes/general/component.php:684
+#2: CBitrixComponent->includeComponent
+	/home/bitrix/www/bitrix/modules/main/classes/general/main.php:1072
+#3: CAllMain->IncludeComponent
+	/home/bitrix/www/local/templates/alitao/header.php:378
+#4: include_once(string)
+	/home/bitrix/www/bitrix/modules/main/include/prolog_after.php:110
+#5: require(string)
+	/home/bitrix/www/bitrix/modules/main/include/prolog.php:11
+----------

@@ -156,7 +156,7 @@ Loc::loadLanguageFile(__FILE__);
                         <h3 class="h5 text-white fw-bold mb-3"><?=Loc::getMessage('CONTACT_US');?></h3>
                         <ul>
                             <div class="d-sm-block d-flex justify-content-between flex-wrap">
-                                <li class="mb-2">
+                                <li class="mb-2" style="text-align: left;">
                                     <p class="text-gray fs-6 mb-0 text-start"><?=Loc::getMessage('PHONE_NUMBER_1');?></p>
                                     <?$APPLICATION->IncludeComponent(
                                         "bitrix:main.include", 
@@ -170,7 +170,7 @@ Loc::loadLanguageFile(__FILE__);
                                             "PATH" => "/include/chinese_phone_number.php"
                                         ),
                                         false
-                                    );?>
+                                    );?><br>
                                     <?$APPLICATION->IncludeComponent(
                                         "bitrix:main.include", 
                                         ".default", 
@@ -238,11 +238,19 @@ Loc::loadLanguageFile(__FILE__);
             </div>
         </div>
         <div class="footer__bottom py-sm-6 py-2 ">
-            <div class="container px-xxl-10 d-flex justify-content-evenly justify-content-sm-between  align-items-center">
+            <div class="container px-xxl-10 <?php echo $isMobile ? 'footer-in-line-links' : 'd-flex';?> justify-content-evenly justify-content-sm-between  align-items-center">
                 <!-- <a href="/">
-                    <img src="<?=SITE_TEMPLATE_PATH;?>/img/footer-logo.svg" alt="">
+                    <img src="<?//=SITE_TEMPLATE_PATH;?>/img/footer-logo.svg" alt="">
                 </a> -->
-                <span class="text-white">
+                <?php if ($isMobile):?>
+                    <a href="/privacy_policy/" class="text-white footer-in-line-links">
+                        <?=Loc::getMessage('PRIVACY_POLITICS');?>
+                    </a><br>
+                    <a href="/personal_data_processing/" class="text-white footer-in-line-links">
+                        <?=Loc::getMessage('PERSONAL_DATA_PROCESSING');?>
+                    </a><br><br>
+                <?php endif;?>
+                <span class="text-white <?php echo $isMobile ? 'footer-in-line-links' : '';?>">
                  <?php
                     $APPLICATION->IncludeComponent(
                         "bitrix:main.include", 
@@ -259,14 +267,14 @@ Loc::loadLanguageFile(__FILE__);
                     );
                     ?>
                 </span>
-                <a href="/privacy_policy/" class="text-white">
-                    <?=Loc::getMessage('PRIVACY_POLITICS');?>
-                </a>
-                <a href="/personal_data_processing/" class="text-white">
-                    <?=Loc::getMessage('PERSONAL_DATA_PROCESSING');?>
-                </a>
-
-               
+                <?php if (!$isMobile):?>
+                    <a href="/privacy_policy/" class="text-white">
+                        <?=Loc::getMessage('PRIVACY_POLITICS');?>
+                    </a>
+                    <a href="/personal_data_processing/" class="text-white">
+                        <?=Loc::getMessage('PERSONAL_DATA_PROCESSING');?>
+                    </a>
+                <?php endif;?>
             </div>
         </div>
     </footer>

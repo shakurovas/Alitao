@@ -46,14 +46,14 @@ if (isset($_POST['name']) && !empty($_POST['name']) && isset($_POST['contact']) 
 
         // отсылаем администратору письмо на почту
         $arEventFields = array(
-            'USER_TO' => COption::GetOptionString('main', 'email_from', 'shakurovas@bk.ru'),  // дефолтный email из настроек
+            'EMAIL_TO' => COption::GetOptionString('main', 'email_from', 'alitaobao00@mail.ru'),  // дефолтный email из настроек
             "NAME" => $_POST['name'],
             "CONTACT" => $_POST['contact'],
-            "QUESTION" => $_POST['question'],
-            'SUBJECT' => 'Новый вопрос'
+            "QUESTION" => $_POST['question']
         );
         
-        CEvent::Send('NEW_QUESTION', 's1', $arEventFields, 'N');
+        // \CEvent::Send('NEW_QUESTION', 's1', $arEventFields, 'N');
+        CEvent::SendImmediate('NEW_QUESTION', 's1', $arEventFields, 'N', 52);
 
         // выводим информацию пользователю о том, что всё прошло вспешно:)
         echo json_encode(

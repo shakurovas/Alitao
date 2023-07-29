@@ -169,14 +169,14 @@ while ($row = $res->fetch()) {
                         <div class="pt-7 pb-5">
                             <a href="<?php echo $isMobile ? '/order/mobile_add_edit_order.php' : '/order/make_order_step_1.php';?>" class="btn btn-primary w-100 w-lg-auto px-10"><?=Loc::getMessage('NEW_ORDER');?></a>
                         </div>
-						<?php if ($count):?>
+						<!-- <?php //if ($count):?>
 							<div class="form-check d-flex align-items-center text-dark">
 								<input class="form-check-input me-2" type="checkbox" value="archive-orders" id="archive-orders" >
 								<label class="form-check-label fs-5" for="archive-orders">
-									<?=Loc::getMessage('SHOW_ORDERS_FROM_ARCHIVE');?>
+									<?//=Loc::getMessage('SHOW_ORDERS_FROM_ARCHIVE');?>
 								</label>
 							</div>
-                        <?php endif;?>
+                        <?php //endif;?> -->
                     </div>
                 </section>
             </div>

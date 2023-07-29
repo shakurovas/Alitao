@@ -13,9 +13,18 @@ Loc::loadMessages(__FILE__);
 session_start();
 
 // echo '<pre>';
-// print_r($_SESSION['users_info']);
+// print_r($_SESSION);
 // echo '</pre>';
 
+// $propertyEnums = CIBlockPropertyEnum::GetList(Array("DEF" => "DESC", "SORT" => "ASC"), Array("IBLOCK_ID" => $ordersIblockId, "CODE" => 'DELIVERY_METHOD'));
+// while($enumFields = $propertyEnums->GetNext())
+// {
+//     $orderEnumFields['DELIVERY_METHOD'][$enumFields["VALUE"]] = $enumFields["ID"];
+// }
+
+// echo '<pre>';
+// print_r($orderEnumFields['DELIVERY_METHOD']);
+// echo '</pre>';
 ?>
 
 <main>
@@ -40,7 +49,7 @@ session_start();
                 </div>
             </div>
 
-            <form class="row text-dark fs-5">
+            <form class="row text-dark fs-5" action="/order/my_orders.php">
                 
                 <div class="col-12 mb-6  mb-lg-0 col-lg-5 text-dark">
                     
