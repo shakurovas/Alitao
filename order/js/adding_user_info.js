@@ -47,6 +47,12 @@ continueBtnStep2.addEventListener('click', function(event) {
     else if (typedelivery2.checked) var delivery_type = 'Быстрая авто';
     else if (typedelivery3.checked) var delivery_type = 'Авто';
 
+    if (insurance_included.checked) {
+        var insuranceIncludedValue = 1;
+      } else {
+        var insuranceIncludedValue = 0;
+    } 
+
     if (full_name.value && region.value && city.value && address.value && zipindex.value && phone.value && email.value && delivery_type) {
         dataToSend = {
             full_name: full_name.value,
@@ -57,9 +63,8 @@ continueBtnStep2.addEventListener('click', function(event) {
             phone: phone.value,
             email: email.value,
             delivery_type: delivery_type,
-            insurance_included: insurance_included.checked
+            insurance_included: insuranceIncludedValue
         }
-        console.log(dataToSend);
         
         $.ajax( {
             url: '/order/ajax/ajax_add_user_info.php',

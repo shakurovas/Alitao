@@ -10,8 +10,12 @@ Asset::getInstance()->addJs('/order/js/adding_goods.js');
 Loc::loadMessages(__FILE__);
 
 session_start();
+echo '<pre>';
+var_dump($_SESSION['cart']);
+echo '</pre>';
+
 // echo '<pre>';
-// var_dump($_SESSION['cart']);
+// var_dump($_FILES);
 // echo '</pre>';
 // unset($_SESSION['cart']);
 ?>

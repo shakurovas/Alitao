@@ -590,7 +590,7 @@ $isMobile = preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|f
                                     <div class="col-6 mb-4">
                                         <label class="text-dark fs-5 mb-1" for="product-name"><?=Loc::getMessage('COST');?> ¥</label>
                                         <div >
-                                            <input type="tel" name="product_price" id="product-price" class="form-control py-2"  placeholder="<?=Loc::getMessage('OF_GOOD');?>" data-cross-field="product_qty" data-calc="data-price-calc">
+                                            <input type="number" name="product_price" id="product-price" class="form-control py-2"  placeholder="<?=Loc::getMessage('OF_GOOD');?>" data-cross-field="product_qty" data-calc="data-price-calc">
                                         </div>
                                         
                                     </div>
@@ -604,7 +604,7 @@ $isMobile = preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|f
                                     <div class="col-6">
                                         <label class="text-dark fs-5 mb-1" for="delivery-price"><?=Loc::getMessage('DELIVERY');?>  ¥</label>
                                         <div >
-                                            <input type="tel" name="delivery_price" id="delivery-price" class="form-control py-2"  placeholder="<?=Loc::getMessage('THROUGH_CHINA');?>" data-calc="data-price-delivery">
+                                            <input type="number" name="delivery_price" id="delivery-price" class="form-control py-2"  placeholder="<?=Loc::getMessage('THROUGH_CHINA');?>" data-calc="data-price-delivery">
                                         </div>
                                         
                                     </div>
@@ -676,13 +676,13 @@ $isMobile = preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|f
 
 
                             <div class="products-photo-grid flex-grow-1">
-                                <div class="products-photo-grid__item">
-                                    <img src="<?=SITE_TEMPLATE_PATH;?>/img/products/1.jpg" alt="">
+                                <!-- <div class="products-photo-grid__item">
+                                    <img src="<?//=SITE_TEMPLATE_PATH;?>/img/products/1.jpg" alt="">
 
                                     <div class="products-photo-grid__item-remove">
-                                        <img src="<?=SITE_TEMPLATE_PATH;?>/img/icons/remove-product.svg" alt="">
+                                        <img src="<?//=SITE_TEMPLATE_PATH;?>/img/icons/remove-product.svg" alt="">
                                     </div>
-                                </div>
+                                </div> -->
 
                             
                             </div>

@@ -81,12 +81,17 @@ foreach ($_SESSION['cart'] as $link => $props) {
     $orderContentString .= Loc::getMessage('COLOUR') . ': ' . $props['colour'] . '<br>';
     $orderContentString .= Loc::getMessage('SIZE') . ': ' . $props['size'] . '<br>';
     $orderContentString .= Loc::getMessage('DELIVERY_THROUGH_CHINA') . '</b>: ' . $props['delivery_through_china'] . ' ¥<br>';
-    if ($props['photo_report_is_needed']) $needed = Loc::getMessage('YES');
-    else $needed = Loc::getMessage('NO');
+    if ($props['photo_report_is_needed']) {
+        $needed = Loc::getMessage('YES');
+        $servicesCost = 5;
+    } else {
+        $needed = Loc::getMessage('NO');
+        $servicesCost = 0;
+    }
     $orderContentString .= Loc::getMessage('PHOTO_REPORT_IS_NEEDED') . ': ' . $needed . '<br><br>';
 
     // стоимость всех товаров с доставкой по Китаю
-    $totalSum += $props['price'] * $props['quantity'] + $props['delivery_through_china'];
+    $totalSum += $props['price'] * $props['quantity'] + $props['delivery_through_china'] + $servicesCost;
 
     // файлы для заполнения поля с картинками в инфоблоке и отправки в письме, используется последним аргументов в CEvent::SendImmediate()
     $arrPhotoFields = [];
@@ -98,6 +103,12 @@ foreach ($_SESSION['cart'] as $link => $props) {
     }
 }
 
+// определяем комиссию (до 5000 включительно - 5%, свыше - 3%)
+if ($totalSum <= 5000) {
+    $comission = 5;
+} else {
+    $comission = 3;
+}
 
 // добавляем новый элемент в инфоблок с заказами
 $elemProps = array(
@@ -106,12 +117,13 @@ $elemProps = array(
     "IS_INSURED" => $isInsured,
     "DELIVERY_METHOD" => $orderEnumFields['DELIVERY_METHOD'][$_SESSION['users_info']['delivery_type']],
     "NOTES" => $_SESSION['order_comment'],
-    // "DELIVERY_COST" => '',
     "ADDRESS" => $_SESSION['users_info']['zipindex'] . ', ' . $_SESSION['users_info']['region'] . ', ' . $_SESSION['users_info']['city'] . ', ' . $_SESSION['users_info']['address'],
     "PHONE" => $_SESSION['users_info']['phone'],
     "EMAIL" => $_SESSION['users_info']['email'],
     "STATUS" => $orderEnumFields['STATUS'][Loc::getMessage('NOT_PAID')],
-    "GOODS_AND_DELIVERY_THROUGH_CHINA_COST" => $totalSum,
+    "GOODS_AND_DELIVERY_THROUGH_CHINA_COST_YUAN" => $totalSum,
+    "GOODS_AND_DELIVERY_THROUGH_CHINA_COST_RUB" => $totalSum * $_SESSION['cnyRate'],
+    "COMISSION" => $comission,
     "PICTURES" => $arrPhotoFields
 );
 
@@ -121,8 +133,7 @@ $elArray = Array(
     "IBLOCK_ID" => $ordersIblockId,
     "PROPERTY_VALUES" => $elemProps,
     "NAME" => 'Новый заказ',
-    "ACTIVE" => "Y",
-    // "MODIFIED_BY" => 1,
+    "ACTIVE" => "Y"
 );
 
 
@@ -142,14 +153,23 @@ if ($elemId = $el->Add($elArray)) {
         "ADDRESS" => $_SESSION['users_info']['zipindex'] . ', ' . $_SESSION['users_info']['region'] . ', ' . $_SESSION['users_info']['city'] . ', ' . $_SESSION['users_info']['address'],
         "PHONE" => $_SESSION['users_info']['phone'],
         "EMAIL" => $_SESSION['users_info']['email'],
-        "TOTAL_SUM" => $totalSum
+        "TOTAL_SUM_YUAN" => $totalSum,
+        "TOTAL_SUM_RUB" => $totalSum * $_SESSION['cnyRate']
     );
 
     // \CEvent::Send('NEW_ORDER_WAS_CREATED', 's1', $arEventFields, 'N');
     CEvent::SendImmediate('NEW_ORDER_WAS_CREATED', 's1', $arEventFields, 'N', 53, $files);
 }
 
-// echo json_encode($_SESSION['order_comment']);
+
+// удаляем картини из временного хранилища
+foreach ($_SESSION['cart'] as $key => $props) {
+    foreach ($props['photo'] as $file){
+        unlink('/upload/users_pics/' . $file['name']);  // когда сохранили фото, удаляем из временного хранилища
+    }
+}
+
+// очищаем корзину
 unset($_SESSION['cart']);
 unset($_SESSION['users_info']);
 unset($_SESSION['order_comment']);

@@ -19,7 +19,7 @@ if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем доба�
     
     $goodsPictures = [];  // массив с картинками
     if (!empty($_FILES)) {  // если загрузили картинки
-
+        // echo json_encode($_FILES);
         // преобразуем массив $_FILES к удобному для использования виду
         $files = array();
         $diff = count($_FILES['file']) - count($_FILES['file'], COUNT_RECURSIVE);
@@ -38,7 +38,7 @@ if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем доба�
                 // проверяем расширение (что это картинка):
                 if (strpos($props['type'], 'image') !== false){
                     // закачиваем файл в /upload/users_pics
-                    $name = $props['name'];
+                    $name = str_replace(' ', '_', $props['name']);
                     $uploadsDir = $_SERVER['DOCUMENT_ROOT'].'/upload/users_pics';
                     $isMoved = move_uploaded_file($props['tmp_name'], "$uploadsDir/$name");
                     if ($isMoved){
@@ -69,23 +69,22 @@ if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем доба�
             }
         } 
     }
+    
     // если до этого уже были загружены картинки (т. к. этот аякс используется и для изменения данных о товаре),
     // то добавим созданныый массив картинок к уже имеющимся
     if (isset($_SESSION['cart'][$_POST['link']]) && !empty($_SESSION['cart'][$_POST['link']]['photo'])) {
         $goodsPictures = array_merge($_SESSION['cart'][$_POST['link']]['photo'], $goodsPictures);
-    } else {
-        $goodsPictures = $_SESSION['cart'][$_POST['link']]['photo'];
     }
-//     echo (json_encode($goodsPictures));
+    // echo (json_encode($goodsPictures));
 // }
     // составляем содержимое div'а с товарами заказа (id="goods-list")
     $goodsString = '';
 
     // если товаров ещё нет в коризне, то в строку включаем сам этот div,
     // а если товары уже есть, значит и div этот уже есть и новый не добавляем
-    // if (!count($_SESSION['cart'])) {
-    //     $goodsString .= '<div class="order-list py-4 py-lg-9" id="goods-list">';
-    // }
+    if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
+        $goodsString .= '<div class="order-list py-4 py-lg-9" id="goods-list">';
+    }
 
     // добавляем товар в коризну
     $_SESSION['cart'][$_POST['link']] = [
@@ -255,11 +254,11 @@ if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем доба�
     // }
 }
 
-// echo json_encode([
-//     'goods_string' => $goodsString,
-//     'buttons_string' => $buttonsString
-// ]);
-echo json_encode(['cart' => $_SESSION['cart']]);
+echo json_encode([
+    'goods_string' => $goodsString,
+    'buttons_string' => $buttonsString
+]);
+// echo json_encode(['cart' => $_SESSION['cart']]);
 // unset($_SESSION['cart']);
 
 

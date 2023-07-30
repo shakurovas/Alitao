@@ -582,7 +582,7 @@ if ( widgetIncs.length &&  widgetDecs.length ){
 
 
 const moOrderRemoveBtns = document.querySelectorAll('.mo-order__remove');
-const moOrderEditBtns = document.querySelectorAll('.mo-order__edit');
+let moOrderEditBtns = document.querySelectorAll('.mo-order__edit');
 
 if ( moOrderRemoveBtns.length && moOrderEditBtns.length){
     for (let i = 0; i < moOrderRemoveBtns.length; i++) {
@@ -652,20 +652,25 @@ if ( moOrderRemoveBtns.length && moOrderEditBtns.length){
             sendValueInInput(parent, "product_comment", 'textarea');
             sendValueInInput(parent, "delivery_price", );
             sendValueInInput(parent, "product_price");
-            
-            // узнаём значение чекбокса с доп. услугой (заполнен/не заполнен)
+
+            console.log(document.querySelector('.products-photo-grid'));
+            // узнаём значение чекбокса с доп. услугой (заполнен/не заполнен) и загружаем фотки, если они имеются
             $.ajax( {
-                url: '/order/ajax/ajax_checkbox_value.php',
+                url: '/order/ajax/ajax_checkbox_and_photos.php',
                 method: 'POST',
                 dataType: 'html',
                 data: {link: parent.querySelector('a').href},
                 success: function(data) {
                     console.log(data);
-                    console.log(typeof data);
-                    if (Number(data)) {
+                    data = JSON.parse(data);
+                    if (Number(data['checkbox'])) {
                         document.querySelector('#photoreport').checked = true;
                     } else {
                         document.querySelector('#photoreport').checked = false;
+                    }
+
+                    if (typeof data['photos'] !== 'undefined' && data['photos'] != null) {
+                        document.querySelector('.products-photo-grid').innerHTML = data['photos'];
                     }
                 }
             });
@@ -695,10 +700,15 @@ if ( moOrderRemoveBtns.length && moOrderEditBtns.length){
             
             let qty = parent.querySelector('input[name="product_qty"]').value;
             document.querySelector('.mo-modal input[name="product_qty"]').value = qty;
+
+
+
+          
         })
     })
         
 }
+
 
 let btnAddProduct = document.querySelectorAll('.btn-add-product-before-goods');
 // console.log(btnAddProduct);
@@ -717,21 +727,18 @@ if ( btnAddProduct.length ) {
 
 
 let removeUploadImgBtn = document.querySelectorAll('.products-photo-grid__item-remove');
-let  productPhotoGrid =  document.querySelector('.products-photo-grid');
+let productPhotoGrid =  document.querySelector('.products-photo-grid');
 
 
+// if ( productPhotoGrid ){
 
-if ( productPhotoGrid ){
-
-    productPhotoGrid.addEventListener('click', function(event){
-        if (event.target.classList.contains('products-photo-grid__item-remove') || event.target.closest('.products-photo-grid__item-remove')  ){
-            let productImgItem = event.target.closest('.products-photo-grid__item');
-            productImgItem.remove();            
-        }
-    })
-
-    
-}
+//     productPhotoGrid.addEventListener('click', function(event){
+//         if (event.target.classList.contains('products-photo-grid__item-remove') || event.target.closest('.products-photo-grid__item-remove')  ){
+//             let productImgItem = event.target.closest('.products-photo-grid__item');
+//             productImgItem.remove();            
+//         }
+//     })
+// }
 
 const inpProductPhoto = document.querySelector('input[name="files[]"');
 if ( inpProductPhoto ){
@@ -747,33 +754,39 @@ if ( inpProductPhoto ){
             
             return;
         }
+
+        var files = event.target.files; 
+        for (var i = 0; i < files.length; i++) {
+            var fileReader = new FileReader();
+            fileReader.onload = (function(theFile) {
+                return function(e) {
+                    const imgContainer = document.createElement('div');
+                    imgContainer.classList.add('products-photo-grid__item');
+                    productPhotoGrid.append(imgContainer);
+
+                    const removeBtn =  document.createElement('div');
+                    removeBtn.classList.add('products-photo-grid__item-remove');
+
+                    const removeBtnCross = document.createElement('img');
+                    removeBtnCross.src = "/local/templates/alitao/img/icons/remove-product.svg";
+                    removeBtn.append(removeBtnCross);
+                    imgContainer.append(removeBtn);
+
+                    const img  = document.createElement('img');
+                    img.src = e.target.result;
+                    imgContainer.append(img);
+                }
+            })(files[i]);
     
-        var fileReader = new FileReader();
-        fileReader.onload = function() {
-            //img1.src = fileReader.result;
-
-            const imgContainer = document.createElement('div');
-            imgContainer.classList.add('products-photo-grid__item');
-            productPhotoGrid.append(imgContainer);
-
-
-            const removeBtn =  document.createElement('div');
-            removeBtn.classList.add('products-photo-grid__item-remove');
-
-            const removeBtnCross = document.createElement('img');
-            removeBtnCross.src = "assets/img/icons/remove-product.svg";
-            removeBtn.append(removeBtnCross);
-            imgContainer.append(removeBtn);
-
-
-            const img  = document.createElement('img');
-            img.src = fileReader.result;
-            imgContainer.append(img);
+        // for (let i = 0; i < target.files.length; i++) {
+            fileReader.readAsDataURL(files[i]);
+        // }
         }
-    
-        fileReader.readAsDataURL(target.files[0]);
+
+        
     }
 }
+
 
 //маски телефонов
 const phoneMasks = document.querySelectorAll("input[name='phone']");

@@ -120,7 +120,7 @@ if (addGoodBtn) {
     //     photos: form_data,
     //     photoreport: photoreport
     // }
-    console.log(form_data);
+
 
     $.ajax( {
       url: '/order/ajax/ajax_add_good.php',
@@ -151,7 +151,9 @@ if (addGoodBtn) {
           data = JSON.parse(data);
           console.log(data['goods_string']);
           // console.log(data['buttons_string']);
-          goodsList.innerHTML = data['goods_string'];
+          if (typeof data['goods_string'] !== 'undefined' && data['goods_string'] != null && data['goods_string'] != '') {
+            goodsList.innerHTML = data['goods_string'];
+          }
 
           if (typeof data['buttons_string'] !== 'undefined' && data['buttons_string'] != null && data['buttons_string'] != '') {
             goodsList.insertAdjacentHTML( 'afterEnd', data['buttons_string']);

@@ -16,6 +16,25 @@ session_start();
 // print_r($_SESSION);
 // echo '</pre>';
 
+$totalSumYuan = 0;
+$totalSumRub = 0;
+foreach ($_SESSION['cart'] as $key => $props) {
+    if ($props['photo_report_is_needed']) 
+        $servicesCost = 5.00;
+    else {
+        $servicesCost = 0.00;
+    }
+    $totalSumYuan += (float)$props['price'] * (float)$props['quantity'] + (float)$props['delivery_through_china'] + $servicesCost;
+}
+if ($totalSumYuan <= 5000) {
+    $totalSumYuan = $totalSumYuan * 1.05;  // комиссия 5%
+} else if ($totalSumYuan > 5000) {
+    $totalSumYuan = $totalSumYuan * 1.03;  // комиссия 3%
+}
+$totalSumYuan = number_format($totalSumYuan, 2, '.', ' ');
+$totalSumRub = number_format($_SESSION['cnyRate'] * $totalSumYuan, 2, '.', ' ');
+
+
 // $propertyEnums = CIBlockPropertyEnum::GetList(Array("DEF" => "DESC", "SORT" => "ASC"), Array("IBLOCK_ID" => $ordersIblockId, "CODE" => 'DELIVERY_METHOD'));
 // while($enumFields = $propertyEnums->GetNext())
 // {
@@ -101,7 +120,7 @@ session_start();
                 <div class="col-12 mt-7">
                     <div class="d-flex justify-content-center mb-6">
                         <div class="order__amount fs-lg-2 text-dark">
-                            <span class="order__amount-caption"><?=Loc::getMessage('TOTAL_WITH_COMMISSION');?>:</span> <span class="text-success order__amount-value d-block d-lg-inline text-center">2 244,37 ₽</span>
+                            <span class="order__amount-caption"><?=Loc::getMessage('TOTAL_WITH_COMMISSION');?>:</span> <span class="text-success order__amount-value d-block d-lg-inline text-center"><?=$totalSumRub;?> ₽</span>
                         </div>
                     </div>
                     <p class="text-center mb-4 d-none d-lg-block"><?=Loc::getMessage('CHECK_INFO');?>.</p>
