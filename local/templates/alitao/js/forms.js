@@ -1,3 +1,7 @@
+let isMobilePage = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent);
+// 
+
+
 let resetPasswordModal;
 if ( document.getElementById('resetPassword') ){
     resetPasswordModal = new bootstrap.Modal(document.getElementById('resetPassword'), {
@@ -292,7 +296,7 @@ if ( deskResetPasswordForm ){
     deskResetPasswordForm.addEventListener('submit', function(event){
         event.preventDefault();
         // если пароль и повторение пароля совпадают
-        if ( this.password.value ===  this.retype.value){
+        if ( this.password.value === this.retype.value){
 
             let checkword = deskResetPasswordForm.getElementsByTagName('input')[1].value;
             let data_body = 'login=' + this.login.value + "&password=" + this.password.value + "&checkword=" + checkword;
@@ -307,12 +311,26 @@ if ( deskResetPasswordForm ){
             })
             .then(function (response) {
                 response = JSON.parse(response);
-    
+                console.log(response);
                 for (key in response) {
                     let responseLine = response[key];
                     let fieldWrap = deskResetPasswordForm.querySelector('[data-field="'+key+'"]');
                     let state = responseLine["state"];
                     let message = responseLine["message"];
+
+                    // если уже есть выведен текст с каким-либо сообщением, уберём его и выделение инпутов зелёным/красным
+                    let textResponse = deskResetPasswordForm.querySelector('.text-response');
+                    let passwordTextInput = deskResetPasswordForm.querySelector('#recovery-password');
+                    let passwordRetypeTextInput = deskResetPasswordForm.querySelector('#recovery-password-2');
+                    if (typeof textResponse !== 'undefined' && textResponse != null)
+                        deskResetPasswordForm.querySelector('.text-response').remove();
+
+                    if (typeof passwordTextInput !== 'undefined' && passwordTextInput != null && typeof passwordRetypeTextInput != 'undefined' && passwordRetypeTextInput != null) {
+                        passwordTextInput.style.border = '#959595 1px solid';
+                        passwordRetypeTextInput.style.border = '#959595 1px solid';
+                        deskResetPasswordForm.querySelector('[data-field="password"]').classList.remove('success');
+                        deskResetPasswordForm.querySelector('[data-field="retype-password"]').classList.remove('error');
+                    }
 
                     if ( !fieldWrap.classList.contains(state) ){
                         fieldWrap.classList.add(state);
@@ -326,7 +344,21 @@ if ( deskResetPasswordForm ){
         // если пароль и повторение пароля не совпадают
         } else {
             let fieldWrap = deskResetPasswordForm.querySelector('[data-field="retype-password"]');
-                
+
+            // если уже есть выведен текст с каким-либо сообщением, уберём его и выделение инпутов зелёным/красным
+            let textResponse = deskResetPasswordForm.querySelector('.text-response');
+            let passwordTextInput = deskResetPasswordForm.querySelector('#recovery-password');
+            let passwordRetypeTextInput = deskResetPasswordForm.querySelector('#recovery-password-2');
+
+            if (typeof textResponse !== 'undefined' && textResponse != null)
+                deskResetPasswordForm.querySelector('.text-response').remove();
+
+            if (typeof passwordTextInput !== 'undefined' && passwordTextInput != null && typeof passwordRetypeTextInput != 'undefined' && passwordRetypeTextInput != null) {
+                passwordTextInput.style.border = '#959595 1px solid';
+                passwordRetypeTextInput.style.border = '#959595 1px solid';
+                deskResetPasswordForm.querySelector('[data-field="password"]').classList.remove('success');
+                deskResetPasswordForm.querySelector('[data-field="retype-password"]').classList.remove('error');
+            }
                 
             if ( !fieldWrap.classList.contains('error') ){
                 fieldWrap.classList.add('error');
@@ -515,9 +547,9 @@ if ( bs_dropdownItems.length ){
 
     })
 }
-document.addEventListener('changeSelectIndex', function(event){
-    alert("alert в качестве подсказки.\r\n Значение:" + event.target.innerHTML + "\r\n код: 409 строка forms.js" + "\r\n \r\n срабатывает аналогично onChange стандартного select");    
-})
+// document.addEventListener('changeSelectIndex', function(event){
+//     alert("alert в качестве подсказки.\r\n Значение:" + event.target.innerHTML + "\r\n код: 409 строка forms.js" + "\r\n \r\n срабатывает аналогично onChange стандартного select");    
+// })
 
 
 let customTextAreas = document.querySelectorAll('.form-messages__text');
@@ -631,13 +663,18 @@ if ( moOrderRemoveBtns.length && moOrderEditBtns.length){
         const productValue = parent.querySelector('[data-target-field = "' + fieldName + '"  ]').innerHTML;            
         const productInput = document.querySelector('[name = "' + fieldName + '" ]'); 
         
-        if (    fieldType === 'textarea' ){
-            productInput.innerHTML = productValue;
-        } else{
-            
-            productInput.value = productValue;
-            
+        if (fieldName == 'product_price') {
+            productInput.value = (Number(parent.querySelector('[data-target-field = "product_price"]').innerHTML) / Number(parent.querySelector('.product-qty-list').value)).toFixed(2); 
+        } else {
+            if (    fieldType === 'textarea' ){
+                productInput.innerHTML = productValue;
+            } else {
+
+                productInput.value = productValue;
+                
+            }
         }
+       
         
     }
 
@@ -645,69 +682,139 @@ if ( moOrderRemoveBtns.length && moOrderEditBtns.length){
         btn.addEventListener('click', function(){            
             const parent = this.closest('.mo-order');
             
-            document.querySelector('[name = "product_link"]').value = parent.querySelector('a').href; 
-            sendValueInInput(parent, "product_name");
-            sendValueInInput(parent, "product_color");
-            sendValueInInput(parent, "product_size");
-            sendValueInInput(parent, "product_comment", 'textarea');
-            sendValueInInput(parent, "delivery_price", );
-            sendValueInInput(parent, "product_price");
+            if (!isMobilePage) {
+                //     window.location.href = '/order/mobile_add_edit_order.php?edit=y';
+                //     // document.querySelector('[data-target-field = "product_name"]').href = parent.querySelector('a').href; 
+                // } else {
+                    document.querySelector('[name = "product_link"]').value = parent.querySelector('a').href; 
+                // }
+                
+                sendValueInInput(parent, "product_name");
+                sendValueInInput(parent, "product_color");
+                sendValueInInput(parent, "product_size");
+                sendValueInInput(parent, "product_comment", 'textarea');
+                sendValueInInput(parent, "delivery_price", );
+                sendValueInInput(parent, "product_price");
+            
 
-            console.log(document.querySelector('.products-photo-grid'));
-            // узнаём значение чекбокса с доп. услугой (заполнен/не заполнен) и загружаем фотки, если они имеются
-            $.ajax( {
-                url: '/order/ajax/ajax_checkbox_and_photos.php',
-                method: 'POST',
-                dataType: 'html',
-                data: {link: parent.querySelector('a').href},
-                success: function(data) {
-                    console.log(data);
-                    data = JSON.parse(data);
-                    if (Number(data['checkbox'])) {
-                        document.querySelector('#photoreport').checked = true;
-                    } else {
-                        document.querySelector('#photoreport').checked = false;
-                    }
+                // console.log(document.querySelector('.products-photo-grid'));
+                // узнаём значение чекбокса с доп. услугой (заполнен/не заполнен) и загружаем фотки, если они имеются
+                $.ajax( {
+                    url: '/order/ajax/ajax_checkbox_and_photos.php',
+                    method: 'POST',
+                    dataType: 'html',
+                    data: {link: parent.querySelector('a').href},
+                    success: function(data) {
+                        console.log(data);
+                        data = JSON.parse(data);
+                        if (Number(data['checkbox'])) {
+                            document.querySelector('#photoreport').checked = true;
+                        } else {
+                            document.querySelector('#photoreport').checked = false;
+                        }
 
-                    if (typeof data['photos'] !== 'undefined' && data['photos'] != null) {
-                        document.querySelector('.products-photo-grid').innerHTML = data['photos'];
+                        if (typeof data['photos'] !== 'undefined' && data['photos'] != null) {
+                            document.querySelector('.products-photo-grid').innerHTML = data['photos'];
+                        }
                     }
+                });
+            }
+
+            if (!isMobilePage) {
+                if (typeof document.querySelector('#product-cost-calc') !== 'undefined' && document.querySelector('#product-cost-calc') != null) {
+                    document.querySelector('#product-cost-calc').innerHTML = parent.querySelector('[data-target-field="product_price"]').innerHTML;
                 }
-            });
-
-
-            document.querySelector('#product-cost-calc').innerHTML = parent.querySelector('[data-target-field="product_price"]').innerHTML;
-            document.querySelector('#delivery-cost-calc').innerHTML = parent.querySelector('[data-target-field="delivery_price"]').innerHTML;
-            
-            let servicesValueDesktop = parent.querySelector('.services-cost-yuan-list');
-            let servicesValueMobile = parent.querySelector('.services-cost-yuan-list-none');
-            // console.log(servicesValueDesktop);
-            if (typeof servicesValueDesktop.innerHTML !== 'undefined' && servicesValueDesktop.innerHTML != null) {
-                document.querySelector('#services-cost-calc').innerHTML = servicesValueDesktop.innerHTML.replace(/\s/g, "").slice(1);
-            } else if (typeof servicesValueMobile !== 'undefined' && servicesValueMobile != null) {
-                document.querySelector('#services-cost-calc').innerHTML = servicesValueMobile.innerHTML.replace(/\s/g, "").slice(1);
+               
+                if (typeof document.querySelector('#delivery-cost-calc') !== 'undefined' && document.querySelector('#delivery-cost-calc') != null) {
+                    document.querySelector('#delivery-cost-calc').innerHTML = parent.querySelector('[data-target-field="delivery_price"]').innerHTML;
+                }
+                
+                let servicesValueDesktop = parent.querySelector('.services-cost-yuan-list');
+                let servicesValueMobile = parent.querySelector('.services-cost-yuan-list-none');
+                // console.log(servicesValueDesktop);
+                if (typeof servicesValueDesktop.innerHTML !== 'undefined' && servicesValueDesktop.innerHTML != null && typeof document.querySelector('#services-cost-calc') !== 'undefined' && document.querySelector('#services-cost-calc') != null) {
+                    document.querySelector('#services-cost-calc').innerHTML = servicesValueDesktop.innerHTML.replace(/\s/g, "").slice(1);
+                } else if (typeof servicesValueMobile !== 'undefined' && servicesValueMobile != null) {
+                    document.querySelector('#services-cost-calc').innerHTML = servicesValueMobile.innerHTML.replace(/\s/g, "").slice(1);
+                }
+    
+    
+                let costValueDesktop = parent.querySelector('.total-cost-yuan-list');
+                let costValueMobile = parent.querySelector('.total-cost-yuan-list-none');
+                if (typeof costValueDesktop.innerHTML !== 'undefined' && costValueDesktop.innerHTML != null && typeof document.querySelector('#total-cost-calc') !== 'undefined' && document.querySelector('#total-cost-calc') != null) {
+                    document.querySelector('#total-cost-calc').innerHTML = costValueDesktop.innerHTML.replace(/\s/g, "").slice(1);
+                } else if (typeof costValueMobile !== 'undefined' && costValueMobile != null && typeof document.querySelector('#total-cost-calc') !== 'undefined' && document.querySelector('#total-cost-calc') != null) {
+                    document.querySelector('#total-cost-calc').innerHTML = costValueMobile.innerHTML.replace(/\s/g, "").slice(1);
+                }
+                
+                
+                let qty = parent.querySelector('input[name="product_qty"]').value;
+                if (typeof qty !== 'undefined' && qty != null && typeof document.querySelector('.mo-modal input[name="product_qty"]') !== 'undefined' && document.querySelector('.mo-modal input[name="product_qty"]') != null)
+                    document.querySelector('.mo-modal input[name="product_qty"]').value = qty;    
+            } else {
+                if (typeof document.querySelector('#product-cost-calc') !== 'undefined' && document.querySelector('#product-cost-calc') != null) {
+                    document.querySelector('#product-cost-calc').innerHTML = document.querySelector("#product-price").value;
+                }
+               
+                if (typeof document.querySelector('#delivery-cost-calc') !== 'undefined' && document.querySelector('#delivery-cost-calc') != null) {
+                    document.querySelector('#delivery-cost-calc').innerHTML = document.querySelector("#delivery-price").value;
+                }
+                
+                // let servicesValueDesktop = parent.querySelector('.services-cost-yuan-list');
+                // let servicesValueMobile = parent.querySelector('.services-cost-yuan-list-none');
+                // console.log(servicesValueDesktop);
+                // if (typeof servicesValueDesktop.innerHTML !== 'undefined' && servicesValueDesktop.innerHTML != null && typeof document.querySelector('#services-cost-calc') !== 'undefined' && document.querySelector('#services-cost-calc') != null) {
+                if (document.querySelector('#photoreport').checked)
+                    document.querySelector('#services-cost-calc').innerHTML = document.querySelector('#product-qty').value * 5;
+                // } else if (typeof servicesValueMobile !== 'undefined' && servicesValueMobile != null) {
+                else document.querySelector('#services-cost-calc').innerHTML = 0;
+                // }
+    
+    
+                // let costValueDesktop = parent.querySelector('.total-cost-yuan-list');
+                // let costValueMobile = parent.querySelector('.total-cost-yuan-list-none');
+                // if (typeof costValueDesktop.innerHTML !== 'undefined' && costValueDesktop.innerHTML != null && typeof document.querySelector('#total-cost-calc') !== 'undefined' && document.querySelector('#total-cost-calc') != null) {
+                document.querySelector('#total-cost-calc').innerHTML = document.querySelector('#services-cost-calc').innerHTML + document.querySelector('#delivery-cost-calc').innerHTML + document.querySelector('#product-cost-calc').innerHTML * document.querySelector('#product-qty').value;
+                // console.log(document.querySelector('#total-cost-calc'));
+                // } else if (typeof costValueMobile !== 'undefined' && costValueMobile != null && typeof document.querySelector('#total-cost-calc') !== 'undefined' && document.querySelector('#total-cost-calc') != null) {
+                    // document.querySelector('#total-cost-calc').innerHTML = costValueMobile.innerHTML.replace(/\s/g, "").slice(1);
+                // }
+                
+                
+                // let qty = parent.querySelector('input[name="product_qty"]').value;
+                // if (typeof qty !== 'undefined' && qty != null && typeof document.querySelector('.mo-modal input[name="product_qty"]') !== 'undefined' && document.querySelector('.mo-modal input[name="product_qty"]') != null)
+                //     document.querySelector('.mo-modal input[name="product_qty"]').value = qty;  
             }
-
-
-            let costValueDesktop = parent.querySelector('.total-cost-yuan-list');
-            let costValueMobile = parent.querySelector('.total-cost-yuan-list-none');
-            if (typeof costValueDesktop.innerHTML !== 'undefined' && costValueDesktop.innerHTML != null) {
-                document.querySelector('#total-cost-calc').innerHTML = costValueDesktop.innerHTML.replace(/\s/g, "").slice(1);
-            } else if (typeof costValueMobile !== 'undefined' && costValueMobile != null) {
-                document.querySelector('#total-cost-calc').innerHTML = costValueMobile.innerHTML.replace(/\s/g, "").slice(1);
-            }
             
-            
-            let qty = parent.querySelector('input[name="product_qty"]').value;
-            document.querySelector('.mo-modal input[name="product_qty"]').value = qty;
-
-
 
           
         })
     })
         
 }
+
+
+if (isMobilePage) {
+    if (typeof document.querySelector('#product-cost-calc') !== 'undefined' && document.querySelector('#product-cost-calc') != null) {
+        document.querySelector('#product-cost-calc').innerHTML = Number(document.querySelector("#product-price").value).toFixed(2);
+    }
+    
+    if (typeof document.querySelector('#delivery-cost-calc') !== 'undefined' && document.querySelector('#delivery-cost-calc') != null) {
+        document.querySelector('#delivery-cost-calc').innerHTML = Number(document.querySelector("#delivery-price").value).toFixed(2);
+    }
+    
+    // let servicesValueDesktop = parent.querySelector('.services-cost-yuan-list');
+    // let servicesValueMobile = parent.querySelector('.services-cost-yuan-list-none');
+    // console.log(servicesValueDesktop);
+    // if (typeof servicesValueDesktop.innerHTML !== 'undefined' && servicesValueDesktop.innerHTML != null && typeof document.querySelector('#services-cost-calc') !== 'undefined' && document.querySelector('#services-cost-calc') != null) {
+    if (document.querySelector('#photoreport').checked)
+        document.querySelector('#services-cost-calc').innerHTML = (Number(document.querySelector('#product-qty').value) * 5).toFixed(2);
+    // } else if (typeof servicesValueMobile !== 'undefined' && servicesValueMobile != null) {
+    else document.querySelector('#services-cost-calc').innerHTML = Number(0.00).toFixed(2);
+
+    document.querySelector('#total-cost-calc').innerHTML = (Number(document.querySelector('#services-cost-calc').innerHTML) + Number(document.querySelector('#delivery-cost-calc').innerHTML) + Number(document.querySelector('#product-cost-calc').innerHTML) * Number(document.querySelector('#product-qty').value)).toFixed(2);
+}
+
 
 
 let btnAddProduct = document.querySelectorAll('.btn-add-product-before-goods');
@@ -718,7 +825,10 @@ if ( btnAddProduct.length ) {
         btn.addEventListener('click', function(){
             const pageInputValue = document.querySelector('[name = "mo-product-link"]').value;                    
             const modalInput = document.querySelector('[name = "product_link"]');
-            modalInput.value = pageInputValue;
+            if (typeof modalInput !== 'undefined' && modalInput != null) {
+                modalInput.value = pageInputValue;
+            }
+            
             // console.log(pageInputValue);
         })
     } )
@@ -739,6 +849,14 @@ let productPhotoGrid =  document.querySelector('.products-photo-grid');
 //         }
 //     })
 // }
+if (removeUploadImgBtn) {
+    for (let i = 0; i < removeUploadImgBtn.length; i++) {
+        removeUploadImgBtn[i].addEventListener('click', function() {
+            console.log(this.closest('.products-photo-grid__item'));
+            this.closest('.products-photo-grid__item').remove();
+        });
+    }
+}
 
 const inpProductPhoto = document.querySelector('input[name="files[]"');
 if ( inpProductPhoto ){
@@ -780,10 +898,21 @@ if ( inpProductPhoto ){
     
         // for (let i = 0; i < target.files.length; i++) {
             fileReader.readAsDataURL(files[i]);
+
+           
         // }
         }
-
-        
+      
+        let removeUploadImgBtns = document.querySelectorAll('.products-photo-grid__item-remove');
+        console.log(removeUploadImgBtns);
+        if (removeUploadImgBtns) {
+            for (let i = 0; i < removeUploadImgBtns.length; i++) {
+                removeUploadImgBtns[i].addEventListener('click', function() {
+                    alert(this.closest('.products-photo-grid__item'));
+                    this.closest('.products-photo-grid__item').remove();
+                });
+            }
+        }
     }
 }
 

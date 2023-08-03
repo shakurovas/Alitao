@@ -7,97 +7,101 @@ use Bitrix\Highloadblock as HL;
 use Bitrix\Main\Type\DateTime;
 
 Loc::loadMessages(__FILE__);
- 
-
-// // получение курса валют
-// CModule::IncludeModule('highloadblock');
-// $entity = HL\HighloadBlockTable::compileEntity('ExchangeRate');
-// $curClass = $entity->getDataClass();
-
-// $obCache = new CPHPCache();
-
-// if($obCache->InitCache(3600, 'cachekey', "/template/"))
-// {
-//    //Если кеш существует, то его результат сразу будет выдан и не надо выполнять код с запросами к БД
-//    $resultCur = $obCache->GetVars();
-// } else {   //Если кеша нет, то выполнится код и сформируется кеш. В дальнейшем будет отдаваться переменная из кеша, а не выполняться этот код
-//     $obCache->StartDataCache();
-
-//     $resultCur = array();
-//     $rsData = $curClass::getList(
-//         array(
-//         "select" => array('*'),
-//         "order" => array('ID' => 'ASC'),
-//         "filter" => array()
-//         )
-//     );
-//     while($arData = $rsData->Fetch()){
-//         $resultCur[$arData["ID"]] = $arData;
-//     }
-
-//    //$arCurSection - передаем в кеш переменную с полученными в коде значениями
-//    $obCache->EndDataCache($resultCur);
-// }
-
-
-// // получили текущие значения курса валют USD-RUB и CNY-RUB
-// $usdRate = $resultCur[1]['UF_MAIN_VALUE']; 
-// $cnyRate = $resultCur[2]['UF_MAIN_VALUE'];
-
-// // получаем текущее время и последнее время обновления данных в таблице, чтобы далее узнать, не позже часа ли они обновлялись
-// $timestampUSD = strtotime($resultCur[1]['UF_CUR_DATE']);
-// $timestampCNY = strtotime($resultCur[2]['UF_CUR_DATE']);
-// $today = time();
-
-// // проверяем, если курс обновлялся больше часа назад, то нужно получить новые данные
-// if (($today - $timestampUSD) > '3600' || ($today - $timestampCNY) > '3600') {
-
-//     // с помощью curl получаем данные с сайта openexchangerates.org
-//     $url = "https://openexchangerates.org/api/latest.json?app_id=7f0e0da3c4374a2186046e391865c1e1";
-//     $curl = curl_init($url);
-//     curl_setopt($curl, CURLOPT_URL, $url);
-//     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-//     $response = curl_exec($curl);
-//     curl_close($curl);
-//     $decodedRates = json_decode($response)->rates;
-
-//     // создаём и заполняем массивы данных для обновления записей в highload-блоке
-//     $arFieldUSD = array();
-//     $arFieldCNY = array();
-
-//     $arFieldUSD['UF_CUR_DATE'] = DateTime::createFromTimestamp(time())->toString();
-//     // т. к. в бесплатной версии api курса валют в качестве базовой валюты доступен только USD, другие валюты считаем через него
-//     $arFieldUSD['UF_MAIN_VALUE'] = round($decodedRates->RUB, 1);
-
-//     $arFieldCNY['UF_CUR_DATE'] = DateTime::createFromTimestamp(time())->toString();
-//     // т. к. в бесплатной версии api курса валют в качестве базовой валюты доступен только USD, другие валюты считаем через него 
-//     $arFieldCNY['UF_MAIN_VALUE'] = round($decodedRates->RUB / $decodedRates->CNY, 1);
-    
-//     // обновляем данные в highload-блоке
-//     $curClass::update(1, $arFieldUSD);
-//     $curClass::update(2, $arFieldCNY);
-
-//     $_SESSION['usdRate'] = round($decodedRates->RUB, 1);
-//     $_SESSION['cnyRate'] = round($decodedRates->RUB / $decodedRates->CNY, 1);
-
-//     //  $APPLICATION->IncludeComponent("bitrix:system.auth.forgotpasswd", "", Array(
-//     //     "REGISTER_URL" => "/",
-//     //     "FORGOT_PASSWORD_URL" => "",
-//     //     "PROFILE_URL" => "/auth/personal.php",
-//     //     "SHOW_ERRORS" => "Y" 
-//     //     )
-//     // );
-// }
 session_start();
 
-$_SESSION['usdRate'] = 90.4;
-$_SESSION['cnyRate'] = 12.6;
+// если страница открыта в мобильной версии
+$isMobile = preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+
+// получение курса валют
+CModule::IncludeModule('highloadblock');
+$entity = HL\HighloadBlockTable::compileEntity('ExchangeRate');
+$curClass = $entity->getDataClass();
+
+$obCache = new CPHPCache();
+
+if($obCache->InitCache(3600, 'cachekey', "/template/"))
+{
+   //Если кеш существует, то его результат сразу будет выдан и не надо выполнять код с запросами к БД
+   $resultCur = $obCache->GetVars();
+} else {   //Если кеша нет, то выполнится код и сформируется кеш. В дальнейшем будет отдаваться переменная из кеша, а не выполняться этот код
+    $obCache->StartDataCache();
+
+    $resultCur = array();
+    $rsData = $curClass::getList(
+        array(
+        "select" => array('*'),
+        "order" => array('ID' => 'ASC'),
+        "filter" => array()
+        )
+    );
+    while($arData = $rsData->Fetch()){
+        $resultCur[$arData["ID"]] = $arData;
+    }
+
+   //$arCurSection - передаем в кеш переменную с полученными в коде значениями
+   $obCache->EndDataCache($resultCur);
+}
+
+
+// получили текущие значения курса валют USD-RUB и CNY-RUB
+$_SESSION['usdRate'] = $resultCur[1]['UF_MAIN_VALUE']; 
+$_SESSION['cnyRate'] = $resultCur[2]['UF_MAIN_VALUE'];
+
+// получаем текущее время и последнее время обновления данных в таблице, чтобы далее узнать, не позже часа ли они обновлялись
+$timestampUSD = strtotime($resultCur[1]['UF_CUR_DATE']);
+$timestampCNY = strtotime($resultCur[2]['UF_CUR_DATE']);
+$today = time();
+// AddMessage2Log('MARWEY');
+// AddMessage2Log($today - $timestampUSD);
+// AddMessage2Log(gettype($today - $timestampCNY));
+// проверяем, если курс обновлялся больше часа назад, то нужно получить новые данные
+if (($today - $timestampUSD) > 3600 || ($today - $timestampCNY) > 3600) {
+
+    // с помощью curl получаем данные с сайта openexchangerates.org
+    $url = "https://openexchangerates.org/api/latest.json?app_id=bd73895d82e44ebeb67cda1004b0abe9";
+    $curl = curl_init($url);
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($curl);
+    curl_close($curl);
+    $decodedRates = json_decode($response)->rates;
+
+    // создаём и заполняем массивы данных для обновления записей в highload-блоке
+    $arFieldUSD = array();
+    $arFieldCNY = array();
+
+    $arFieldUSD['UF_CUR_DATE'] = DateTime::createFromTimestamp(time())->toString();
+    // т. к. в бесплатной версии api курса валют в качестве базовой валюты доступен только USD, другие валюты считаем через него
+    $arFieldUSD['UF_MAIN_VALUE'] = round($decodedRates->RUB, 1);
+
+    $arFieldCNY['UF_CUR_DATE'] = DateTime::createFromTimestamp(time())->toString();
+    // т. к. в бесплатной версии api курса валют в качестве базовой валюты доступен только USD, другие валюты считаем через него 
+    $arFieldCNY['UF_MAIN_VALUE'] = round($decodedRates->RUB / $decodedRates->CNY, 1);
+    
+    // обновляем данные в highload-блоке
+    $curClass::update(1, $arFieldUSD);
+    $curClass::update(2, $arFieldCNY);
+
+    $_SESSION['usdRate'] = round($decodedRates->RUB, 1);
+    $_SESSION['cnyRate'] = round($decodedRates->RUB / $decodedRates->CNY, 1);
+
+    //  $APPLICATION->IncludeComponent("bitrix:system.auth.forgotpasswd", "", Array(
+    //     "REGISTER_URL" => "/",
+    //     "FORGOT_PASSWORD_URL" => "",
+    //     "PROFILE_URL" => "/auth/personal.php",
+    //     "SHOW_ERRORS" => "Y" 
+    //     )
+    // );
+}
+
+
+// $_SESSION['usdRate'] = 90.4;
+// $_SESSION['cnyRate'] = 12.6;
 
 // если страницу открыли с параметрами USER_LOGIN и USER_CHECKWORD - т. е. открыли ссылку с почты для восстановления пароля 
 $isChangePasswordPage = !empty($_GET['USER_LOGIN']) && !empty($_GET['USER_CHECKWORD']);
 
-// если страница открыта в мобильной версии
-$isMobile = preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+
 ?>
 
 <!DOCTYPE html>
@@ -119,13 +123,18 @@ $isMobile = preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|f
     // скрипты
     CJSCore::Init(array('jquery2'));
 
-    Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/js/bootstrap.bundle.min.js");
+    if (!$isMobile && $APPLICATION->GetCurPage() != '/order/make_order_step_1.php') {
+        Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/js/bootstrap.bundle.min.js");
+    } else if (!$isMobile && $APPLICATION->GetCurPage() == '/order/make_order_step_1.php') {
+        Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/js/bootstrap.bundle.min.js");
+    }
+       
     Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/js/swiper-bundle.min.js");
     Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/js/imask.js");
     Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/js/forms.js");
     Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/js/main.js");
     
-    //$APPLICATION->AddHeadString('<script src="//code.jivo.ru/widget/uVIN73ZcQ1" async></script>', true);
+    $APPLICATION->AddHeadString('<script src="//code.jivo.ru/widget/uVIN73ZcQ1" async></script>', true);
     ?>
 
 </head>
@@ -300,7 +309,7 @@ $isMobile = preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|f
 					<?=Loc::getMessage('EXCHANGE_RATE');?>:
 				</div>
 				<div class="text-primary">
-					1 ¥ = <?=$cnyRate;?> ₽ | 1 $ = <?=$usdRate;?> ₽
+					1 ¥ = <?=$_SESSION['cnyRate'];?> ₽ | 1 $ = <?=$_SESSION['usdRate'];?> ₽
 				</div>
 			</div>
 
@@ -529,7 +538,7 @@ $isMobile = preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|f
                 <button type="button" class="btn-close" id="change-password-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <h5 class="h2 text-center mb-6"  id="changePasswordLabel"><?=Loc::getMessage('PASSWORD_CHANGE');?></h5>
+                    <h5 class="h2 text-center mb-6" id="changePasswordLabel"><?=Loc::getMessage('PASSWORD_CHANGE');?></h5>
                     
                     <form action="/" data-target="desktop-change-password">
 
@@ -557,10 +566,10 @@ $isMobile = preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|f
             <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-primary">  
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button id="close-adding-order-modal-btn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form enctype="multipart/form-data" action="<?php echo $isMobile ? '/order/mobile_edit_add_order.php' : '/order/make_order_step_1.php';?>">
+                    <form id="adding-good-form" enctype="multipart/form-data" action="<?php echo $isMobile ? '/order/mobile_edit_add_order.php' : '/order/make_order_step_1.php';?>">
                         <h3 class="h2 mb-6"><?=Loc::getMessage('ENTER_POSITION_PARAMETERS');?> </h3>
 
                         <div class="mb-4">
@@ -587,6 +596,7 @@ $isMobile = preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|f
                             <div class="col-6">
 
                                 <div class="row">
+                                    <input type="hidden" name="is_edit_mode" id="is_edit_mode" class="form-control py-2" value="<?php echo (isset($_GET['edit']) && $_GET['edit'] == 'y') ? 1 : 0;?>">
                                     <div class="col-6 mb-4">
                                         <label class="text-dark fs-5 mb-1" for="product-name"><?=Loc::getMessage('COST');?> ¥</label>
                                         <div >

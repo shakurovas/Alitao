@@ -5,6 +5,7 @@ $MESS['HISTORY'] = 'История';
 $MESS['LOG_OUT'] = 'Выход';
 $MESS['ANY_STATUS'] = 'Любой статус';
 $MESS['NOT_PAID'] = 'Не оплачен';
+$MESS['PAID'] = 'Оплачен';
 $MESS['COMPLETED'] = 'Выполнен';
 $MESS['ALL_FOLDERS'] = 'Все папки';
 $MESS['CREATE_NEW_FOLDER'] = 'Создать новую папку';

@@ -17,6 +17,12 @@ foreach ($_POST as $key) {
 
 if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем добавлять в корзину новые данные, только если указали хотя бы ссылку на товар 
     
+    if ((int)($_POST['is_edit_mode'])) {  // если это редактирование уже существующего заказа
+        $arrayOfGoods = $_SESSION['editable_order'];
+    } else {
+        $arrayOfGoods = $_SESSION['cart'];  // если это создание нового заказа
+    }
+
     $goodsPictures = [];  // массив с картинками
     if (!empty($_FILES)) {  // если загрузили картинки
         // echo json_encode($_FILES);
@@ -72,8 +78,8 @@ if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем доба�
     
     // если до этого уже были загружены картинки (т. к. этот аякс используется и для изменения данных о товаре),
     // то добавим созданныый массив картинок к уже имеющимся
-    if (isset($_SESSION['cart'][$_POST['link']]) && !empty($_SESSION['cart'][$_POST['link']]['photo'])) {
-        $goodsPictures = array_merge($_SESSION['cart'][$_POST['link']]['photo'], $goodsPictures);
+    if (isset($arrayOfGoods[$_POST['link']]) && !empty($arrayOfGoods[$_POST['link']]['photo'])) {
+        $goodsPictures = array_merge($arrayOfGoods[$_POST['link']]['photo'], $goodsPictures);
     }
     // echo (json_encode($goodsPictures));
 // }
@@ -82,25 +88,42 @@ if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем доба�
 
     // если товаров ещё нет в коризне, то в строку включаем сам этот div,
     // а если товары уже есть, значит и div этот уже есть и новый не добавляем
-    if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
+    if (!isset($arrayOfGoods) || empty($arrayOfGoods)) {
         $goodsString .= '<div class="order-list py-4 py-lg-9" id="goods-list">';
     }
 
     // добавляем товар в коризну
-    $_SESSION['cart'][$_POST['link']] = [
-        'name' => $_POST['name'],
-        'price' => $_POST['price'],
-        'quantity' => $_POST['quantity'],
-        'colour' => $_POST['colour'],
-        'size' => $_POST['size'],
-        'delivery_through_china' => $_POST['delivery_cost'],
-        'comment' => $_POST['comment'],
-        'photo' => $goodsPictures,
-        'photo_report_is_needed' => (int)$_POST['photoreport']
-    ];
+    if (isset($_SESSION['editable_order'])) {
+        $_SESSION['editable_order'][$_POST['link']] = [
+            'name' => $_POST['name'],
+            'price' => $_POST['price'],
+            'quantity' => $_POST['quantity'],
+            'colour' => $_POST['colour'],
+            'size' => $_POST['size'],
+            'delivery_through_china' => $_POST['delivery_cost'],
+            'comment' => $_POST['comment'],
+            'photo' => $goodsPictures,
+            'photo_report_is_needed' => (int)$_POST['photoreport']
+        ];
+    } else {
+        $_SESSION['cart'][$_POST['link']] = [
+            'name' => $_POST['name'],
+            'price' => $_POST['price'],
+            'quantity' => $_POST['quantity'],
+            'colour' => $_POST['colour'],
+            'size' => $_POST['size'],
+            'delivery_through_china' => $_POST['delivery_cost'],
+            'comment' => $_POST['comment'],
+            'photo' => $goodsPictures,
+            'photo_report_is_needed' => (int)$_POST['photoreport']
+        ];
+    }
+
+    // echo json_encode($_SESSION['cart']);
+    
 
     $sumRub = 0;
-    foreach ($_SESSION['cart'] as $link => $props){
+    foreach ($arrayOfGoods as $link => $props){
         if (!empty($props['photo']) && isset($props['photo'][count($props['photo'])-1]['name']) && !empty($props['photo'][count($props['photo'])-1]['name'])) {
             $photoPath = '/upload/users_pics/' . $props['photo'][count($props['photo'])-1]['name'];
         } else {
@@ -175,7 +198,7 @@ if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем доба�
                             ' . Loc::getMessage('SERVICES') . '
                         </div>
                         <div class=" mb-2 text-secondary services-cost-yuan-list">
-                            ¥ '; if ($props['photo_report_is_needed']) $services = 5.00; else $services = 0.00;
+                            ¥ '; if ($props['photo_report_is_needed']) $services = 5.00 * $props['quantity']; else $services = 0.00;
                             $goodsString .= $services . '
                         </div>
                         <div class="text-dark d-none d-lg-block services-cost-rub-list">
@@ -221,7 +244,7 @@ if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем доба�
         </div>';
     }
     
-    // if (count($_SESSION['cart']) == 1) {
+    // if (count($arrayOfGoods) == 1) {
         $buttonsString = 
         '<div class="d-flex justify-content-center delete-after-add-goods">
             <button class="btn btn-outline-primary add-goods-btn-cart btn-add-product w-100 w-sm-auto d-none d-md-inline-block" data-target-field="product_link" data-bs-toggle="modal" href="#makeOrderModal" role="button">' . Loc::getMessage('ADD_GOOD') . '</button>
@@ -239,7 +262,7 @@ if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем доба�
 
     // если в корзине сейчас находится только один товар, который добавили только что,
     // не забываем закрыть div-обёртку для всех товаров в заказе
-    // if (count($_SESSION['cart']) == 1) {
+    // if (count($arrayOfGoods) == 1) {
     //     $goodsString .= '</div>
 
     //     <div class="d-flex justify-content-center">
@@ -258,8 +281,8 @@ echo json_encode([
     'goods_string' => $goodsString,
     'buttons_string' => $buttonsString
 ]);
-// echo json_encode(['cart' => $_SESSION['cart']]);
-// unset($_SESSION['cart']);
+// echo json_encode(['cart' => $arrayOfGoods]);
+// unset($arrayOfGoods);
 
 
 die();

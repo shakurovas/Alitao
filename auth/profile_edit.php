@@ -39,19 +39,31 @@ Asset::getInstance()->addJs("/auth/js/auth_script.js");
                 <section class="cabinet__content">
                     <div class="user">
                         <div class="user__photo" style="display: flex; flex-direction: column; justify-content: flex-start;">
-                            <?php if (!empty($arUser['PERSONAL_PHOTO'])):?>
-                                <img src="<?=CFile::GetPath($arUser['PERSONAL_PHOTO']);?>" alt="" width="182" height="251">
-                            <?php else:?>
-                                <?=Loc::getMessage('NO_PHOTO_TEXT');?>
-                            <?php endif;?>
+                           
                             <form class="fs-5" id="change-photo" action="/auth/personal.php" method="POST" enctype="multipart/form-data">
-                                <input type="hidden" name="old_photo_id" value="<?php echo $arUser['PERSONAL_PHOTO']?>">
-                                <input type="file" name="photo" accept="image/*" width="182" height="251" style="width: 100%; font-size: 10px; margin-top: 10px;">
+                                <input type="hidden" hidden name="old_photo_id" value="<?php echo $arUser['PERSONAL_PHOTO']?>">
+                                <label>
+                                    <?php if (!empty($arUser['PERSONAL_PHOTO'])):?>
+                                        <img src="<?=CFile::GetPath($arUser['PERSONAL_PHOTO']);?>" alt="" width="182" height="251">
+                                    <?php else:?>
+                                        <img src="<?=SITE_TEMPLATE_PATH;?>/img/no-user.png" alt="" width="182" height="251">
+                                    <?php endif;?>
+                                    <input type="file" hidden name="photo" accept="image/*" width="182" height="251" style="width: 100%; font-size: 10px; margin-top: 10px;">   
+                                </label>
+                                <p style="font-size: 10px; margin-top: 10px;">
+                                    <?=GetMessage('TIME_FOR_PHOTO_UPDATE');?>
+                                </p>                              
                                 <input type="submit" id="change-photo-btn" value="<?=GetMessage('CHANGE_PHOTO');?>" style="width: 100%; font-size: 10px; margin-top: 10px;">
+                                <p style="font-size: 10px; margin-top: 10px;">
+                                    <?=GetMessage('TIME_FOR_PHOTO_UPDATE_2');?>
+                                </p>  
                             </form>
-                            <p style="font-size: 10px; margin-top: 10px;">
-                                <?=GetMessage('TIME_FOR_PHOTO_UPDATE');?>
-                            </p>
+                            <!-- <form class="fs-5" id="change-photo" action="/auth/personal.php" method="POST" enctype="multipart/form-data">
+                                <input type="hidden" name="old_photo_id" value="<?php //echo $arUser['PERSONAL_PHOTO']?>">
+                                <input type="file" name="photo" accept="image/*" width="182" height="251" style="width: 100%; font-size: 10px; margin-top: 10px;">
+                                <input type="submit" id="change-photo-btn" value="<?//=GetMessage('CHANGE_PHOTO');?>" style="width: 100%; font-size: 10px; margin-top: 10px;">
+                            </form> -->
+                            
                         </div>
                         
                         <div class="user__data fs-3 text-dark">
@@ -109,9 +121,8 @@ Asset::getInstance()->addJs("/auth/js/auth_script.js");
 
                             
                             <div class="d-flex py-4 py-xl-2 mb-2 mb-lg-0">
-                                <a class="btn btn-secondary me-4 px-xl-9" href="/auth/personal.php"><?=Loc::getMessage('EDIT');?></a>
+                                <!-- <a class="btn btn-secondary me-4 px-xl-9" href="/auth/personal.php"><?//=Loc::getMessage('EDIT');?></a> -->
                                 <button id="change-password-btn" class="btn btn-outline-secondary px-xl-9 d-none d-md-inline-block" data-bs-toggle="modal" href="#changePassword" role="button"><?=Loc::getMessage('CHANGE_PASSWORD');?></button>
-                                <a class="btn btn-outline-secondary d-md-none" href="/auth/mobile_change_password.php" ><?=Loc::getMessage('CHANGE_PASSWORD');?></a>
                             </div>
 
                             <!-- <form action="/auth/personal.php" class="fs-5"> -->
@@ -190,6 +201,10 @@ Asset::getInstance()->addJs("/auth/js/auth_script.js");
                                 </div>  -->
 
                                 <button id="save-profile-changes-btn" class="btn btn-primary w-100 w-lg-auto fs-4 fs-lg-5"><?=Loc::getMessage('SAVE_CHANGES_BTN');?></button>
+                                <a class="btn btn-outline-secondary d-md-none" href="/auth/mobile_change_password.php" ><?=Loc::getMessage('CHANGE_PASSWORD');?></a>
+                                <!-- <div class="d-flex py-4 py-xl-2 mb-2 mb-lg-0">
+                                    <button id="change-password-btn" class="btn btn-outline-secondary px-xl-9 d-none d-md-inline-block" data-bs-toggle="modal" href="#changePassword" role="button"><?=Loc::getMessage('CHANGE_PASSWORD');?></button>
+                                </div> -->
                             </form>
 
                             

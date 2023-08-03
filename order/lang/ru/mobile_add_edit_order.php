@@ -20,3 +20,5 @@ $MESS['TOTAL'] = 'Итого';
 $MESS['PHOTOREPORT_IS_NEEDED'] = 'Мне нужен фотоотчёт этой позиции';
 $MESS['ADD_GOOD'] = 'Добавить товар';
 $MESS['NEED_TO_BE_AUTHORIZED'] = 'Для совершения заказа необходимо авторизоваться';
+$MESS['ADDING_PHOTOS_DESCRIPTION'] = 'Для добавления нескольких <br>фото нужно выбрать их все сразу <br>при помощи удержания клавиши ctrl';
+$MESS['FILL_REQUIRED_FIELDS'] = 'Заполните обязательные поля';

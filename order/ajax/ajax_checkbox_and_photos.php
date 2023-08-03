@@ -11,7 +11,13 @@ if (isset($_POST['link']) && !empty($_POST['link'])) {
 
     $photosInString = '';
 
-    foreach ($_SESSION['cart'][$_POST['link']]['photo'] as $photo) {
+    if (isset($_SESSION['editable_order']) && !empty($_SESSION['editable_order'])) {
+        $goods = $_SESSION['editable_order'];
+    } else {
+        $goods = $_SESSION['cart'];
+    }
+
+    foreach ($goods[$_POST['link']]['photo'] as $photo) {
         $photosInString .=
             '<div class="products-photo-grid__item">
                 <img src="/upload/users_pics/' . $photo['name'] . '" alt="">
@@ -32,6 +38,7 @@ if (isset($_POST['link']) && !empty($_POST['link'])) {
                         }
                     });
                     let  productPhotoGridEdit =  document.querySelector(\'.products-photo-grid\');
+                    let removeUploadImgBtn = document.querySelectorAll(\'.products-photo-grid__item-remove\');
 
                     if ( productPhotoGridEdit ){
 
@@ -42,6 +49,15 @@ if (isset($_POST['link']) && !empty($_POST['link'])) {
                             }
                         })
                     }
+
+                    if (removeUploadImgBtn) {
+                        for (let i = 0; i < removeUploadImgBtn.length; i++) {
+                            removeUploadImgBtn[i].addEventListener(\'click\', function() {
+                                alert(this.closest(\'.products-photo-grid__item\'));
+                                this.closest(\'.products-photo-grid__item\').remove();
+                            });
+                        }
+                    }
                 ">
                     <img src="' . SITE_TEMPLATE_PATH . '/img/icons/remove-product.svg" alt="">
                 </div>
@@ -49,7 +65,7 @@ if (isset($_POST['link']) && !empty($_POST['link'])) {
     }
 
     echo json_encode([
-        'checkbox' => (int)$_SESSION['cart'][$_POST['link']]['photo_report_is_needed'],
+        'checkbox' => (int)$goods[$_POST['link']]['photo_report_is_needed'],
         'photos' => $photosInString
     ]);
 }

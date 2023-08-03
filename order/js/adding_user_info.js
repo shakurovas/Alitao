@@ -73,7 +73,7 @@ continueBtnStep2.addEventListener('click', function(event) {
             data: dataToSend,
             success: function(data) {
                 console.log(data);
-                window.location.replace('/order/make_order_step_3.php');
+                window.location.href = '/order/make_order_step_3.php';
             }
         });
         redLine.style.display = 'none';

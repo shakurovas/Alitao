@@ -10,14 +10,34 @@ Asset::getInstance()->addJs('/order/js/adding_goods.js');
 Loc::loadMessages(__FILE__);
 
 session_start();
-echo '<pre>';
-var_dump($_SESSION['cart']);
-echo '</pre>';
+// echo '<pre>';
+// print_r($_SESSION);
+// echo '</pre>';
+
+// $keys = array_keys($_SESSION['editable_order']);
+// var_dump($keys[1]);
+// var_dump($keys[2]);
 
 // echo '<pre>';
 // var_dump($_FILES);
 // echo '</pre>';
-// unset($_SESSION['cart']);
+// if (isset($_SESSION['cart']))  // создаваемый заказ
+//     unset($_SESSION['cart']);
+// if (isset($_SESSION['editable_order']))  // редактируемый заказ
+//     unset($_SESSION['editable_order']);
+// if (isset($_SESSION['users_info']))  // информация о пользователе
+//     unset($_SESSION['users_info']);
+// if (isset($_SESSION['order_comment']))  // комментарий к заказу
+//     unset($_SESSION['order_comment']);
+// if (isset($_SESSION['editable_order_id']))  // id отредактированного заказа
+//     unset($_SESSION['editable_order_id']);
+// if (isset($_SESSION['comment']))  // комментарий отредактированного заказа
+//     unset($_SESSION['comment']);
+// if (isset($_SESSION['delivery_method']))  // способ доставки отредактированного заказа
+//     unset($_SESSION['delivery_method']);
+// if (isset($_SESSION['is_insured']))  // застрахован ли отредактированный заказ
+//     unset($_SESSION['is_insured']);
+
 ?>
 
 <main>
@@ -42,7 +62,7 @@ echo '</pre>';
                 </div>
             </div>
 
-            <div class="mo-instructions <?php echo isset($_SESSION['cart']) && !empty ($_SESSION['cart']) ? 'd-none' : ''?>">
+            <div class="mo-instructions <?php echo (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) || (isset($_SESSION['editable_order']) && !empty($_SESSION['editable_order'])) ? 'd-none' : ''?>">
                 <p class="fs-3 text-dark text-center mb-2 mb-lg-4"><?=Loc::getMessage('NO_GOODS_ADDED');?></p>
                 <div class="d-flex justify-content-center mb-6">
                     <a href="/helpful_info/how_to_place_order.php" class="link-secondary fs-5"><?=Loc::getMessage('HOW_TO_ADD_GOOD');?>?</a>   
@@ -63,22 +83,28 @@ echo '</pre>';
                 
                 <div class="d-flex justify-content-center">
                     <button class="btn btn-primary add-goods-btn-cart btn-add-product-before-goods btn-add-product w-100 w-sm-auto d-none d-md-inline-block" data-bs-toggle="modal" href="#makeOrderModal" role="button"><?=Loc::getMessage('ADD_GOOD');?></button>
-                    <a href="/order/mobile_add_edit_order.php" class="btn btn-primary btn-add-product-before-goods btn-add-product w-100 w-sm-auto d-md-none" ><?=Loc::getMessage('ADD_GOOD');?></a>
+                    <a class="btn btn-primary mobile-add-good-before add-goods-btn-cart btn-add-product-before-goods btn-add-product w-100 w-sm-auto d-md-none" ><?=Loc::getMessage('ADD_GOOD');?></a>
                 </div>
                 
             </div>
             
-
+            <input type="hidden" name="is_edit_mode" id="is_edit_mode" class="form-control py-2" value="<?php echo (isset($_GET['edit']) && $_GET['edit'] == 'y') ? 1 : 0;?>">
             
                 <!-- <div class="order-calc-block" <?php //echo (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) ? 'id="goods-list"' : '';?>>
                     <?php //if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])):?>
                         <div class="order-list py-4 py-lg-9" id="goods-list"> -->
-                <div class="order-calc-block">
+                    <?php if (isset($_GET['edit']) && $_GET['edit'] == 'y') {
+                        $goodsArray = $_SESSION['editable_order'];
+                    } else {
+                        $goodsArray = $_SESSION['cart'];
+                    }
+                    //var_dump($goodsArray);?>
+                    <div class="order-calc-block">
                         <div class="order-list py-4 py-lg-9" id="goods-list">
 
                             <?php 
                             $sumRub = 0;  // подсчёт стоимости всех товаров
-                            foreach ($_SESSION['cart'] as $link => $props):?>
+                            foreach ($goodsArray as $link => $props):?>
                                 <div class="mo-order">
                                     <div class="mo-order__description">
                                         <?php 
@@ -155,7 +181,7 @@ echo '</pre>';
                                                     <?=Loc::getMessage('SERVICES');?>
                                                 </div>
                                                 <div class=" mb-2 text-secondary services-cost-yuan-list">
-                                                    ¥ <?php if ($props['photo_report_is_needed']) $services = 5.00;
+                                                    ¥ <?php if ($props['photo_report_is_needed']) $services = 5.00 * $props['quantity'];
                                                     else $services = 0.00;
                                                     echo number_format($services, 2, '.', ' ');?>
                                                 </div>
@@ -194,7 +220,7 @@ echo '</pre>';
                                             <img src="<?=SITE_TEMPLATE_PATH;?>/img/icons/remove.svg" alt="">
                                         </button>
 
-                                        <button class="mo-order__edit" data-bs-toggle="modal" href="#makeOrderModal" role="button">
+                                        <button <?php if ($isMobile):?>onclick="window.location.href = '/order/mobile_add_edit_order.php<?php echo (null !== $_GET['edit'] && $_GET['edit'] == 'y') ? '?edit=y' : '';?>&link=<?=$link;?>';"<?php endif;?> class="mo-order__edit" data-bs-toggle="modal" href="#makeOrderModal" role="button">
                                             <img src="<?=SITE_TEMPLATE_PATH;?>/img/icons/edit.svg" alt="">
                                         </button>
                                     </div>
@@ -203,15 +229,20 @@ echo '</pre>';
                             
                         </div>
 
-                        <?php if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])):?>
+                        <?php if ((isset($_SESSION['cart']) && !empty($_SESSION['cart'])) || (isset($_SESSION['editable_order']) && !empty($_SESSION['editable_order']))):?>
                             <div class="d-flex justify-content-center delete-after-add-goods">
                                 <button class="btn btn-outline-primary add-goods-btn-cart btn-add-product w-100 w-sm-auto d-none d-md-inline-block" data-target-field="product_link" data-bs-toggle="modal" href="#makeOrderModal" role="button"><?=Loc::getMessage('ADD_GOOD');?></button>
-                                <a href="/order/mobile_add_edit_order.php" class="btn btn-outline-primary btn-add-product w-100 w-sm-auto d-md-none" ><?=Loc::getMessage('ADD_GOOD');?></a>
+                                <a href="/order/mobile_add_edit_order.php<?php echo (null !== $_GET['edit'] && $_GET['edit'] == 'y') ? '?edit=y' : '';?>" class="btn btn-outline-primary add-goods-btn-cart btn-add-product w-100 w-sm-auto d-md-none" ><?=Loc::getMessage('ADD_GOOD');?></a>
                             </div>
 
+                            <?php if ($sumRub / $_SESSION['cnyRate'] <= 5000) {
+                                $sumRub *= 1.05;
+                            } else {
+                                $sumRub *= 1.03;
+                            }?>
                             <p class="my-7 text-dark text-center fs-5 delete-after-add-goods" id="total-with-commission-cost"><?=Loc::getMessage('TOTAL_WITH_COMMISSION');?>: <?=number_format($sumRub, 2, '.', ' ')?> ₽  </p>
                             <div class="d-flex justify-content-center delete-after-add-goods">
-                                <a class="btn btn-primary btn-add-product w-100 w-sm-auto" href="/order/make_order_step_2.php"><?=Loc::getMessage('CONTINUE');?></a>
+                                <a id="continue" class="btn btn-primary btn-add-product w-100 w-sm-auto" href="/order/make_order_step_2.php"><?=Loc::getMessage('CONTINUE');?></a>
                             </div>
                         <?php endif;?>
                     <?php //endif;?>

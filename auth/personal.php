@@ -43,13 +43,13 @@ if ($USER->IsAuthorized())
                             <?php if (!empty($arUser['PERSONAL_PHOTO'])):?>
                                 <img src="<?=CFile::GetPath($arUser['PERSONAL_PHOTO']);?>" alt="" width="182" height="251">
                             <?php else:?>
-                                <?=Loc::getMessage('NO_PHOTO_TEXT');?>
+                                <img src="<?=SITE_TEMPLATE_PATH;?>/img/no-user.png" alt="" width="182" height="251">
                             <?php endif;?>
                         </div>
                         <div class="user__data fs-3 text-dark">
                             <p class="h2 fs-2 mb-8 mb-lg-6">
-                                <?php if ($USER->GetFullName()) {
-                                    echo $USER->GetFullName();
+                                <?php if (!empty($arUser['UF_NICKNAME'])) {
+                                    echo $arUser['UF_NICKNAME'];
                                 } else {
                                     echo Loc::getMessage('ENTER_YOUR_DATA');
                                 }?>

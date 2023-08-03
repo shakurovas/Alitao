@@ -15,6 +15,11 @@ $arUser = $rsUser->Fetch();
 
 session_start();
 
+// echo '<pre>';
+// print_r($_SESSION);
+// echo '</pre>';
+// unset($_SESSION['cart']);
+// unset($_SESSION['editable_order']);
 ?>
 
 <main>
@@ -79,7 +84,7 @@ session_start();
 
                     <div class="mb-6">
                         <div class="form-check d-flex align-items-center mb-2">
-                            <input class="form-check-input me-2" type="radio" name="typedelivery" id="typedelivery-1" checked value="<?=Loc::getMessage('FAST_AVIA');?>">
+                            <input class="form-check-input me-2" type="radio" name="typedelivery" id="typedelivery-1" <?php if ((isset($_SESSION['delivery_method']) && $_SESSION['delivery_method'] == Loc::getMessage('FAST_AVIA_SHORT')) || !isset($_SESSION['editable_order'])) echo 'checked';?> value="<?=Loc::getMessage('FAST_AVIA');?>">
                             <label class="form-check-label fs-5 fs-lg-3" for="typedelivery-1">
                                 <?=Loc::getMessage('FAST_AVIA');?>
                             </label>
@@ -89,7 +94,7 @@ session_start();
 
                     <div class="mb-6">
                         <div class="form-check d-flex align-items-center mb-2">
-                            <input class="form-check-input me-2" type="radio" name="typedelivery" id="typedelivery-2"  value="<?=Loc::getMessage('FAST_AUTO');?>">
+                            <input class="form-check-input me-2" type="radio" name="typedelivery" id="typedelivery-2" <?php if (isset($_SESSION['delivery_method']) && $_SESSION['delivery_method'] == Loc::getMessage('FAST_AUTO_SHORT')) echo 'checked';?> value="<?=Loc::getMessage('FAST_AUTO');?>">
                             <label class="form-check-label fs-5 fs-lg-3" for="typedelivery-2">
                                 <?=Loc::getMessage('FAST_AUTO');?>
                             </label>
@@ -99,7 +104,7 @@ session_start();
 
                     <div class="mb-6">
                         <div class="form-check d-flex align-items-center mb-2">
-                            <input class="form-check-input me-2" type="radio" name="typedelivery" id="typedelivery-3"  value="<?=Loc::getMessage('AUTO');?>">
+                            <input class="form-check-input me-2" type="radio" name="typedelivery" id="typedelivery-3" <?php if (isset($_SESSION['delivery_method']) && $_SESSION['delivery_method'] == Loc::getMessage('AUTO_SHORT')) echo 'checked';?> value="<?=Loc::getMessage('AUTO');?>">
                             <label class="form-check-label fs-5 fs-lg-3" for="typedelivery-3">
                                 <?=Loc::getMessage('AUTO');?>
                             </label>
@@ -113,7 +118,7 @@ session_start();
                     <h3 class="h2 mb-3 text-center text-lg-start"><?=Loc::getMessage('CARGO_INSURANCE');?></h3>
                     <p class="fs-5  text-dark mb-6"><?=Loc::getMessage('INSURANCE_DESCRIPTION');?> <a href="/helpful_info/delivery.php" class="link-secondary text-decoration-underline" target="_blank"><?=Loc::getMessage('IS_WRITTEN_HERE');?></a></p>
                     <div class="form-check d-flex align-items-center mb-7">
-                        <input class="form-check-input me-2" type="checkbox" value="" id="insurance" checked >
+                        <input class="form-check-input me-2" type="checkbox" value="" id="insurance" <?php if ((isset($_SESSION['is_insured']) && $_SESSION['is_insured'] == Loc::getMessage('YES')) || !isset($_SESSION['editable_order'])) echo 'checked';?>>
                         <label class="form-check-label fs-lg-5 fs-6" for="insurance">
                             <?=Loc::getMessage('NEED_TO_INSURE?');?>
                         </label>

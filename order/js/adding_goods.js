@@ -1,71 +1,13 @@
 // STEP 1
 
+let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent);
 
-// let addGoodsBtnCart = document.querySelectorAll('.add-goods-btn-cart');
-// for (let i = 0; i < addGoodsBtnCart.length; i++) {
-//   addGoodsBtnCart[i].addEventListener('click', function() {
-    // document.querySelector('#product-link').value = ''; 
-    // document.querySelector('#product-name').value = ''; 
-    // document.querySelector('#product-price').value = ''; 
-    // document.querySelector('#product-size').value = ''; 
-    // document.querySelector('#delivery-price').value = ''; 
-    // document.querySelector('#product-color').value = ''; 
-    // document.querySelector('#product-comment').value = ''; 
-    // document.querySelector('#product-qty').value = ''; 
-    // document.querySelector('input[name="files[]"').value = ''; 
-    // document.querySelector('#photoreport').checked = true; 
-    
-    // let modalBackDropDiv = document.querySelector('.modal-backdrop');
-    // if (typeof modalBackDropDiv === 'undefined' || modalBackDropDiv == null) {
-    //   let newDiv = document.createElement("div");
-    //   newDiv.classList.add('modal-backdrop', 'show', 'fade');
-    //   document.querySelector('body').appendChild(newDiv);
-
-    //   let modalBackdropDiv = document.querySelector('.modal-backdrop');
-    //   modalBackdropDiv.remove();
-
-    //   document.querySelector('body').appendChild(newDiv);
-
-    //   let htmlBody = document.querySelector('body');
-    //   htmlBody.classList.remove('modal-open');
-    //   // htmlBody.style.removeProperty('overflow');
-    //   // htmlBody.style.removeProperty('padding-right');
-    //   // htmlBody.style.removeProperty('opacity');
-    // }
-//   });
+// if (isMobile) {
+//   let editBtns = document.querySelector('.mo-order__edit');
+//   for (let i = 0; i < editBtns.length; i++) {
+//     editBtns[i].
+//   }
 // }
-  
-
-//     // let MakeOrderModal = document.querySelector('#makeOrderModal');
-//     // MakeOrderModal.style.display = 'block';
-//     // MakeOrderModal.classList.add('show');
-//     // MakeOrderModal.setAttribute('aria-modal', 'true');
-//     // MakeOrderModal.setAttribute('aria-hidden', 'false');
-//     // MakeOrderModal.setAttribute('role', 'dialog');
-
-//     // let htmlBody = document.querySelector('body');
-//     // htmlBody.classList.add('modal-open');
-//     // htmlBody.style.overflow = 'hidden';
-//     // htmlBody.style.paddingRight = '17px';
-//     // htmlBody.style.opacity = 1;
-
-//     //   document.querySelector('#product-link').value = ''; 
-//     // document.querySelector('#product-name').value = ''; 
-//     // document.querySelector('#product-price').value = ''; 
-//     // document.querySelector('#product-size').value = ''; 
-//     // document.querySelector('#delivery-price').value = ''; 
-//     // document.querySelector('#product-color').value = ''; 
-//     // document.querySelector('#product-comment').value = ''; 
-//     // document.querySelector('#product-qty').value = ''; 
-//     // document.querySelector('#photoreport').checked = true; 
-//   })
-// }
-
-// let fuckBtn = document.querySelector('#fuck');
-// fuckBtn.addEventListener('click', function() {
-//   console.log(this);
-// });
-
 
 let addGoodBtn = document.querySelector('#add-good-btn');
 let goodsList = document.querySelector('#goods-list');
@@ -84,6 +26,12 @@ if (addGoodBtn) {
     let quantity = document.querySelector('#product-qty').value; 
     let photos = document.querySelector('input[name="files[]"').files; 
     let photoreport = document.querySelector('#photoreport').checked; 
+
+    let isEditMode = document.querySelector('#is_edit_mode');
+    let isEditModeValue = 0;
+
+    if (typeof isEditMode.value === 'undefined' || isEditMode.value == null) isEditModeValue = false;
+    else isEditModeValue = isEditMode.value;
 
     if (photoreport) {
       var photoreportValue = 1;
@@ -105,8 +53,9 @@ if (addGoodBtn) {
     form_data.append('comment', comment);
     form_data.append('quantity', quantity);
     form_data.append('photoreport', photoreportValue);
+    form_data.append('is_edit_mode', isEditModeValue);
 
-    console.log(form_data);
+    // console.log(form_data);
 
     // dataToSend = {
     //     link: link,
@@ -120,6 +69,7 @@ if (addGoodBtn) {
     //     photos: form_data,
     //     photoreport: photoreport
     // }
+    // console.log(dataToSend);
 
 
     $.ajax( {
@@ -151,18 +101,21 @@ if (addGoodBtn) {
           data = JSON.parse(data);
           console.log(data['goods_string']);
           // console.log(data['buttons_string']);
-          if (typeof data['goods_string'] !== 'undefined' && data['goods_string'] != null && data['goods_string'] != '') {
-            goodsList.innerHTML = data['goods_string'];
+          if (!isMobile) {
+            if (typeof data['goods_string'] !== 'undefined' && data['goods_string'] != null && data['goods_string'] != '') {
+              goodsList.innerHTML = data['goods_string'];
+            }
+  
+            if (typeof data['buttons_string'] !== 'undefined' && data['buttons_string'] != null && data['buttons_string'] != '') {
+              goodsList.insertAdjacentHTML( 'afterEnd', data['buttons_string']);
+              // goodsList.innerHTML += data['buttons_string'];
+            }
           }
-
-          if (typeof data['buttons_string'] !== 'undefined' && data['buttons_string'] != null && data['buttons_string'] != '') {
-            goodsList.insertAdjacentHTML( 'afterEnd', data['buttons_string']);
-            // goodsList.innerHTML += data['buttons_string'];
-          }
+         
 
           // event.target.click();
           link = ''; 
-          name = ''; 
+          name = 'ahahaha'; 
           price = '';
           size = '';
           delivery_cost = ''; 
@@ -172,89 +125,19 @@ if (addGoodBtn) {
           quantity = ''; 
           photoreport = true;
           document.querySelector('input[name="files[]"').value = '';
+          document.querySelector('.products-photo-grid').innerHTML = '';
         }
-        location.reload();
+        if (isMobile) {
+          if (isEditMode)
+            window.location.href = '/order/make_order_step_1.php?edit=y';
+          else {
+            window.location.href = '/order/make_order_step_1.php';
+          }
+        } else {
+          location.reload();
+        }
       }
     });
-
-    // // var formdata = new FormData();
-    // // var filedata = document.querySelector("#product-photo");
-    // // console.log(filedata.prop('files'));
-    // // var i = 0, len = filedata.files.length, file;
-    // // for (; i < len; i++) {
-    // //     file = filedata.files[i];
-    // //     formdata.append("file", file);
-    // // }
-    // // console.log(formdata);
-    // // $('#upload').on('click', function() {
-      
-    //   var form_data = new FormData();
-    //   for (let i=0; i < photos.length; i++) {
-    //     form_data.append('file[]', photos[i]);
-    //   }
-      
-    //   for (var key of form_data.entries()) {
-    //     console.log(key[0] + ', ' + key[1]);
-    //   }
-                
-      
-    //   console.log(form_data);  //Выводим инфо по файлам которые будут отправлены на сервер              
-
-    //   $.ajax( {
-    //     url: '/order/ajax/ajax_add_photos.php',
-    //     type: 'POST',
-    //     dataType: 'text', 
-    //     data: form_data,
-    //     processData: false,
-    //     contentType: false,
-    //     // enctype: 'multipart/form-data',
-    //     success: function(data) {
-    //       console.log(JSON.parse(data));
-    //       // обрабатываем возможные ошибки, останавливаем отправку формы и выводим сообщения об ошибках
-    //       if (data == 'INVALID_FILE_SIZE'){  // уведомление о том, что превышен размер файла
-    //         // event.preventDefault();
-    //         alert('Размер фото превышает допустимый');
-    //       } else if (data =='INVALID_FILE_TYPE'){  // уведомление о том, что не тот тип файла (не картинка)
-    //         // event.preventDefault();
-    //         alert('Загружаемый файл должен быть изображением');  
-    //       } else if (data == 'NO_PHOTO_ADDED') {  // уведомление о том, что файл не загружен
-    //         // event.preventDefault();
-    //         alert('Вы не загрузили фото');
-    //       } else if (data == 'SOMETHING_WENT_WRONG') {  // уведомление о том, что что-то пошло не так по какой-то другой причине, не перечисленной выше
-    //         // event.preventDefault();
-    //         alert('Что-то пошло не так. Попробуйте снова или загрузите другой файл');
-    //       }
-    //     }
-    //   });
-    // // }); 
-
-    // let MakeOrderModal = document.querySelector('#makeOrderModal');
-    // MakeOrderModal.style.display = 'none';
-    // MakeOrderModal.classList.remove('show');
-    // MakeOrderModal.setAttribute('aria-modal', 'false');
-    // MakeOrderModal.setAttribute('aria-hidden', 'true');
-    // MakeOrderModal.removeAttribute('role');
-
-    // let htmlBody = document.querySelector('body');
-    // htmlBody.classList.remove('modal-open');
-    // htmlBody.style.removeProperty('overflow');
-    // htmlBody.style.removeProperty('padding-right');
-    // htmlBody.style.removeProperty('opacity');
-
-    // link = ''; 
-    // name = ''; 
-    // price = '';
-    // size = '';
-    // delivery_cost = ''; 
-    // colour = ''; 
-    // link = ''; 
-    // comment = ''; 
-    // quantity = ''; 
-    // photoreport = true;
-
-    // let modalBackdropDiv = document.querySelector('.modal-backdrop');
-    // modalBackdropDiv.remove();
-    // modalBackdropDiv.classList.remove('show');
 
     let instructionsBeforeGoods = document.querySelector('.mo-instructions');
     if (instructionsBeforeGoods)
@@ -282,48 +165,62 @@ let totalCost = document.querySelector('#total-cost-calc');
 
 if (productPriceInput) {
   productPriceInput.addEventListener('keyup', function() {
-    productCost.innerHTML = productPriceInput.value * productQuantityInput.value;
-    totalCost.innerHTML = parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML);
+    productCost.innerHTML = (productPriceInput.value * productQuantityInput.value).toFixed(2);
+    totalCost.innerHTML = (parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML)).toFixed(2);
   })
 }
 
 if (plus) {
   plus.addEventListener('click', function() {
-    productCost.innerHTML = productPriceInput.value * productQuantityInput.value;
-    totalCost.innerHTML = parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML);
+    productCost.innerHTML = (productPriceInput.value * productQuantityInput.value).toFixed(2);
+    if (photoreport.checked) {
+      servicesCost.innerHTML = (5 * parseFloat(productQuantityInput.value)).toFixed(2);
+    } else {
+      servicesCost.innerHTML = Number(0.00).toFixed(2);
+    }
+    totalCost.innerHTML = (parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML)).toFixed(2);
   })
 }
 
 if (minus) {
   minus.addEventListener('click', function() {
-    productCost.innerHTML = productPriceInput.value * productQuantityInput.value;
-    totalCost.innerHTML = parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML);
+    productCost.innerHTML = (productPriceInput.value * productQuantityInput.value).toFixed(2);
+    if (photoreport.checked) {
+      servicesCost.innerHTML = (5 * parseFloat(productQuantityInput.value)).toFixed(2);
+    } else {
+      servicesCost.innerHTML = Number(0.00).toFixed(2);
+    }
+    totalCost.innerHTML = (parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML)).toFixed(2);
   })
 }
 
 if (productQuantityInput) {
   productQuantityInput.addEventListener('keyup', function() {
-    console.log(productQuantityInput);
-    productCost.innerHTML = productPriceInput.value * productQuantityInput.value;
-    totalCost.innerHTML = parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML);
+    productCost.innerHTML = (productPriceInput.value * productQuantityInput.value).toFixed(2);
+    if (photoreport.checked) {
+      servicesCost.innerHTML = (5 * parseFloat(productQuantityInput.value)).toFixed(2);
+    } else {
+      servicesCost.innerHTML = Number(0.00).toFixed(2);
+    }
+    totalCost.innerHTML = (parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML)).toFixed(2);
   })
 }
 
 if (deliveryPriceInput) {
   deliveryPriceInput.addEventListener('keyup', function() {
-    deliveryCost.innerHTML = deliveryPriceInput.value;
-    totalCost.innerHTML = parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML);
+    deliveryCost.innerHTML = (parseFloat(deliveryPriceInput.value)).toFixed(2);
+    totalCost.innerHTML = (parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML)).toFixed(2);
   })
 }
 
 if (photoreport) {
   photoreport.addEventListener('change', function(event) {
     if (event.currentTarget.checked) {
-      servicesCost.innerHTML = 5;
+      servicesCost.innerHTML = (5 * parseFloat(productQuantityInput.value)).toFixed(2);
     } else {
-      servicesCost.innerHTML = 0;
+      servicesCost.innerHTML = Number(0.00).toFixed(2);
     }
-    totalCost.innerHTML = parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML);
+    totalCost.innerHTML = (parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML)).toFixed(2);
   })
 }
 
@@ -347,6 +244,8 @@ let totalCostRubList = document.querySelectorAll('.total-cost-rub-list');
 
 let allTotalCost = document.querySelector('#total-with-commission-cost');
 
+let isEditMode = document.querySelector('#is_edit_mode');
+
 if (minusList.length) {
   for (let i = 0; i < minusList.length; i++) {
     minusList[i].addEventListener('click', function() {
@@ -361,15 +260,28 @@ if (minusList.length) {
       totalCostRubList[i].innerHTML = '₽ ' + (parseFloat(productCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(deliveryCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(servicesCostRubList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2);
     
       let sum = 0;
+      let sumYuan = 0;
       for (let j = 0; j < minusList.length; j++) {
         sum += parseFloat(totalCostRubList[j].innerHTML.replace(/\s/g, "").slice(1));
+        sumYuan += parseFloat(totalCostYuanList[j].innerHTML.replace(/\s/g, "").slice(1));
+      }
+
+      if (sumYuan <= 5000) {
+        sum *= 1.05;
+      } else {
+        sum *= 1.03;
       }
   
       allTotalCost.innerHTML = 'Итого с учётом комисии: ' + sum.toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ') + ' ₽  ';
 
+      if (typeof isEditMode.value === 'undefined' || isEditMode.value == null) var isEditModeValue = false;
+      else var isEditModeValue = isEditMode.value;
+
       dataToSend = {
         'quantity': productQuantityInputList[i].value,
-        'link': this.closest('.mo-order').querySelector('a').href
+        // 'link': this.closest('.mo-order').querySelector('a').href.slice(0, -1),
+        'link': this.closest('.mo-order').querySelector('a').href,
+        'is_edit_mode': isEditModeValue,
       };
 
       $.ajax( {
@@ -387,10 +299,10 @@ if (minusList.length) {
       let price = parseFloat(this.dataset.price);
       let rate = parseFloat(this.dataset.rate);
     
-      console.log(productCostYuanList[i].innerHTML.replace(/\s/g, ""));
+      // console.log(productCostYuanList[i].innerHTML.replace(/\s/g, ""));
       // console.log(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1));
-      console.log(deliveryCostYuanList[i].innerHTML.replace(/\s/g, ""));
-      console.log(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1));
+      // console.log(deliveryCostYuanList[i].innerHTML.replace(/\s/g, ""));
+      // console.log(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1));
     
       productCostYuanList[i].innerHTML = (price * productQuantityInputList[i].value).toFixed(2);
       productCostRubList[i].innerHTML = '₽ ' + (price * productQuantityInputList[i].value * rate).toFixed(2);
@@ -400,16 +312,29 @@ if (minusList.length) {
       totalCostRubList[i].innerHTML = '₽ ' + (parseFloat(productCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(deliveryCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(servicesCostRubList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2);
     
       let sum = 0;
+      let sumYuan = 0;
       for (let j = 0; j < minusList.length; j++) {
         sum += parseFloat(totalCostRubList[j].innerHTML.replace(/\s/g, "").slice(1));
+        sumYuan += parseFloat(totalCostYuanList[j].innerHTML.replace(/\s/g, "").slice(1));
+      }
+
+      if (sumYuan <= 5000) {
+        sum *= 1.05;
+      } else {
+        sum *= 1.03;
       }
   
       allTotalCost.innerHTML = 'Итого с учётом комисии: ' + sum.toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ') + ' ₽  ';
+      
+      if (typeof isEditMode.value === 'undefined' || isEditMode.value == null) var isEditModeValue = false;
+      else var isEditModeValue = isEditMode.value;
 
       dataToSend = {
         'quantity': productQuantityInputList[i].value,
-        'link': this.closest('.mo-order').querySelector('a').href
+        'link': this.closest('.mo-order').querySelector('a').href.slice(0, -1),
+        'is_edit_mode': isEditModeValue
       };
+      console.log(dataToSend);
 
       $.ajax( {
         url: '/order/ajax/ajax_edit_quantity.php',
@@ -457,3 +382,38 @@ for (let i = 0; i < askForBillBtns.length; i++) {
     jivo_api.open();
   });
 }
+
+
+let mobileAddGoodBeforeBtn = document.querySelector('.mobile-add-good-before');
+if (typeof mobileAddGoodBeforeBtn !== 'undefined' && mobileAddGoodBeforeBtn != null) {
+  mobileAddGoodBeforeBtn.addEventListener('click', function() {
+    let mobileLinkValue = document.querySelector('#add-product-input').value;
+    window.location.href = '/order/mobile_add_edit_order.php?link=' + mobileLinkValue;
+  });
+}
+
+
+let addEditedGoodBtn = document.querySelector('#continue');
+if (typeof addEditedGoodBtn !== 'undefined' && addEditedGoodBtn != null) {
+  addEditedGoodBtn.addEventListener('click', function() {
+    
+  });
+}
+
+
+let closingAddingGoodModalBtn = document.querySelector('#close-adding-order-modal-btn');
+if (typeof closingAddingGoodModalBtn !== undefined && closingAddingGoodModalBtn != null) {
+  closingAddingGoodModalBtn.addEventListener('click', function() {
+    document.getElementById("adding-good-form").reset();
+    document.querySelector('#product-cost-calc').innerHTML = 0.00;
+    document.querySelector('#delivery-cost-calc').innerHTML = 0.00;
+    document.querySelector('#services-cost-calc').innerHTML = 5.00;
+    document.querySelector('#total-cost-calc').innerHTML = 5.00;
+    document.querySelector('input[name="files[]"').value = '';
+    document.querySelector('.products-photo-grid').innerHTML = '';
+  });
+}
+
+
+// let 
+// rgba(216, 37, 0, 0.5)

@@ -17,22 +17,39 @@ session_start();
 // echo '</pre>';
 
 $totalSumYuan = 0;
-$totalSumRub = 0;
-foreach ($_SESSION['cart'] as $key => $props) {
-    if ($props['photo_report_is_needed']) 
-        $servicesCost = 5.00;
-    else {
-        $servicesCost = 0.00;
+// $totalSumRub = 0;
+
+if (isset($_SESSION['editable_order']) && !empty($_SESSION['editable_order'])) {
+    foreach ($_SESSION['editable_order'] as $key => $props) {
+        if ($props['photo_report_is_needed']) 
+            $servicesCost = 5.00 * $props['quantity'];
+        else {
+            $servicesCost = 0.00;
+        }
+        $totalSumYuan += (float)$props['price'] * (float)$props['quantity'] + (float)$props['delivery_through_china'] + $servicesCost;
     }
-    $totalSumYuan += (float)$props['price'] * (float)$props['quantity'] + (float)$props['delivery_through_china'] + $servicesCost;
+} else {
+    foreach ($_SESSION['cart'] as $key => $props) {
+        if ($props['photo_report_is_needed']) 
+            $servicesCost = 5.00 * $props['quantity'];
+        else {
+            $servicesCost = 0.00;
+        }
+        $totalSumYuan += (float)$props['price'] * (float)$props['quantity'] + (float)$props['delivery_through_china'] + $servicesCost;
+    }
 }
+
+if ($_SESSION['users_info']['insurance_included']) $totalSumYuan *= 1.01;
+
 if ($totalSumYuan <= 5000) {
     $totalSumYuan = $totalSumYuan * 1.05;  // комиссия 5%
 } else if ($totalSumYuan > 5000) {
     $totalSumYuan = $totalSumYuan * 1.03;  // комиссия 3%
 }
-$totalSumYuan = number_format($totalSumYuan, 2, '.', ' ');
-$totalSumRub = number_format($_SESSION['cnyRate'] * $totalSumYuan, 2, '.', ' ');
+// var_dump($totalSumYuan);
+// var_dump($totalSumRub);
+$totalSumYuanToShow = number_format($totalSumYuan, 2, '.', ' ');
+$totalSumRubToShow = number_format($_SESSION['cnyRate'] * $totalSumYuan, 2, '.', ' ');
 
 
 // $propertyEnums = CIBlockPropertyEnum::GetList(Array("DEF" => "DESC", "SORT" => "ASC"), Array("IBLOCK_ID" => $ordersIblockId, "CODE" => 'DELIVERY_METHOD'));
@@ -113,19 +130,24 @@ $totalSumRub = number_format($_SESSION['cnyRate'] * $totalSumYuan, 2, '.', ' ');
                     <div class="d-flex flex-column flex-grow-1">
                         <label for="comment" class="fs-3 d-block fw-bold mb-lg-2  mb-4 text-center text-lg-start"><?=Loc::getMessage('COMMENT');?></label>
 
-                        <textarea name="comment" id="comment" class="form-control mo-textarea flex-grow-1" ></textarea>
+                        <textarea name="comment" id="comment" class="form-control mo-textarea flex-grow-1" ><?php if (isset($_SESSION['comment']) && !empty($_SESSION['comment'])) echo $_SESSION['comment'];?></textarea>
                     </div>
                     
                 </div>
                 <div class="col-12 mt-7">
                     <div class="d-flex justify-content-center mb-6">
                         <div class="order__amount fs-lg-2 text-dark">
-                            <span class="order__amount-caption"><?=Loc::getMessage('TOTAL_WITH_COMMISSION');?>:</span> <span class="text-success order__amount-value d-block d-lg-inline text-center"><?=$totalSumRub;?> ₽</span>
+                            <span class="order__amount-caption"><?=Loc::getMessage('TOTAL_WITH_COMMISSION');?>:</span> <span class="text-success order__amount-value d-block d-lg-inline text-center"><?=$totalSumRubToShow;?> ₽</span>
                         </div>
                     </div>
                     <p class="text-center mb-4 d-none d-lg-block"><?=Loc::getMessage('CHECK_INFO');?>.</p>
                     <div class="d-flex justify-content-center">
-                        <button id="confirm-order-btn" class="btn btn-primary btn-add-product w-100 w-sm-auto"><?=Loc::getMessage('CONFIRM_THE_ORDER');?></button>
+                        <?php if (isset($_SESSION['editable_order']) && !empty($_SESSION['editable_order'])) {
+                            $buttonText = Loc::getMessage('SAVE_CHANGES');
+                        } else {
+                            $buttonText = Loc::getMessage('CONFIRM_THE_ORDER');
+                        }?>
+                        <button id="confirm-order-btn" class="btn btn-primary btn-add-product w-100 w-sm-auto"><?=$buttonText;?></button>
                     </div>
                 </div>
 

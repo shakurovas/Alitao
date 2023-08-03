@@ -15,10 +15,16 @@ if (isset ($_POST['quantity']) && !empty($_POST['quantity']) && isset ($_POST['l
         $_POST[$key] = strip_tags($_POST[$key]);
     }
 
-    // изменяем количество товара в коризне
-    $_SESSION['cart'][$_POST['link']]['quantity'] = $_POST['quantity'];
+    if ((int)$_POST['is_edit_mode']) {
+        // изменяем количество товара в коризне
+        $_SESSION['editable_order'][$_POST['link']]['quantity'] = $_POST['quantity'];
+        echo json_encode(['cart' => $_SESSION['editable_order'][$_POST['link']]]);
+    } else {
+        // изменяем количество товара в коризне
+        $_SESSION['cart'][$_POST['link']]['quantity'] = $_POST['quantity'];
+        echo json_encode(['cart' => $_SESSION['cart'][$_POST['link']]]);
+    } 
 }
 
-echo json_encode(['cart' => $_SESSION['cart'][$_POST['link']]]);
 
 die();

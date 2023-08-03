@@ -30,4 +30,5 @@ $MESS['HOURS_ENDING_OV'] = 'часов';
 $MESS['HOURS_ENDING_A'] = 'часа';
 $MESS['HOURS_WITHOUT_ENDING'] = 'час';
 $MESS['CHANGE_PHOTO'] = 'Изменить фото';
-$MESS['TIME_FOR_PHOTO_UPDATE'] = 'Фото может обновиться не сразу. Обновите страницу через несколько секунд';
+$MESS['TIME_FOR_PHOTO_UPDATE'] = 'Для загрузки фото нажмите на изображение';
+$MESS['TIME_FOR_PHOTO_UPDATE_2'] = 'Фото может обновиться не сразу. Обновите страницу через несколько секунд';
