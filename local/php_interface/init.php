@@ -1,11 +1,11 @@
 <?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();?>
 <?php
+use Bitrix\Main\Type\DateTime;
+use Bitrix\Highloadblock as HL;
+
 // приязываем метод создания логина из введённой пользователем почты к событиям регистрации и обновления данных пользователя
 AddEventHandler("main", "OnBeforeUserRegister", Array('Handlers', "OnBeforeUserUpdateHandler"));
 AddEventHandler("main", "OnBeforeUserUpdate", Array('Handlers', "OnBeforeUserUpdateHandler"));
-
-// привязываем метод переадресации пользователя на страницу профиля к событию успешной авторизации 
-AddEventHandler("main", "OnAfterUserAuthorize", Array('Handlers', "OnAfterUserAuthorizeHandler"));
 
 // привязываем метод для отсылки сообщений на почту пользователю после изменения статуса заказа
 AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", Array("Handlers", "InformAboutStatusChange"));
@@ -13,20 +13,13 @@ AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", Array("Handlers", "Info
 
 class Handlers
 {
-    // функция для создания логина из почты
+    // метод для создания логина из почты
     public static function OnBeforeUserUpdateHandler(&$arFields)
     {
         $arFields["LOGIN"] = $arFields["EMAIL"];
         return $arFields;
     }
 
-    // функция для переадресации пользователя на страницу профиля после успешной авторизации
-    public static function OnAfterUserAuthorizeHandler($arUser)
-    {
-        if (strpos($_SERVER['REQUEST_URI'], '/bitrix/admin/') === false) {
-            LocalRedirect('/auth/personal.php?login=yes');
-        }
-    }
 
     // метод для отсылки письма на почту пользователю после изменения статуса заказа
     public static function InformAboutStatusChange(&$arFields)
@@ -90,6 +83,7 @@ class Handlers
     }
 }
 
+
 // функция для приведения номера телефона в профиле пользователя к нужному формату
 function phoneFormat($phone)
 {
@@ -112,4 +106,58 @@ function phoneFormat($phone)
         ), 
         $phone
     );
+}
+
+
+class Agents
+{
+    // метод-агент для обновления курса валют (выводится в хэдере в десктопной версии и бургер-меню в мобильной версии)
+    public static function AgentGetCurrencyRate()
+    {
+        CModule::IncludeModule('highloadblock');
+        $entity = HL\HighloadBlockTable::compileEntity('ExchangeRate');
+        $curClass = $entity->getDataClass();
+
+        $url = "https://openexchangerates.org/api/latest.json?app_id=85ba9498220f484b8aaac70f9b5fc516";
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $decodedRates = json_decode($response)->rates;
+    
+        // создаём и заполняем массивы данных для обновления записей в highload-блоке
+        $arFieldUSD = array();
+        $arFieldCNY = array();
+    
+        $arFieldUSD['UF_CUR_DATE'] = DateTime::createFromTimestamp(time())->toString();
+        // т. к. в бесплатной версии api курса валют в качестве базовой валюты доступен только USD, другие валюты считаем через него
+        $arFieldUSD['UF_MAIN_VALUE'] = round($decodedRates->RUB, 1);
+    
+        $arFieldCNY['UF_CUR_DATE'] = DateTime::createFromTimestamp(time())->toString();
+        // т. к. в бесплатной версии api курса валют в качестве базовой валюты доступен только USD, другие валюты считаем через него 
+        $arFieldCNY['UF_MAIN_VALUE'] = round($decodedRates->RUB / $decodedRates->CNY, 1);
+        
+        // обновляем данные в highload-блоке
+        $curClass::update(1, $arFieldUSD);
+        $curClass::update(2, $arFieldCNY);
+    
+        $_SESSION['usdRate'] = round($decodedRates->RUB, 1);
+        $_SESSION['cnyRate'] = round($decodedRates->RUB / $decodedRates->CNY, 1);
+        
+        return "Agents::AgentGetCurrencyRate();";
+    }
+
+
+    public static function AgentClearUsersPicsDir()
+    {
+        $files = glob('/upload/users_pics/*');  // получаем имена всех файлов внутри папки
+        foreach ($files as $file) {  // итерируемся по файлам
+          if (is_file($file)) {
+            unlink($file);  // удаляем файл
+          }
+        }
+
+        return "Agents::AgentClearUsersPicsDir();";
+    }
 }

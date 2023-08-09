@@ -3,8 +3,6 @@ define('STOP_STATISTICS', true);
 require_once($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_before.php');
 $APPLICATION->RestartBuffer();
 
-// echo (json_encode($_POST));
-
 // очистим от возможных тегов
 $_POST['old_password'] = strip_tags($_POST['old_password']);
 $_POST['new_password'] = strip_tags($_POST['new_password']);
@@ -18,7 +16,6 @@ $passwordLength = $securityPolicy['PASSWORD_LENGTH'];
 
 // проверим пароль на соответствие требованиям к паролю этой группы пользователей
 $errors = (new \CUser)->CheckPasswordAgainstPolicy($_POST['new_password'], $securityPolicy);
-// echo(json_encode($errors));
 
 // меняем пароль на новый при соблюдении следующих условий:
 // - старый пароль введён верно

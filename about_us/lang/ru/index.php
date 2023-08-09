@@ -22,4 +22,3 @@ $MESS['OUR_DOCUMENTS_TITLE'] = 'Наши документы';
 $MESS['MORE_QUESTIONS?'] = 'Остались вопросы?';
 $MESS['ASK_MANAGERS_QUESTIONS'] = 'Наши специалисты всегда с удовольствием объяснят вам все непонятные моменты предстоящей покупки.';
 $MESS['ASK_THE_QUESTION'] = 'Задать вопрос';
-$MESS[''] = '';

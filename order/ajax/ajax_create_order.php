@@ -76,7 +76,7 @@ $files = [];
 
 foreach ($order as $link => $props) {
     // строчка с характеристиками товаров
-    $orderContentString .= '<a href="' . $link . '">' . $props['name'] . '</a><br>';
+    $orderContentString .= '<a href="' . '' . $link . '' . '">' . $props['name'] . '</a><br>';
     $orderContentString .= Loc::getMessage('PRICE') . ': ' . $props['price'] . ' ¥<br>';
     $orderContentString .= Loc::getMessage('QUANTITY') . ': ' . $props['quantity'] . '<br>';
     $orderContentString .= Loc::getMessage('COLOUR') . ': ' . $props['colour'] . '<br>';
@@ -102,6 +102,15 @@ foreach ($order as $link => $props) {
             $files[] = CFile::SaveFile($file, 'users_pics');
         }
     }
+
+    // удаляем существующие картинки (если в заказе будут те же - они просто перезапишутся), если это режим редактирования заказа
+    if (isset($_SESSION['editable_order']) && !empty($_SESSION['editable_order'])) {
+        $oldPics = $el->GetProperty($ordersIblockId, $_SESSION['editable_order_id'], "sort", "asc", array("CODE" => "PICTURES"));
+        while ($arOldPropertyValue = $oldPics->Fetch()) {
+            $files[$arOldPropertyValue["PROPERTY_VALUE_ID"]] = array("VALUE" => array("del"=>"Y"), "DESCRIPTION" => "");
+        }
+    }
+    
 }
 
 
@@ -120,6 +129,7 @@ if ($totalSum <= 5000) {
 } else {
     $comission = 3;
 }
+
 
 // списки полей для создания/обновления элемента инофблока с заказами
 $elemProps = array(

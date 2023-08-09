@@ -22,7 +22,6 @@ if (isset($_FILES['photo']) && !empty($_FILES['photo']['tmp_name'])) {
             $user = new CUser;
             $arFields = [];
 
-            // $fileId = CFile::SaveFile($_FILES["personal-photo"],'avatar');
             $arFile = CFile::MakeFileArray($_SERVER["DOCUMENT_ROOT"] . "/upload/users_pics/" . $name);
             $arFile['del'] = "Y";
             $arFile['old_file'] = $_POST['old_photo_id'];

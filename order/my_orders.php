@@ -5,6 +5,7 @@ $APPLICATION->SetTitle("Мои заказы");
 
 ?>
 <?php
+$GLOBALS['arrFilter'] = array('PROPERTY_CUSTOMER' => $USER->GetID());
 $APPLICATION->IncludeComponent(
 	"bitrix:news", 
 	"my_orders", 
@@ -17,7 +18,7 @@ $APPLICATION->IncludeComponent(
 		"AJAX_OPTION_JUMP" => "N",
 		"AJAX_OPTION_STYLE" => "Y",
 		"BROWSER_TITLE" => "-",
-		"CACHE_FILTER" => "N",
+		"CACHE_FILTER" => "Y",
 		"CACHE_GROUPS" => "Y",
 		"CACHE_TIME" => "36000000",
 		"CACHE_TYPE" => "A",
@@ -126,7 +127,7 @@ $APPLICATION->IncludeComponent(
 		"STRICT_SECTION_CHECK" => "N",
 		"USE_CATEGORIES" => "N",
 		"USE_FILTER" => "N",
-		"USE_PERMISSIONS" => "N",
+		"USE_PERMISSIONS" => "Y",
 		"USE_RATING" => "N",
 		"USE_REVIEW" => "N",
 		"USE_RSS" => "N",
@@ -142,6 +143,9 @@ $APPLICATION->IncludeComponent(
 		"FILTER_PROPERTY_CODE" => array(
 			0 => "",
 			1 => "",
+		),
+		"GROUP_PERMISSIONS" => array(
+			0 => "1",
 		),
 		"SEF_URL_TEMPLATES" => array(
 			"news" => "my_orders.php",

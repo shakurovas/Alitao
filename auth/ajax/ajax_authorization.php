@@ -1,6 +1,9 @@
 <?php
 define('STOP_STATISTICS', true);
+
 require_once($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_before.php');
+global $APPLICATION;
+
 $APPLICATION->RestartBuffer();
 
 $order = array('sort' => 'asc');
@@ -18,20 +21,18 @@ if ($arUsers = $rsUsers->fetch()) {
     if (!empty($arUsers)) {
         // если пароль введён правильно, то авторизуем пользователя
         if (\Bitrix\Main\Security\Password::equals($arUsers['PASSWORD'], $_POST['password'])) {
-            // AddMessage2Log('radarada');
-            // AddMessage2Log($arUsers['ID']);
-            
-            // $result = $USER->Authorize($arUsers['ID']);
-            echo json_encode(
-                [
-                    'login' => [
-                        'state' => 'success',
-                        'message' => "Авторизация прошла успешно!",
-                        'id' => $arUsers['ID']
+            if ($USER->Login($_POST['login'], $_POST['password'], 'Y')) {
+                echo json_encode(
+                    [
+                        'login' => [
+                            'state' => 'success',
+                            'message' => "Авторизация прошла успешно!",
+                            'id' => $arUsers['ID']
+                        ],
                     ]
-                ]
-            );
-            // $USER->Authorize($arUsers['ID'], false, false);
+                );
+            };
+            
         // если такой логин есть, но пароль введён неправильно
         } else {
             echo json_encode(
@@ -44,7 +45,6 @@ if ($arUsers = $rsUsers->fetch()) {
             );
             
         }
-    
     } 
 // если пользователя с таким логином не зарегистрировано
 } else {
@@ -57,6 +57,6 @@ if ($arUsers = $rsUsers->fetch()) {
         ]
     );
 }
-// print_r($_POST);
+
 
 die();

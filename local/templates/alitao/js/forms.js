@@ -160,9 +160,10 @@ if ( deskSingInForm ){
             fetch("/auth/ajax/ajax_authorization.php", {
                 method: "POST",
                 body: data_body,
-                headers:{"content-type": "application/x-www-form-urlencoded"} 
+                headers:{"content-type": "application/x-www-form-urlencoded"}
             })
             .then(function (response) {
+                // console.log(response);
                 return response.text();
             })
             .then(function (response) {
@@ -171,8 +172,8 @@ if ( deskSingInForm ){
     
                 for (key in response) {
                     if ((response[key]['state'] == 'success')) {
-                        deskSingInForm[i].submit();
-                        // window.location.href = "/auth/personal.php";
+                        // deskSingInForm[i].submit();
+                        window.location.href = "/auth/personal.php";
                     } else {
                         let responseLine = response[key];
                         let fieldWrap = deskSingInForm[i].querySelector('[data-field="'+key+'"]');
@@ -189,6 +190,7 @@ if ( deskSingInForm ){
                         }
                     }
                 }
+                // window.location.href = '/auth/personal.php?login=yes';
             });
         })
     }
@@ -632,9 +634,15 @@ if ( moOrderRemoveBtns.length && moOrderEditBtns.length){
                     data: {link: linkOfGoodToDelete},
                     success: function(data) {
                       console.log(data);
+                      data = JSON.parse(data);
+                      let totalSumLabel = document.querySelector('#total-with-commission-cost');
+                      if (typeof totalSumLabel !== 'undefined' && totalSumLabel != null) {
+                        totalSumLabel.innerHTML = 'Итого с учётом комисии: ' + data['total_sum'] + ' ₽';
+                      }
                     }
                 });
 
+                
 
                 // const parent = this.closest('.mo-order');
                 parentOrder.remove();
@@ -764,10 +772,11 @@ if ( moOrderRemoveBtns.length && moOrderEditBtns.length){
                 // let servicesValueMobile = parent.querySelector('.services-cost-yuan-list-none');
                 // console.log(servicesValueDesktop);
                 // if (typeof servicesValueDesktop.innerHTML !== 'undefined' && servicesValueDesktop.innerHTML != null && typeof document.querySelector('#services-cost-calc') !== 'undefined' && document.querySelector('#services-cost-calc') != null) {
-                if (document.querySelector('#photoreport').checked)
+                let photoreportField = document.querySelector('#photoreport');
+                if (typeof photoreportField !== 'undefined' && photoreportField != null && photoreportField.checked)
                     document.querySelector('#services-cost-calc').innerHTML = document.querySelector('#product-qty').value * 5;
                 // } else if (typeof servicesValueMobile !== 'undefined' && servicesValueMobile != null) {
-                else document.querySelector('#services-cost-calc').innerHTML = 0;
+                else document.querySelector('#services-cost-calc').innerHTML = Number(0.00).toFixed(2);
                 // }
     
     
@@ -807,13 +816,20 @@ if (isMobilePage) {
     // let servicesValueMobile = parent.querySelector('.services-cost-yuan-list-none');
     // console.log(servicesValueDesktop);
     // if (typeof servicesValueDesktop.innerHTML !== 'undefined' && servicesValueDesktop.innerHTML != null && typeof document.querySelector('#services-cost-calc') !== 'undefined' && document.querySelector('#services-cost-calc') != null) {
-    if (document.querySelector('#photoreport').checked)
-        document.querySelector('#services-cost-calc').innerHTML = (Number(document.querySelector('#product-qty').value) * 5).toFixed(2);
-    // } else if (typeof servicesValueMobile !== 'undefined' && servicesValueMobile != null) {
-    else document.querySelector('#services-cost-calc').innerHTML = Number(0.00).toFixed(2);
-
-    document.querySelector('#total-cost-calc').innerHTML = (Number(document.querySelector('#services-cost-calc').innerHTML) + Number(document.querySelector('#delivery-cost-calc').innerHTML) + Number(document.querySelector('#product-cost-calc').innerHTML) * Number(document.querySelector('#product-qty').value)).toFixed(2);
+    let photoReportInput = document.querySelector('#photoreport');
+    
+    if (typeof photoReportInput !== 'undefined' && photoReportInput != null) {
+        if (photoReportInput.checked)
+            document.querySelector('#services-cost-calc').innerHTML = (Number(document.querySelector('#product-qty').value) * 5).toFixed(2);
+        // } else if (typeof servicesValueMobile !== 'undefined' && servicesValueMobile != null) {
+        else document.querySelector('#services-cost-calc').innerHTML = Number(0.00).toFixed(2);
+    }
+    
+    if (typeof document.querySelector('#services-cost-calc') !== 'undefined' && document.querySelector('#services-cost-calc') != null && typeof document.querySelector('#delivery-cost-calc') !== 'undefined' && document.querySelector('#delivery-cost-calc') != null && typeof document.querySelector('#product-cost-calc') != 'undefined' && document.querySelector('#product-cost-calc') != null && typeof document.querySelector('#product-qty') !== 'undefined' && document.querySelector('#product-qty') != null) {
+        document.querySelector('#total-cost-calc').innerHTML = (Number(document.querySelector('#services-cost-calc').innerHTML) + Number(document.querySelector('#delivery-cost-calc').innerHTML) + Number(document.querySelector('#product-cost-calc').innerHTML) * Number(document.querySelector('#product-qty').value)).toFixed(2);
+    }
 }
+    
 
 
 
@@ -889,6 +905,25 @@ if ( inpProductPhoto ){
                     removeBtnCross.src = "/local/templates/alitao/img/icons/remove-product.svg";
                     removeBtn.append(removeBtnCross);
                     imgContainer.append(removeBtn);
+                    removeBtn.addEventListener('click', function(){
+                        removeBtn.closest('.products-photo-grid__item').remove();
+                        // img.src = e.target.result;
+                        // imgContainer.remove(img);
+                        // console.log(removeBtn.parentNode.querySelector('img').src;
+                        // let dataToSend = {
+                        //     'link': $_POST['link'],
+                        //     'image_src': removeBtn.parentNode.querySelector('img').src
+                        // };
+                        // $.ajax( {
+                        //     url: \'/order/ajax/ajax_delete_image.php\',
+                        //     method: \'POST\',
+                        //     dataType: \'html\',
+                        //     data: dataToSend,
+                        //     success: function(data) {
+                        //     console.log(data);
+                        //     }
+                        // });
+                    });
 
                     const img  = document.createElement('img');
                     img.src = e.target.result;

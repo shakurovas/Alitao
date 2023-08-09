@@ -1,0 +1,30 @@
+$signatureValue:
+Array
+(
+    [BACKURL] => /auth/personal.php
+    [~BACKURL] => /auth/personal.php
+    [ERROR] => 
+    [~ERROR] => 
+    [SHOW_ERRORS] => Y
+    [~SHOW_ERRORS] => Y
+    [RND] => 6zOYVN
+    [~RND] => 6zOYVN
+    [FORM_TYPE] => logout
+    [~FORM_TYPE] => logout
+    [AUTH_URL] => /auth/personal.php
+    [~AUTH_URL] => /auth/personal.php
+    [PROFILE_URL] => /auth/personal.php?backurl=%2Fauth%2Fpersonal.php
+    [~PROFILE_URL] => /auth/personal.php?backurl=%2Fauth%2Fpersonal.php
+    [USER_NAME] => Светлана Шакурова
+    [USER_LOGIN] => shakurovas@bk.ru
+    [POST] => Array
+        (
+        )
+
+    [GET] => Array
+        (
+        )
+
+)
+
+

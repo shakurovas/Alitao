@@ -2,6 +2,10 @@
 
 let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent);
 
+
+let addGoodBtn = document.querySelector('#add-good-btn');
+let goodsList = document.querySelector('#goods-list');
+
 // if (isMobile) {
 //   let editBtns = document.querySelector('.mo-order__edit');
 //   for (let i = 0; i < editBtns.length; i++) {
@@ -9,13 +13,216 @@ let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|W
 //   }
 // }
 
-let addGoodBtn = document.querySelector('#add-good-btn');
-let goodsList = document.querySelector('#goods-list');
+let linkInput = document.querySelector('#product-link'); 
+let nameInput = document.querySelector('#product-name'); 
+let priceInput = document.querySelector('#product-price');
+let delivery_costInput = document.querySelector('#delivery-price');
+
+let addingGoodForm = document.querySelector('#adding-good-form');
+console.log(linkInput, nameInput, priceInput, delivery_costInput);
+
+if (isMobile) {
+  var requiredFields = document.querySelector('#required-fields-mobile');
+} else {
+  var requiredFields = document.querySelector('#required-fields');
+}
+
+
+if (typeof addGoodBtn !== 'undefined' && addGoodBtn != null) {
+  addGoodBtn.addEventListener('click', function() {
+    let linkFieldValue = linkInput.value;
+    let nameFieldValue = nameInput.value;
+    let priceFieldValue = priceInput.value;
+    let delivery_costFieldValue = delivery_costInput.value;
+    // console.log(linkField, nameField, priceField, delivery_costField);
+
+    if (delivery_costFieldValue == '' || priceFieldValue == '' || linkFieldValue == '' || nameFieldValue == '') {
+      
+      if (typeof requiredFields !== 'undefined' && requiredFields != null) {
+        requiredFields.style.display = 'block';
+        addGoodBtn.disabled = true;
+      }
+    } else {
+      if (typeof requiredFields !== 'undefined' && requiredFields != null) {
+        requiredFields.style.display = 'none';
+        addGoodBtn.disabled = false;
+      }
+    }
+  });
+}
+
+
+if (typeof linkInput !== 'undefined' && linkInput != null && typeof nameInput !== 'undefined' && nameInput != null && typeof priceInput !== 'undefined' && priceInput != null && typeof delivery_costInput !== 'undefined' && delivery_costInput != null) {
+  let linkField = linkInput.value;
+  let nameField = nameInput.value;
+  let priceField = priceInput.value;
+  let delivery_costField = delivery_costInput.value;
+  console.log(linkField, nameField, priceField, delivery_costField);
+  
+  // addGoodBtn.addEventListener('click', function() {
+  //   if (delivery_costField == '' || priceField == '' || linkField == '' || nameField == '') {
+  //     if (typeof requiredFields !== 'undefined' && requiredFields != null) {
+  //       requiredFields.style.display = 'block';
+  //       addGoodBtn.disabled = true;
+  //     }
+  //   } else {
+  //     if (typeof requiredFields !== 'undefined' && requiredFields != null) {
+  //       requiredFields.style.display = 'none';
+  //       addGoodBtn.disabled = false;
+  //     }
+  //   }
+  // });
+  if (!isMobile) {
+    if (typeof addingGoodForm !== 'undefined' && typeof addingGoodForm != null) {
+      addingGoodForm.addEventListener('keyup', function() {
+        let linkFieldNew = document.querySelector('#product-link').value; 
+        let nameFieldNew = document.querySelector('#product-name').value; 
+        let priceFieldNew = document.querySelector('#product-price').value;
+        let delivery_costFieldNew = document.querySelector('#delivery-price').value;
+      
+        if (delivery_costFieldNew == '' || priceFieldNew == '' || linkFieldNew == '' || nameFieldNew == '') {
+          if (typeof requiredFields !== 'undefined' && requiredFields != null) {
+            requiredFields.style.display = 'block';
+            addGoodBtn.disabled = true;
+          }
+        } else {
+          if (typeof requiredFields !== 'undefined' && requiredFields != null) {
+            requiredFields.style.display = 'none';
+            addGoodBtn.disabled = false;
+          }
+        }
+      })
+    }
+  } else {
+  // if (typeof addingGoodForm !== 'undefined' && addingGoodForm != null) {
+    document.querySelector('#product-link').addEventListener('keyup', function() {
+  
+      let linkFieldNew = document.querySelector('#product-link').value; 
+      let nameFieldNew = document.querySelector('#product-name').value; 
+      let priceFieldNew = document.querySelector('#product-price').value;
+      let delivery_costFieldNew = document.querySelector('#delivery-price').value;
+    
+      if (delivery_costFieldNew == '' || priceFieldNew == '' || linkFieldNew == '' || nameFieldNew == '') {
+        if (typeof requiredFields !== 'undefined' && requiredFields != null) {
+          requiredFields.style.display = 'block';
+          addGoodBtn.disabled = true;
+        }
+        // console.log(delivery_costField);
+        // console.log(priceField);
+        // console.log(priceField);
+        // console.log(nameField);
+      } else {
+        if (typeof requiredFields !== 'undefined' && requiredFields != null) {
+          console.log(799);
+          requiredFields.style.display = 'none';
+          addGoodBtn.disabled = false;
+        }
+      }
+    })
+    // }
+    document.querySelector('#product-name').addEventListener('keyup', function() {
+      let linkFieldNew = document.querySelector('#product-link').value; 
+      let nameFieldNew = document.querySelector('#product-name').value; 
+      let priceFieldNew = document.querySelector('#product-price').value;
+      let delivery_costFieldNew = document.querySelector('#delivery-price').value;
+    
+      if (delivery_costFieldNew == '' || priceFieldNew == '' || linkFieldNew == '' || nameFieldNew == '') {
+        if (typeof requiredFields !== 'undefined' && requiredFields != null) {
+          requiredFields.style.display = 'block';
+          addGoodBtn.disabled = true;
+        }
+        // console.log(delivery_costField);
+        // console.log(priceField);
+        // console.log(priceField);
+        // console.log(nameField);
+      } else {
+        if (typeof requiredFields !== 'undefined' && requiredFields != null) {
+          requiredFields.style.display = 'none';
+          addGoodBtn.disabled = false;
+        }
+      }
+    })
+    
+    document.querySelector('#product-price').addEventListener('keyup', function() {
+      let linkFieldNew = document.querySelector('#product-link').value; 
+      let nameFieldNew = document.querySelector('#product-name').value; 
+      let priceFieldNew = document.querySelector('#product-price').value;
+      let delivery_costFieldNew = document.querySelector('#delivery-price').value;
+    
+      if (delivery_costFieldNew == '' || priceFieldNew == '' || linkFieldNew == '' || nameFieldNew == '') {
+        if (typeof requiredFields !== 'undefined' && requiredFields != null) {
+          requiredFields.style.display = 'block';
+          addGoodBtn.disabled = true;
+        }
+        // console.log(delivery_costField);
+        // console.log(priceField);
+        // console.log(priceField);
+        // console.log(nameField);
+      } else {
+        if (typeof requiredFields !== 'undefined' && requiredFields != null) {
+          requiredFields.style.display = 'none';
+          addGoodBtn.disabled = false;
+        }
+      }
+    })
+    
+    document.querySelector('#delivery-price').addEventListener('keyup', function() {
+      let linkFieldNew = document.querySelector('#product-link').value; 
+      let nameFieldNew = document.querySelector('#product-name').value; 
+      let priceFieldNew = document.querySelector('#product-price').value;
+      let delivery_costFieldNew = document.querySelector('#delivery-price').value;
+    
+      if (delivery_costFieldNew == '' || priceFieldNew == '' || linkFieldNew == '' || nameFieldNew == '') {
+        if (typeof requiredFields !== 'undefined' && requiredFields != null) {
+          requiredFields.style.display = 'block';
+          addGoodBtn.disabled = true;
+        }
+        // console.log(delivery_costField);
+        // console.log(priceField);
+        // console.log(priceField);
+        // console.log(nameField);
+      } else {
+        if (typeof requiredFields !== 'undefined' && requiredFields != null) {
+          requiredFields.style.display = 'none';
+          addGoodBtn.disabled = false;
+        }
+      }
+    })  
+  }  
+}
+
+
+// delivery_costField.addEventListener('keyup', function() {
+//   let linkFieldNew = document.querySelector('#product-link').value; 
+//   let nameFieldNew = document.querySelector('#product-name').value; 
+//   let priceFieldNew = document.querySelector('#product-price').value;
+//   let delivery_costFieldNew = document.querySelector('#delivery-price').value;
+
+//   if (delivery_costFieldNew == '' || priceFieldNew == '' || linkFieldNew == '' || nameFieldNew == '') {
+//     if (typeof requiredFields !== 'undefined' && requiredFields != null) {
+//       requiredFields.style.display = 'block';
+//       addGoodBtn.disabled = true;
+//     }
+//     // console.log(delivery_costField);
+//     // console.log(priceField);
+//     // console.log(priceField);
+//     // console.log(nameField);
+//   } else {
+//     if (typeof requiredFields !== 'undefined' && requiredFields != null) {
+//       requiredFields.style.display = 'none';
+//       addGoodBtn.disabled = false;
+//     }
+//   }
+// })
+
+
+
 
 if (addGoodBtn) {
   addGoodBtn.addEventListener('click', function(event){
   
     event.preventDefault();
+
     let link = document.querySelector('#product-link').value; 
     let name = document.querySelector('#product-name').value; 
     let price = document.querySelector('#product-price').value; 
@@ -37,8 +244,7 @@ if (addGoodBtn) {
       var photoreportValue = 1;
     } else {
       var photoreportValue = 0;
-    } 
-    // console.log(link, name, price, size, delivery_cost, colour, comment, quantity, photoreport);
+    }
 
     var form_data = new FormData();
     for (let i=0; i < photos.length; i++) {
@@ -55,21 +261,7 @@ if (addGoodBtn) {
     form_data.append('photoreport', photoreportValue);
     form_data.append('is_edit_mode', isEditModeValue);
 
-    // console.log(form_data);
-
-    // dataToSend = {
-    //     link: link,
-    //     name: name,
-    //     price: price,
-    //     size: size,
-    //     delivery_cost: delivery_cost,
-    //     colour: colour,
-    //     comment: comment,
-    //     quantity: quantity,
-    //     photos: form_data,
-    //     photoreport: photoreport
-    // }
-    // console.log(dataToSend);
+    // console.log(isEditModeValue);
 
 
     $.ajax( {
@@ -108,14 +300,11 @@ if (addGoodBtn) {
   
             if (typeof data['buttons_string'] !== 'undefined' && data['buttons_string'] != null && data['buttons_string'] != '') {
               goodsList.insertAdjacentHTML( 'afterEnd', data['buttons_string']);
-              // goodsList.innerHTML += data['buttons_string'];
             }
           }
          
-
-          // event.target.click();
           link = ''; 
-          name = 'ahahaha'; 
+          name = ''; 
           price = '';
           size = '';
           delivery_cost = ''; 
@@ -128,7 +317,12 @@ if (addGoodBtn) {
           document.querySelector('.products-photo-grid').innerHTML = '';
         }
         if (isMobile) {
-          if (isEditMode)
+          // if (isEditModeValue != 0) {
+          //   console.log('edit_mode: ' + isEditModeValue);
+          // } else {
+          //   console.log('not_edit_mode: ' + isEditModeValue);
+          // }
+          if (isEditModeValue != 0)
             window.location.href = '/order/make_order_step_1.php?edit=y';
           else {
             window.location.href = '/order/make_order_step_1.php';
@@ -331,7 +525,7 @@ if (minusList.length) {
 
       dataToSend = {
         'quantity': productQuantityInputList[i].value,
-        'link': this.closest('.mo-order').querySelector('a').href.slice(0, -1),
+        'link': this.closest('.mo-order').querySelector('a').href,
         'is_edit_mode': isEditModeValue
       };
       console.log(dataToSend);
@@ -351,37 +545,37 @@ if (minusList.length) {
 
 
 
-var btnWasClicked = false;
+// var btnWasClicked = false;
 
-let askForBillBtns = document.querySelectorAll('.add-good-mobile');
-// console.log(addGoodMobileBtn);
-for (let i = 0; i < askForBillBtns.length; i++) {
-  askForBillBtns[i].addEventListener('click', function(){
-    let id = this.dataset.id;  // получение id заказа, по которому просят счёт
+// let askForBillBtns = document.querySelectorAll('.add-good-mobile');
+// // console.log(addGoodMobileBtn);
+// for (let i = 0; i < askForBillBtns.length; i++) {
+//   askForBillBtns[i].addEventListener('click', function(){
+//     let id = this.dataset.id;  // получение id заказа, по которому просят счёт
   
-    if (!btnWasClicked) {
-      // если нажимают первый раз, то открываем окно с чатом и выводим приветственное сообщение
-      jivo_api.showProactiveInvitation(`Здравствуйте!
-      Если у вас есть вопросы по заказу, смело задавайте! 😉
-      Если вы хотите запросить счёт по заказу, напишите об этом или нажмите соответствующую кнопку в чате. Если вы хотите запросить счета сразу по нескольким заказам, укажите, пожалуйста, номера заказов (их можно посмотреть в списке заказов в своём профиле)
-      `);
-      btnWasClicked = true;
-    } else {  // если нажимают уже не первый раз, то открываем окно без нового сообщения с привествием
-      jivo_api.showProactiveInvitation(`
-      Если вы хотите запросить счёт по заказу, напишите об этом или нажмите соответствующую кнопку в чате. Если вы хотите запросить счета сразу по нескольким заказам, укажите, пожалуйста, номера заказов (их можно посмотреть в списке заказов в своём профиле)
-      `);
-    }
+//     if (!btnWasClicked) {
+//       // если нажимают первый раз, то открываем окно с чатом и выводим приветственное сообщение
+//       jivo_api.showProactiveInvitation(`Здравствуйте!
+//       Если у вас есть вопросы по заказу, смело задавайте! 😉
+//       Если вы хотите запросить счёт по заказу, напишите об этом или нажмите соответствующую кнопку в чате. Если вы хотите запросить счета сразу по нескольким заказам, укажите, пожалуйста, номера заказов (их можно посмотреть в списке заказов в своём профиле)
+//       `);
+//       btnWasClicked = true;
+//     } else {  // если нажимают уже не первый раз, то открываем окно без нового сообщения с привествием
+//       jivo_api.showProactiveInvitation(`
+//       Если вы хотите запросить счёт по заказу, напишите об этом или нажмите соответствующую кнопку в чате. Если вы хотите запросить счета сразу по нескольким заказам, укажите, пожалуйста, номера заказов (их можно посмотреть в списке заказов в своём профиле)
+//       `);
+//     }
    
   
-    // передадим менеджеру в панели Jivo информацию об id заказа, для которого клиент просит счёт
-    jivo_api.setCustomData([
-      {
-          "content": "ID заказа: " + id,
-      },
-    ]);
-    jivo_api.open();
-  });
-}
+//     // передадим менеджеру в панели Jivo информацию об id заказа, для которого клиент просит счёт
+//     jivo_api.setCustomData([
+//       {
+//           "content": "ID заказа: " + id,
+//       },
+//     ]);
+//     jivo_api.open();
+//   });
+// }
 
 
 let mobileAddGoodBeforeBtn = document.querySelector('.mobile-add-good-before');

@@ -25,9 +25,7 @@ Loc::loadMessages(__FILE__);
             </div>
             <button class="btn btn-success fs-5 px-6 py-3 w-100"><?=Loc::getMessage('CHANGE_PASSWORD');?></button>
         </form>    
-
-           
-            
+        
         
     </section>
 

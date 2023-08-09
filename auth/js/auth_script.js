@@ -1,27 +1,31 @@
 // для сохранения изменений при редактировании профиля
-function saveChanges()
+function saveChanges(event)
 {
-    // заберём из формы заполненные поля
-    let formData = $('#save-changes-btn').serializeArray();
+  event.preventDefault();
 
-    // сформируем объект с данными для отправки ajax-ом
-    let objData = {};
-    for (var obj in formData) {
-        objData[formData[obj]['name']] = formData[obj]['value'];
-    }
-    objData['time_difference'] = $("#hours-difference :selected").text();
-    objData['notification'] = Number(document.getElementById('alert').checked);
+  // заберём из формы заполненные поля
+  let formData = $('#save-changes-btn').serializeArray();
 
-    // отправляем
-    $.ajax({
-        url: '/auth/ajax/ajax_change_data.php',
-        method: 'post',
-        dataType: 'html',
-        data: objData,
-        success: function(data){
-            console.log(data);
-        }
-    });
+  // сформируем объект с данными для отправки ajax-ом
+  let objData = {};
+  for (var obj in formData) {
+      objData[formData[obj]['name']] = formData[obj]['value'];
+  }
+
+  objData['time_difference'] = $("#hours-difference :selected").text();
+  objData['notification'] = Number(document.getElementById('alert').checked);
+
+  // отправляем
+  $.ajax({
+      url: '/auth/ajax/ajax_change_data.php',
+      method: 'post',
+      dataType: 'html',
+      data: objData,
+      success: function(data){
+          console.log(data);
+          window.location.href = '/auth/personal.php';
+      }
+  });
 }
 
 

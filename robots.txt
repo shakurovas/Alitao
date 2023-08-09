@@ -1,0 +1,50 @@
+
+#All
+User-Agent: *
+Disallow: */index.php
+Disallow: /bitrix/
+Disallow: /store/
+Disallow: /search/
+Disallow: /personal/
+Disallow: /login/
+Disallow: /*auth
+Disallow: /order/
+Disallow: /compare/
+Disallow: /*/filter/*/apply/
+Disallow: /*show_*=
+Disallow: /*bitrix_include_areas=
+Disallow: /*clear_cache*=
+Disallow: /*ADD_TO_COMPARE_LIST
+Disallow: /*ORDER_BY
+Disallow: /*?*print*=
+Disallow: /*?*action=
+Disallow: /*?*register=
+Disallow: /*?*_password=
+Disallow: /*?*login=
+Disallow: /*?*logout=
+Disallow: /*?*back*=
+Disallow: /*?*BACK*=
+Disallow: /*?*utm_source=
+Disallow: /*?*view_list=
+Disallow: /*?*order=
+Disallow: /*?*by=
+
+Allow: /bitrix/components/
+Allow: /bitrix/cache/
+Allow: /bitrix/js/
+Allow: /bitrix/templates/
+Allow: /bitrix/panel/
+
+Sitemap: https://alitao.shop//sitemap.xml
+
+
+
+
+
+
+
+
+
+
+
+

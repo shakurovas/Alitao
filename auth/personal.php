@@ -6,11 +6,9 @@ $APPLICATION->SetTitle("Профиль пользователя");
 use \Bitrix\Main\Localization\Loc;
 Loc::loadMessages(__FILE__);
 
-if ($USER->IsAuthorized())
-{
+if ($USER->IsAuthorized()) {
     $rsUser = CUser::GetByID($USER->GetID());  // получаем ID авторизованного пользователя и сразу же его поля
     $arUser = $rsUser->Fetch();
-  
 }
 ?>
 

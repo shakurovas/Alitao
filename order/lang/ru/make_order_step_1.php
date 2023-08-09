@@ -1,5 +1,6 @@
 <?php
 $MESS['MAKE_AN_ORDER_TITLE'] = 'Сделать заказ';
+$MESS['EDIT_THE_ORDER_TITLE'] = 'Редактировать заказ';
 $MESS['ORDER_CONTENTS'] = 'Состав заказа';
 $MESS['DELIVERY_ADDRESS'] = 'Адрес доставки';
 $MESS['CONFIRMATION'] = 'Подтверждение';

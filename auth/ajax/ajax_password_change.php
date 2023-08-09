@@ -31,5 +31,6 @@ if ($result['TYPE'] == 'OK') {
         ]
     );
 }
-// echo json_encode($result);
+
+
 die();

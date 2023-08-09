@@ -39,7 +39,6 @@ if (isset($_POST['name']) && !empty($_POST['name']) && isset($_POST['contact']) 
         "PROPERTY_VALUES" => $elemProps,
         "NAME" => 'Новый вопрос',
         "ACTIVE" => "Y",
-        // "MODIFIED_BY" => 1,
     );
 
     if($elemId = $el->Add($elArray)) {
@@ -52,10 +51,9 @@ if (isset($_POST['name']) && !empty($_POST['name']) && isset($_POST['contact']) 
             "QUESTION" => $_POST['question']
         );
         
-        // \CEvent::Send('NEW_QUESTION', 's1', $arEventFields, 'N');
         CEvent::SendImmediate('NEW_QUESTION', 's1', $arEventFields, 'N', 52);
 
-        // выводим информацию пользователю о том, что всё прошло вспешно:)
+        // выводим информацию пользователю о том, что всё прошло успешно:)
         echo json_encode(
             [
                 'question' => [

@@ -43,7 +43,7 @@ session_start();
 <main>
     <?php if ($USER->isAuthorized()):?>
         <section class="container pt-7 mt-1 pb-10 mb-4  text">
-            <h1 class="fs-2 text-center mb-6 mb-lg-8"><?=Loc::getMessage('MAKE_AN_ORDER_TITLE');?></h1>
+            <h1 class="fs-2 text-center mb-6 mb-lg-8"><?php echo (isset($_SESSION['editable_order']) && !empty($_SESSION['editable_order'])) ?  Loc::getMessage('EDIT_THE_ORDER_TITLE') : Loc::getMessage('MAKE_AN_ORDER_TITLE');?></h1>
 
             <div class="steps mb-4">
                 <div class="steps__step active">
@@ -67,9 +67,9 @@ session_start();
                 <div class="d-flex justify-content-center mb-6">
                     <a href="/helpful_info/how_to_place_order.php" class="link-secondary fs-5"><?=Loc::getMessage('HOW_TO_ADD_GOOD');?>?</a>   
                 </div>
-
+                
                 <div class="mb-2">
-                    <input type="url" id="add-product-input" name="mo-product-link" class="form-control" placeholder="<?=Loc::getMessage('PRODUCT_LINK');?>">
+                    <input type="url" id="add-product-input" name="mo-product-link" class="form-control" placeholder="<?=Loc::getMessage('PRODUCT_LINK');?>" value="<?php if (isset($_GET['link']) && !empty($_GET['link'])) echo $_GET['link'];?>">
                 </div>
                 <p class="text-dark fs-5 text-center mb-7"> <?=Loc::getMessage('PASTE_LINK');?> 
                     <a href="https://taobao.com" class="link-secondary" target="_blank">taobao,</a> 

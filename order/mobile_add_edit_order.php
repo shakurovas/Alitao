@@ -30,7 +30,7 @@ if (!isset($_SESSION['editable_order'][$_GET['link']])) {
 
             <div class="mb-4">
                 <div class="mb-1">
-                    <input type="url" name="product_link" id="product-link" class="form-control py-2"  placeholder="Ссылка на товар" value="<?php echo isset($_SESSION['editable_order']) ? strip_tags($_GET['link']) : '';?>">
+                    <input type="url" name="product_link" id="product-link" class="form-control py-2"  placeholder="Ссылка на товар" value="<?php if (isset($_GET['link']) && !empty($_GET['link'])) echo strip_tags($_GET['link']);?>">
                 </div>
                 <label class="text-dark fs-5 text-gray" for="product-link">  <?=Loc::getMessage('PASTE_LINK_FROM_THE_SITE');?> 
                     <a href="https://taobao.com" class="link-secondary" target="_blank">taobao,</a> 
@@ -172,7 +172,7 @@ if (!isset($_SESSION['editable_order'][$_GET['link']])) {
             <div class="d-flex justify-content-center mb-2">
                 <button id="add-good-btn" class="btn btn-primary btn-add-product w-100 w-sm-auto"><?=Loc::getMessage('ADD_GOOD');?></button>
             </div>
-            <div class="d-flex justify-content-center mb-2" style="color: #FF6948;">
+            <div id="required-fields-mobile" class="d-flex justify-content-center mb-2" style="color: #FF6948; display: none;">
                 <?=Loc::getMessage('FILL_REQUIRED_FIELDS');?>
             </div>
         </section>

@@ -58,12 +58,6 @@ Asset::getInstance()->addJs("/auth/js/auth_script.js");
                                     <?=GetMessage('TIME_FOR_PHOTO_UPDATE_2');?>
                                 </p>  
                             </form>
-                            <!-- <form class="fs-5" id="change-photo" action="/auth/personal.php" method="POST" enctype="multipart/form-data">
-                                <input type="hidden" name="old_photo_id" value="<?php //echo $arUser['PERSONAL_PHOTO']?>">
-                                <input type="file" name="photo" accept="image/*" width="182" height="251" style="width: 100%; font-size: 10px; margin-top: 10px;">
-                                <input type="submit" id="change-photo-btn" value="<?//=GetMessage('CHANGE_PHOTO');?>" style="width: 100%; font-size: 10px; margin-top: 10px;">
-                            </form> -->
-                            
                         </div>
                         
                         <div class="user__data fs-3 text-dark">
@@ -121,13 +115,10 @@ Asset::getInstance()->addJs("/auth/js/auth_script.js");
 
                             
                             <div class="d-flex py-4 py-xl-2 mb-2 mb-lg-0">
-                                <!-- <a class="btn btn-secondary me-4 px-xl-9" href="/auth/personal.php"><?//=Loc::getMessage('EDIT');?></a> -->
                                 <button id="change-password-btn" class="btn btn-outline-secondary px-xl-9 d-none d-md-inline-block" data-bs-toggle="modal" href="#changePassword" role="button"><?=Loc::getMessage('CHANGE_PASSWORD');?></button>
                             </div>
 
-                            <!-- <form action="/auth/personal.php" class="fs-5"> -->
-                            <form class="fs-5" id="save-changes-btn" action="/auth/personal.php" method="POST" onsubmit="return saveChanges();" enctype="multipart/form-data">
-                                <!-- <input type="file" name="photo" accept="image/*"> -->
+                            <form class="fs-5" id="save-changes-btn" action="/auth/personal.php" method="POST" onsubmit="return saveChanges(event);" enctype="multipart/form-data">
                                 <div class="mb-4">
                                     <label for="nickname" class="form-label mb-0"><?=Loc::getMessage('NICK_OR_NAME');?></label>
                                     <input type="text" class="form-control py-2 py-1" id="nickname" placeholder="<?=Loc::getMessage('NICK_OR_NAME');?>" name="nickname" required value="<?=$arUser['UF_NICKNAME'];?>">                     
@@ -196,17 +187,9 @@ Asset::getInstance()->addJs("/auth/js/auth_script.js");
                                     </div>
                                 </div>
 
-                                <!-- <div style="color: #FF6948; margin-bottom: 15px;">
-                                    Изменения будут применены в течение нескольких секунд           
-                                </div>  -->
-
                                 <button id="save-profile-changes-btn" class="btn btn-primary w-100 w-lg-auto fs-4 fs-lg-5"><?=Loc::getMessage('SAVE_CHANGES_BTN');?></button>
                                 <a class="btn btn-outline-secondary d-md-none" href="/auth/mobile_change_password.php" ><?=Loc::getMessage('CHANGE_PASSWORD');?></a>
-                                <!-- <div class="d-flex py-4 py-xl-2 mb-2 mb-lg-0">
-                                    <button id="change-password-btn" class="btn btn-outline-secondary px-xl-9 d-none d-md-inline-block" data-bs-toggle="modal" href="#changePassword" role="button"><?=Loc::getMessage('CHANGE_PASSWORD');?></button>
-                                </div> -->
                             </form>
-
                             
                         </div>
                     </div>
