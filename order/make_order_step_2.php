@@ -15,11 +15,6 @@ $arUser = $rsUser->Fetch();
 
 session_start();
 
-// echo '<pre>';
-// print_r($_SESSION);
-// echo '</pre>';
-// unset($_SESSION['cart']);
-// unset($_SESSION['editable_order']);
 ?>
 
 <main>

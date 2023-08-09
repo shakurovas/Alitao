@@ -62,7 +62,3 @@ if($arResult["SHOW_SMS_FIELD"] == true)
 		<span class="fs-5 d-inline-block link-secondary " data-bs-target="#singInModal" data-bs-toggle="modal" data-bs-dismiss="modal"><?=GetMessage('I_ALREADY_HAVE_A_PROFILE');?></span>
 	</div>
 </form>
-
-
-
-

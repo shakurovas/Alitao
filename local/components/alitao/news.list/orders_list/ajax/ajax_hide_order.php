@@ -9,7 +9,6 @@ $APPLICATION->RestartBuffer();
 
 session_start();
 
-// echo json_encode($_POST);
 
 if (CModule::IncludeModule("iblock")) {
   $el = new CIBlockElement;

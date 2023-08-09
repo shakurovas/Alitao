@@ -25,4 +25,3 @@ $MESS['TOTAL'] = 'Итого';
 $MESS['NEW_ORDER'] = 'Новый заказ';
 $MESS['SHOW_ORDERS_FROM_ARCHIVE'] = 'Показать заказы из архива';
 $MESS['NEED_TO_BE_AUTHORIZED'] = 'Для просмотра ваших заказов необходимо авторизоваться!';
-

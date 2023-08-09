@@ -12,12 +12,7 @@ Loc::loadMessages(__FILE__);
 
 session_start();
 
-// echo '<pre>';
-// print_r($_SESSION);
-// echo '</pre>';
-
 $totalSumYuan = 0;
-// $totalSumRub = 0;
 
 if (isset($_SESSION['editable_order']) && !empty($_SESSION['editable_order'])) {
     foreach ($_SESSION['editable_order'] as $key => $props) {
@@ -46,21 +41,10 @@ if ($totalSumYuan <= 5000) {
 } else if ($totalSumYuan > 5000) {
     $totalSumYuan = $totalSumYuan * 1.03;  // комиссия 3%
 }
-// var_dump($totalSumYuan);
-// var_dump($totalSumRub);
+
 $totalSumYuanToShow = number_format($totalSumYuan, 2, '.', ' ');
 $totalSumRubToShow = number_format($_SESSION['cnyRate'] * $totalSumYuan, 2, '.', ' ');
 
-
-// $propertyEnums = CIBlockPropertyEnum::GetList(Array("DEF" => "DESC", "SORT" => "ASC"), Array("IBLOCK_ID" => $ordersIblockId, "CODE" => 'DELIVERY_METHOD'));
-// while($enumFields = $propertyEnums->GetNext())
-// {
-//     $orderEnumFields['DELIVERY_METHOD'][$enumFields["VALUE"]] = $enumFields["ID"];
-// }
-
-// echo '<pre>';
-// print_r($orderEnumFields['DELIVERY_METHOD']);
-// echo '</pre>';
 ?>
 
 <main>
@@ -93,11 +77,6 @@ $totalSumRubToShow = number_format($_SESSION['cnyRate'] * $totalSumYuan, 2, '.',
                         <p class="fs-3 fw-bold mb-2"><?=Loc::getMessage('FULL_NAME');?></p>
                         <p class="fs-4 fs-lg-3 text-secondary "><?=$_SESSION['users_info']['full_name'];?></p>
                     </div>
-
-                    <!-- <div class="mb-lg-4 mb-2">
-                        <p class="fs-3 fw-bold mb-2"><?//=Loc::getMessage('NUMBER_OF_ORDER');?></p>
-                        <p class="fs-4 fs-lg-3 text-secondary ">123456</p>
-                    </div> -->
 
                     <div class="mb-lg-4 mb-2">
                         <p class="fs-3 fw-bold mb-2"><?=Loc::getMessage('PHONE');?></p>

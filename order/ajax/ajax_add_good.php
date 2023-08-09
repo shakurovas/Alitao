@@ -13,7 +13,6 @@ foreach ($_POST as $key) {
     $_POST[$key] = strip_tags($_POST[$key]);
 }
 
-// echo json_encode($_POST);
 
 if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем добавлять в корзину новые данные, только если указали хотя бы ссылку на товар 
     
@@ -25,7 +24,7 @@ if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем доба�
 
     $goodsPictures = [];  // массив с картинками
     if (!empty($_FILES)) {  // если загрузили картинки
-        // echo json_encode($_FILES);
+
         // преобразуем массив $_FILES к удобному для использования виду
         $files = array();
         $diff = count($_FILES['file']) - count($_FILES['file'], COUNT_RECURSIVE);
@@ -50,17 +49,9 @@ if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем доба�
                     if ($isMoved){
                         // если всё ок:
             
-                        // $fileId = CFile::SaveFile($_FILES["personal-photo"],'avatar');
                         $arFile = CFile::MakeFileArray($_SERVER["DOCUMENT_ROOT"] . "/upload/users_pics/" . $name);
-                        // $arFile['del'] = "Y";
-                        // $arFile['old_file'] = $_POST['old_photo_id'];
                         $goodsPictures[] = $arFile;
 
-                        
-                        // $result = $user->Update($USER->GetID(), $arFields);
-            
-                        // удаляем временный файл:
-                        // unlink ($uploadsDir . "/" . $name);
                     } else {
                         echo 'ERROR_FILE_MOVED';
                         die();
@@ -81,8 +72,7 @@ if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем доба�
     if (isset($arrayOfGoods[$_POST['link']]) && !empty($arrayOfGoods[$_POST['link']]['photo'])) {
         $goodsPictures = array_merge($arrayOfGoods[$_POST['link']]['photo'], $goodsPictures);
     }
-    // echo (json_encode($goodsPictures));
-// }
+
     // составляем содержимое div'а с товарами заказа (id="goods-list")
     $goodsString = '';
 
@@ -118,8 +108,6 @@ if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем доба�
             'photo_report_is_needed' => (int)$_POST['photoreport']
         ];
     }
-
-    // echo json_encode($_SESSION['cart']);
     
 
     $sumRub = 0;
@@ -244,45 +232,22 @@ if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем доба�
         </div>';
     }
     
-    // if (count($arrayOfGoods) == 1) {
-        $buttonsString = 
-        '<div class="d-flex justify-content-center delete-after-add-goods">
-            <button class="btn btn-outline-primary add-goods-btn-cart btn-add-product w-100 w-sm-auto d-none d-md-inline-block" data-target-field="product_link" data-bs-toggle="modal" href="#makeOrderModal" role="button">' . Loc::getMessage('ADD_GOOD') . '</button>
-            <a href="/order/mobile_add_edit_order.php" class="btn btn-outline-primary btn-add-product w-100 w-sm-auto d-md-none" >' . Loc::getMessage('ADD_GOOD') . '</a>
-        </div>
-    
-        <p class="my-7 text-dark text-center fs-5 delete-after-add-goods" id="total-with-commission-cost">' . Loc::getMessage('TOTAL_WITH_COMMISSION') . ': ' . number_format($sumRub, 2, '.', ' ') . ' ₽  </p>
-        <div class="d-flex justify-content-center delete-after-add-goods">
-            <a class="btn btn-primary btn-add-product w-100 w-sm-auto" href="/order/make_order_step_2.php">' . Loc::getMessage('CONTINUE') . '</a>
-        </div>';
-    // } else {
-    //     $buttonsString = '';
-    // }
-    
+    $buttonsString = 
+    '<div class="d-flex justify-content-center delete-after-add-goods">
+        <button class="btn btn-outline-primary add-goods-btn-cart btn-add-product w-100 w-sm-auto d-none d-md-inline-block" data-target-field="product_link" data-bs-toggle="modal" href="#makeOrderModal" role="button">' . Loc::getMessage('ADD_GOOD') . '</button>
+        <a href="/order/mobile_add_edit_order.php" class="btn btn-outline-primary btn-add-product w-100 w-sm-auto d-md-none" >' . Loc::getMessage('ADD_GOOD') . '</a>
+    </div>
 
-    // если в корзине сейчас находится только один товар, который добавили только что,
-    // не забываем закрыть div-обёртку для всех товаров в заказе
-    // if (count($arrayOfGoods) == 1) {
-    //     $goodsString .= '</div>
-
-    //     <div class="d-flex justify-content-center">
-    //         <button class="btn btn-outline-primary btn-add-product w-100 w-sm-auto d-none d-md-inline-block" data-target-field="product_link" data-bs-toggle="modal" href="#makeOrderModal" role="button">' . Loc::getMessage('ADD_GOOD') . '</button>
-    //         <a href="mobile-add-edit-order.html" class="btn btn-outline-primary btn-add-product w-100 w-sm-auto d-md-none" >' . Loc::getMessage('ADD_GOOD') . '</a>
-    //     </div>
-
-    //     <p class="my-7 text-dark text-center fs-5" id="total-with-commission-cost">' . Loc::getMessage('TOTAL_WITH_COMMISSION') . ': ' . number_format($sumRub, 2, '.', ' ') . ' ₽  </p>
-    //     <div class="d-flex justify-content-center">
-    //         <a class="btn btn-primary btn-add-product w-100 w-sm-auto" href="/order/make_order_step_2.php">' . Loc::getMessage('CONTINUE') . '</a>
-    //     </div>';
-    // }
+    <p class="my-7 text-dark text-center fs-5 delete-after-add-goods" id="total-with-commission-cost">' . Loc::getMessage('TOTAL_WITH_COMMISSION') . ': ' . number_format($sumRub, 2, '.', ' ') . ' ₽  </p>
+    <div class="d-flex justify-content-center delete-after-add-goods">
+        <a class="btn btn-primary btn-add-product w-100 w-sm-auto" href="/order/make_order_step_2.php">' . Loc::getMessage('CONTINUE') . '</a>
+    </div>';
 }
 
 echo json_encode([
     'goods_string' => $goodsString,
     'buttons_string' => $buttonsString
 ]);
-// echo json_encode(['cart' => $arrayOfGoods]);
-// unset($arrayOfGoods);
 
 
 die();

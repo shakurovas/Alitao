@@ -6,6 +6,7 @@ $APPLICATION->RestartBuffer();
 
 session_start();
 
+
 if (isset($_POST['link']) && !empty($_POST['link'])) {
     $_POST['link'] = strip_tags($_POST['link']);
 
@@ -26,8 +27,6 @@ if (isset($_POST['link']) && !empty($_POST['link'])) {
             }
         }
     }
-
-   
 }
 
 

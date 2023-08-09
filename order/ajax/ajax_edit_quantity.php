@@ -6,7 +6,6 @@ $APPLICATION->RestartBuffer();
 
 session_start();
 
-// echo json_encode($_POST);
 
 if (isset ($_POST['quantity']) && !empty($_POST['quantity']) && isset ($_POST['link']) && !empty($_POST['link'])) {  // будем добавлять в корзину новые данные, только если указали хотя бы ссылку на товар 
     

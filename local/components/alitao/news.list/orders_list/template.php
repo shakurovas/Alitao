@@ -13,11 +13,6 @@
 $this->setFrameMode(true);
 $this->addExternalJS("/order/js/adding_goods.js");
 $this->addExternalJS("/local/templates/alitao/components/bitrix/news/my_orders/bitrix/news.list/orders_list/js/script.js");
-// echo '<pre>';
-// var_dump($arResult['ITEMS'][0]);
-// echo '</pre>';
-$obCache = new CPHPCache;
-$obCache->CleanDir("/s1/bitrix/news.list", "cache");
 ?>
 
 <main>
@@ -71,9 +66,6 @@ $obCache->CleanDir("/s1/bitrix/news.list", "cache");
 									<?
 									$this->AddEditAction($arItem['ID'], $arItem['EDIT_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_EDIT"));
 									$this->AddDeleteAction($arItem['ID'], $arItem['DELETE_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
-									// echo '<pre>';
-									// print_r($arItem['PROPERTIES']['STATUS']);
-									// echo '</pre>';
 									?>
 									<p class="news-item" id="<?=$this->GetEditAreaId($arItem['INFO']['ID']);?>">
 										<div class="order-item" style="margin-bottom: 30px;">
@@ -202,14 +194,6 @@ $obCache->CleanDir("/s1/bitrix/news.list", "cache");
 						<div class="pt-7 pb-5">
 							<a href="<?php echo $isMobile ? '/order/mobile_add_edit_order.php' : '/order/make_order_step_1.php';?>" class="btn btn-primary w-100 w-lg-auto px-10"><?=GetMessage('NEW_ORDER');?></a>
 						</div>
-						<!-- <?php //if ($count):?>
-							<div class="form-check d-flex align-items-center text-dark">
-								<input class="form-check-input me-2" type="checkbox" value="archive-orders" id="archive-orders" >
-								<label class="form-check-label fs-5" for="archive-orders">
-									<?//=GetMessage('SHOW_ORDERS_FROM_ARCHIVE');?>
-								</label>
-							</div>
-						<?php //endif;?> -->
 					</div>
 				</section>
 			</div>

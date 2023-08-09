@@ -59,6 +59,3 @@ if($arResult["SHOW_SMS_FIELD"] == true)
 
 	<a href="/auth/mobile_authorization.php" class="fs-4 d-block w-100 text-center link-secondary"><?=GetMessage('I_ALREADY_HAVE_A_PROFILE');?></a>
 </form>
-
-
-

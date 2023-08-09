@@ -3,8 +3,8 @@ define('STOP_STATISTICS', true);
 require_once($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_before.php');
 $APPLICATION->RestartBuffer();
 
-// echo json_encode($_POST);
 session_start();
+
 
 $_POST['link'] = strip_tags($_POST['link']);
 $totalSumYuan = 0;
@@ -44,12 +44,7 @@ if (isset($_SESSION['editable_order'][$_POST['link']])) {
     }
 }
 
-// if ((int)($_POST['is_edit_mode'])) {  // если это редактирование уже существующего заказа
-//     $arrayOfGoods = $_SESSION['editable_order'];
-// } else {
-//     $arrayOfGoods = $_SESSION['cart'];  // если это создание нового заказа
-// }
-
 echo json_encode(['total_sum' => number_format($totalSumYuan * $_SESSION['cnyRate'], 2, '.', ' ')]);
+
 
 die();

@@ -9,7 +9,6 @@ $APPLICATION->RestartBuffer();
 
 session_start();
 
-// echo json_encode($_POST);
 
 if (CModule::IncludeModule("iblock")) {
     // ищем id инфоблока с заказами
@@ -178,9 +177,6 @@ if (CModule::IncludeModule("iblock")) {
 				</div>
 
 				<div class="order-item__order-state fs-6">';
-				AddMessage2Log('bvniorto');
-				AddMessage2Log(mb_strtolower($order['PROPERTY_STATUS_VALUE']));
-				AddMessage2Log(mb_strtolower(GetMessage('NOT_PAID')));
 					if (mb_strtolower($order['PROPERTY_STATUS_VALUE']) == mb_strtolower(GetMessage('NOT_PAID'))) {
 						$ordersString .= GetMessage('ORDER_IS_ON_EDIT_STAGE');
 					} else {

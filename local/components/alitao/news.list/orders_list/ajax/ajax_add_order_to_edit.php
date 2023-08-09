@@ -9,7 +9,6 @@ $APPLICATION->RestartBuffer();
 
 session_start();
 
-// echo json_encode($_POST);
 
 if (isset($_POST['order_content']) && isset($_POST['order_id'])) {
     $_SESSION['editable_order'] = unserialize(base64_decode($_POST['order_content']));

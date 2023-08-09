@@ -11,16 +11,10 @@ Loc::loadMessages(__FILE__);
 
 session_start();
 
-// echo '<pre>';
-// print_r($_SESSION['editable_order']);
-// echo '</pre>';
-// var_dump($_GET['link']);
-// var_dump(utf8_decode(urldecode(array_keys($_SESSION['editable_order'])[1])));
-
 if (!isset($_SESSION['editable_order'][$_GET['link']])) {
     $_GET['link'] = substr($_GET['link'], 0, -1);
 }
-// print_r($_SESSION['editable_order'][$_GET['link']]);
+
 ?>
 
 <main>

@@ -128,7 +128,7 @@ if ( helpSection ){
 var btnWasClicked = false;
 
 let askForBillBtns = document.querySelectorAll('.add-good-mobile');
-// console.log(addGoodMobileBtn);
+
 for (let i = 0; i < askForBillBtns.length; i++) {
   askForBillBtns[i].addEventListener('click', function(){
     let id = this.dataset.id;  // получение id заказа, по которому просят счёт
@@ -156,7 +156,3 @@ for (let i = 0; i < askForBillBtns.length; i++) {
     jivo_api.open();
   });
 }
-
-
-
-

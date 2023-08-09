@@ -9,6 +9,7 @@ $APPLICATION->RestartBuffer();
 
 session_start();
 
+
 $_POST['order_comment'] = strip_tags($_POST['order_comment']);
 
 // записываем комментарий в сессию
@@ -98,7 +99,6 @@ foreach ($order as $link => $props) {
     $arrPhotoFields = [];
     foreach ($props['photo'] as $file){
         if (!empty($file['tmp_name'])) {
-            // $arrPhotoFields[] = $file;
             $files[] = CFile::SaveFile($file, 'users_pics');
         }
     }
@@ -151,7 +151,6 @@ $elemProps = array(
 if (isset($_SESSION['editable_order']) && !empty($_SESSION['editable_order'])) { 
     $elArray = Array(
         "TIMESTAMP_X" => date('d.m.Y H:i:s'),
-        // "IBLOCK_ID" => $ordersIblockId,
         "PROPERTY_VALUES" => $elemProps,
         "NAME" => 'Новый заказ',
         "ACTIVE" => "Y"

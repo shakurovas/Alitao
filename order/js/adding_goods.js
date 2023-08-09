@@ -6,20 +6,12 @@ let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|W
 let addGoodBtn = document.querySelector('#add-good-btn');
 let goodsList = document.querySelector('#goods-list');
 
-// if (isMobile) {
-//   let editBtns = document.querySelector('.mo-order__edit');
-//   for (let i = 0; i < editBtns.length; i++) {
-//     editBtns[i].
-//   }
-// }
-
 let linkInput = document.querySelector('#product-link'); 
 let nameInput = document.querySelector('#product-name'); 
 let priceInput = document.querySelector('#product-price');
 let delivery_costInput = document.querySelector('#delivery-price');
 
 let addingGoodForm = document.querySelector('#adding-good-form');
-console.log(linkInput, nameInput, priceInput, delivery_costInput);
 
 if (isMobile) {
   var requiredFields = document.querySelector('#required-fields-mobile');
@@ -34,7 +26,6 @@ if (typeof addGoodBtn !== 'undefined' && addGoodBtn != null) {
     let nameFieldValue = nameInput.value;
     let priceFieldValue = priceInput.value;
     let delivery_costFieldValue = delivery_costInput.value;
-    // console.log(linkField, nameField, priceField, delivery_costField);
 
     if (delivery_costFieldValue == '' || priceFieldValue == '' || linkFieldValue == '' || nameFieldValue == '') {
       
@@ -57,21 +48,7 @@ if (typeof linkInput !== 'undefined' && linkInput != null && typeof nameInput !=
   let nameField = nameInput.value;
   let priceField = priceInput.value;
   let delivery_costField = delivery_costInput.value;
-  console.log(linkField, nameField, priceField, delivery_costField);
-  
-  // addGoodBtn.addEventListener('click', function() {
-  //   if (delivery_costField == '' || priceField == '' || linkField == '' || nameField == '') {
-  //     if (typeof requiredFields !== 'undefined' && requiredFields != null) {
-  //       requiredFields.style.display = 'block';
-  //       addGoodBtn.disabled = true;
-  //     }
-  //   } else {
-  //     if (typeof requiredFields !== 'undefined' && requiredFields != null) {
-  //       requiredFields.style.display = 'none';
-  //       addGoodBtn.disabled = false;
-  //     }
-  //   }
-  // });
+
   if (!isMobile) {
     if (typeof addingGoodForm !== 'undefined' && typeof addingGoodForm != null) {
       addingGoodForm.addEventListener('keyup', function() {
@@ -94,7 +71,6 @@ if (typeof linkInput !== 'undefined' && linkInput != null && typeof nameInput !=
       })
     }
   } else {
-  // if (typeof addingGoodForm !== 'undefined' && addingGoodForm != null) {
     document.querySelector('#product-link').addEventListener('keyup', function() {
   
       let linkFieldNew = document.querySelector('#product-link').value; 
@@ -107,19 +83,14 @@ if (typeof linkInput !== 'undefined' && linkInput != null && typeof nameInput !=
           requiredFields.style.display = 'block';
           addGoodBtn.disabled = true;
         }
-        // console.log(delivery_costField);
-        // console.log(priceField);
-        // console.log(priceField);
-        // console.log(nameField);
       } else {
         if (typeof requiredFields !== 'undefined' && requiredFields != null) {
-          console.log(799);
           requiredFields.style.display = 'none';
           addGoodBtn.disabled = false;
         }
       }
     })
-    // }
+    
     document.querySelector('#product-name').addEventListener('keyup', function() {
       let linkFieldNew = document.querySelector('#product-link').value; 
       let nameFieldNew = document.querySelector('#product-name').value; 
@@ -131,10 +102,6 @@ if (typeof linkInput !== 'undefined' && linkInput != null && typeof nameInput !=
           requiredFields.style.display = 'block';
           addGoodBtn.disabled = true;
         }
-        // console.log(delivery_costField);
-        // console.log(priceField);
-        // console.log(priceField);
-        // console.log(nameField);
       } else {
         if (typeof requiredFields !== 'undefined' && requiredFields != null) {
           requiredFields.style.display = 'none';
@@ -154,10 +121,6 @@ if (typeof linkInput !== 'undefined' && linkInput != null && typeof nameInput !=
           requiredFields.style.display = 'block';
           addGoodBtn.disabled = true;
         }
-        // console.log(delivery_costField);
-        // console.log(priceField);
-        // console.log(priceField);
-        // console.log(nameField);
       } else {
         if (typeof requiredFields !== 'undefined' && requiredFields != null) {
           requiredFields.style.display = 'none';
@@ -177,10 +140,6 @@ if (typeof linkInput !== 'undefined' && linkInput != null && typeof nameInput !=
           requiredFields.style.display = 'block';
           addGoodBtn.disabled = true;
         }
-        // console.log(delivery_costField);
-        // console.log(priceField);
-        // console.log(priceField);
-        // console.log(nameField);
       } else {
         if (typeof requiredFields !== 'undefined' && requiredFields != null) {
           requiredFields.style.display = 'none';
@@ -190,32 +149,6 @@ if (typeof linkInput !== 'undefined' && linkInput != null && typeof nameInput !=
     })  
   }  
 }
-
-
-// delivery_costField.addEventListener('keyup', function() {
-//   let linkFieldNew = document.querySelector('#product-link').value; 
-//   let nameFieldNew = document.querySelector('#product-name').value; 
-//   let priceFieldNew = document.querySelector('#product-price').value;
-//   let delivery_costFieldNew = document.querySelector('#delivery-price').value;
-
-//   if (delivery_costFieldNew == '' || priceFieldNew == '' || linkFieldNew == '' || nameFieldNew == '') {
-//     if (typeof requiredFields !== 'undefined' && requiredFields != null) {
-//       requiredFields.style.display = 'block';
-//       addGoodBtn.disabled = true;
-//     }
-//     // console.log(delivery_costField);
-//     // console.log(priceField);
-//     // console.log(priceField);
-//     // console.log(nameField);
-//   } else {
-//     if (typeof requiredFields !== 'undefined' && requiredFields != null) {
-//       requiredFields.style.display = 'none';
-//       addGoodBtn.disabled = false;
-//     }
-//   }
-// })
-
-
 
 
 if (addGoodBtn) {
@@ -261,8 +194,6 @@ if (addGoodBtn) {
     form_data.append('photoreport', photoreportValue);
     form_data.append('is_edit_mode', isEditModeValue);
 
-    // console.log(isEditModeValue);
-
 
     $.ajax( {
       url: '/order/ajax/ajax_add_good.php',
@@ -274,16 +205,12 @@ if (addGoodBtn) {
       success: function(data) {
         console.log(data);
         if (data == 'INVALID_FILE_SIZE'){  // уведомление о том, что превышен размер файла
-          // event.preventDefault();
           alert('Размер фото превышает допустимый');
         } else if (data =='INVALID_FILE_TYPE'){  // уведомление о том, что не тот тип файла (не картинка)
-          // event.preventDefault();
           alert('Загружаемый файл должен быть изображением');  
         } else if (data == 'NO_PHOTO_ADDED') {  // уведомление о том, что файл не загружен
-          // event.preventDefault();
           alert('Вы не загрузили фото');
         } else if (data == 'SOMETHING_WENT_WRONG') {  // уведомление о том, что что-то пошло не так по какой-то другой причине, не перечисленной выше
-          // event.preventDefault();
           alert('Что-то пошло не так. Попробуйте снова или загрузите другой файл');
         } else {
           let buttonsToClear = document.querySelectorAll('.delete-after-add-goods');
@@ -292,7 +219,6 @@ if (addGoodBtn) {
           }
           data = JSON.parse(data);
           console.log(data['goods_string']);
-          // console.log(data['buttons_string']);
           if (!isMobile) {
             if (typeof data['goods_string'] !== 'undefined' && data['goods_string'] != null && data['goods_string'] != '') {
               goodsList.innerHTML = data['goods_string'];
@@ -317,11 +243,6 @@ if (addGoodBtn) {
           document.querySelector('.products-photo-grid').innerHTML = '';
         }
         if (isMobile) {
-          // if (isEditModeValue != 0) {
-          //   console.log('edit_mode: ' + isEditModeValue);
-          // } else {
-          //   console.log('not_edit_mode: ' + isEditModeValue);
-          // }
           if (isEditModeValue != 0)
             window.location.href = '/order/make_order_step_1.php?edit=y';
           else {
@@ -473,7 +394,6 @@ if (minusList.length) {
 
       dataToSend = {
         'quantity': productQuantityInputList[i].value,
-        // 'link': this.closest('.mo-order').querySelector('a').href.slice(0, -1),
         'link': this.closest('.mo-order').querySelector('a').href,
         'is_edit_mode': isEditModeValue,
       };
@@ -492,11 +412,6 @@ if (minusList.length) {
     
       let price = parseFloat(this.dataset.price);
       let rate = parseFloat(this.dataset.rate);
-    
-      // console.log(productCostYuanList[i].innerHTML.replace(/\s/g, ""));
-      // console.log(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1));
-      // console.log(deliveryCostYuanList[i].innerHTML.replace(/\s/g, ""));
-      // console.log(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1));
     
       productCostYuanList[i].innerHTML = (price * productQuantityInputList[i].value).toFixed(2);
       productCostRubList[i].innerHTML = '₽ ' + (price * productQuantityInputList[i].value * rate).toFixed(2);
@@ -544,40 +459,6 @@ if (minusList.length) {
 }
 
 
-
-// var btnWasClicked = false;
-
-// let askForBillBtns = document.querySelectorAll('.add-good-mobile');
-// // console.log(addGoodMobileBtn);
-// for (let i = 0; i < askForBillBtns.length; i++) {
-//   askForBillBtns[i].addEventListener('click', function(){
-//     let id = this.dataset.id;  // получение id заказа, по которому просят счёт
-  
-//     if (!btnWasClicked) {
-//       // если нажимают первый раз, то открываем окно с чатом и выводим приветственное сообщение
-//       jivo_api.showProactiveInvitation(`Здравствуйте!
-//       Если у вас есть вопросы по заказу, смело задавайте! 😉
-//       Если вы хотите запросить счёт по заказу, напишите об этом или нажмите соответствующую кнопку в чате. Если вы хотите запросить счета сразу по нескольким заказам, укажите, пожалуйста, номера заказов (их можно посмотреть в списке заказов в своём профиле)
-//       `);
-//       btnWasClicked = true;
-//     } else {  // если нажимают уже не первый раз, то открываем окно без нового сообщения с привествием
-//       jivo_api.showProactiveInvitation(`
-//       Если вы хотите запросить счёт по заказу, напишите об этом или нажмите соответствующую кнопку в чате. Если вы хотите запросить счета сразу по нескольким заказам, укажите, пожалуйста, номера заказов (их можно посмотреть в списке заказов в своём профиле)
-//       `);
-//     }
-   
-  
-//     // передадим менеджеру в панели Jivo информацию об id заказа, для которого клиент просит счёт
-//     jivo_api.setCustomData([
-//       {
-//           "content": "ID заказа: " + id,
-//       },
-//     ]);
-//     jivo_api.open();
-//   });
-// }
-
-
 let mobileAddGoodBeforeBtn = document.querySelector('.mobile-add-good-before');
 if (typeof mobileAddGoodBeforeBtn !== 'undefined' && mobileAddGoodBeforeBtn != null) {
   mobileAddGoodBeforeBtn.addEventListener('click', function() {
@@ -607,7 +488,3 @@ if (typeof closingAddingGoodModalBtn !== undefined && closingAddingGoodModalBtn 
     document.querySelector('.products-photo-grid').innerHTML = '';
   });
 }
-
-
-// let 
-// rgba(216, 37, 0, 0.5)

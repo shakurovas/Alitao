@@ -87,16 +87,12 @@ $arResult["ERRORS"] = array();
 $arResult["SHOW_SMS_FIELD"] = false;
 $register_done = false;
 
-// AddMessage2Log($_SERVER['REQUEST_METHOD']);
-// AddMessage2Log($_REQUEST);
 
-// register user&& isset($_POST["login"]) && isset($_POST["password"]) && !empty($_POST["login"])  && !empty($_POST["password"]) 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $_REQUEST['register_submit_button'] <> '' && !$USER->IsAuthorized())
 {
-	AddMessage2Log('artartart');
 	if(COption::GetOptionString('main', 'use_encrypted_auth', 'N') == 'Y')
 	{
-		//possible encrypted user password
+		// possible encrypted user password
 		$sec = new CRsaSecurity();
 		if(($arKeys = $sec->LoadKeys()))
 		{
@@ -132,11 +128,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_REQUEST['register_submit_button'] 
 
 	$USER_FIELD_MANAGER->EditFormAddFields("USER", $arResult["VALUES"]);
 
-	//this is a part of CheckFields() to show errors about user defined fields
+	// this is a part of CheckFields() to show errors about user defined fields
 	if (!$USER_FIELD_MANAGER->CheckFields("USER", 0, $arResult["VALUES"]))
 	{
 		$e = $APPLICATION->GetException();
-		$arResult["ERRORS"][] = mb_substr($e->GetString(), 0, -4); //cutting "<br>"
+		$arResult["ERRORS"][] = mb_substr($e->GetString(), 0, -4); // cutting "<br>"
 		$APPLICATION->ResetException();
 	}
 
@@ -146,8 +142,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_REQUEST['register_submit_button'] 
 		if (!$APPLICATION->CaptchaCheckCode($_REQUEST["captcha_word"], $_REQUEST["captcha_sid"]))
 			$arResult["ERRORS"][] = GetMessage("REGISTER_WRONG_CAPTCHA");
 	}
-	AddMessage2Log($arResult['VALUES']);
-	AddMessage2Log($arResult['ERRORS']);
 	if(!empty($arResult["ERRORS"]))
 	{
 		if(COption::GetOptionString("main", "event_log_register_fail", "N") === "Y")

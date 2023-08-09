@@ -48,12 +48,12 @@ Loc::loadLanguageFile(__FILE__);
                             <li class="mb-2">
                                 <?php
                                     $moscowTimeZone = 'Europe/Moscow';
-                                    $pekingTimeZone = 'Asia/Hong_Kong'; // для Пекина отдельно нет
+                                    $pekingTimeZone = 'Asia/Hong_Kong';  // для Пекина отдельно нет
                                     $timestamp = time();
                                     $dtMoscow = new DateTime("now", new DateTimeZone($moscowTimeZone)); 
                                     $dtPeking = new DateTime("now", new DateTimeZone($pekingTimeZone)); 
-                                    $dtMoscow->setTimestamp($timestamp); //adjust the object to correct timestamp
-                                    $dtPeking->setTimestamp($timestamp); //adjust the object to correct timestamp
+                                    $dtMoscow->setTimestamp($timestamp);  // adjust the object to correct timestamp
+                                    $dtPeking->setTimestamp($timestamp);  // adjust the object to correct timestamp
                                 ?>
                                 <p class="text-gray fs-6 mb-0"><?=Loc::getMessage('MOSCOW');?> <span id="moscow-time"><?=$dtMoscow->format('H:i');?></span></p>
                                 <?$APPLICATION->IncludeComponent(
@@ -239,9 +239,6 @@ Loc::loadLanguageFile(__FILE__);
         </div>
         <div class="footer__bottom py-sm-6 py-2 ">
             <div class="container px-xxl-10 <?php echo $isMobile ? 'footer-in-line-links' : 'd-flex';?> justify-content-evenly justify-content-sm-between  align-items-center">
-                <!-- <a href="/">
-                    <img src="<?//=SITE_TEMPLATE_PATH;?>/img/footer-logo.svg" alt="">
-                </a> -->
                 <?php if ($isMobile):?>
                     <a href="/privacy_policy/" class="text-white footer-in-line-links">
                         <?=Loc::getMessage('PRIVACY_POLITICS');?>

@@ -7,10 +7,10 @@ $APPLICATION->RestartBuffer();
 
 session_start();
 
+
 foreach ($_POST as $key) {
     $_POST[$key] = strip_tags($_POST[$key]);
 }
-// echo json_encode($_POST);
 
 if ($_POST['full_name'] && $_POST['region'] && $_POST['city'] && $_POST['address'] && $_POST['zipindex'] && $_POST['phone'] && $_POST['email'] && $_POST['delivery_type']) {
     $_SESSION['users_info'] = [
