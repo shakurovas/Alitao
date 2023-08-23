@@ -15,3 +15,4 @@ $MESS['USEFUL_LINKS'] = 'Полезные ссылки';
 $MESS['MENU'] = 'Меню';
 $MESS['PRIVACY_POLITICS'] = 'Политика конфиденциальности';
 $MESS['PERSONAL_DATA_PROCESSING'] = 'Обработка персональных данных';
+$MESS['OUR_COMPANY_LOGO_DESCRIPTION'] = 'Сайт разработан компанией ITDR.PRO';

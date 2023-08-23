@@ -1,6 +1,9 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("title", "Условия доставки товаров из Китая в Россию с Alitao.shop");
+$APPLICATION->SetPageProperty("description", "Обеспечьте себе удобство и надежность с доставкой товаров из Китая в Россию через Alitao.shop. Оптимизированная логистика с несколькими вариантами маршрутов на выбор");
 $APPLICATION->SetTitle("Доставка");
+$APPLICATION->AddHeadString('<link rel="canonical" href="' . ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '"/>');
 
 use \Bitrix\Main\Localization\Loc;
 Loc::loadMessages(__FILE__);

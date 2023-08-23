@@ -1,6 +1,9 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Оформление заказа");
+$APPLICATION->SetPageProperty("title", "Как оформить заказ с Таобао - подробная инструкция | Alitao.shop");
+$APPLICATION->SetPageProperty("description", "Подробная инструкция: Как оформить заказ с Табао для доставки через Alitao.Shop");
+$APPLICATION->SetTitle("Как оформить заказ");
+$APPLICATION->AddHeadString('<link rel="canonical" href="' . ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '"/>');
 
 use \Bitrix\Main\Localization\Loc;
 Loc::loadMessages(__FILE__);

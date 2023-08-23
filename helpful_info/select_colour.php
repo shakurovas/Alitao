@@ -1,6 +1,9 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("title", "Помощь в выборе цвета на Табао | Alitao.shop");
+$APPLICATION->SetPageProperty("description", "Узнайте, как сделать точный выбор цвета одежды при покупках на Таобао");
 $APPLICATION->SetTitle("Выбор цвета");
+$APPLICATION->AddHeadString('<link rel="canonical" href="' . ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '"/>');
 
 use \Bitrix\Main\Localization\Loc;
 Loc::loadMessages(__FILE__);

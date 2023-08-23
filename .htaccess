@@ -5,7 +5,7 @@ ErrorDocument 404 /404.php
 	php_flag allow_call_time_pass_reference 1
 	php_flag session.use_trans_sid off
 
-	#php_value display_errors 1
+	php_value display_errors 1
 
 	#php_value mbstring.internal_encoding UTF-8
 </IfModule>
@@ -19,6 +19,26 @@ ErrorDocument 404 /404.php
 	RewriteCond %{REQUEST_FILENAME} !/bitrix/urlrewrite.php$
 	RewriteRule ^(.*)$ /bitrix/urlrewrite.php [L]
 	RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization}]
+
+	# с www на без www
+	RewriteCond %{HTTP_HOST} ^www.alitao\\.shop$ [NC]
+	RewriteRule ^(.*)$ [R=301,L]
+
+	# убираем index.php из многоуровневых адресов в том числе
+	RewriteCond %{THE_REQUEST} ^GET.*index\.php [NC]
+	RewriteRule (.*?)index\.php/*(.*) /$1$2 [R=301,NE,L]
+
+	# переадресация с http на https
+	RewriteCond %{SERVER_PORT} ^80$ [OR]
+	RewriteCond %{HTTP} =on
+	RewriteRule ^(.*)$ https://www.alitao.shop/$1 [R=301,L]
+
+	# добавление слеша в конце
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_URI} !(.*)/$
+	RewriteRule ^(.*[^/])$ $1/ [L,R=301]
+
+
 </IfModule>
 
 <IfModule mod_dir.c>

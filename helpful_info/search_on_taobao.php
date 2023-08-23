@@ -1,6 +1,9 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Поиск на Taobao");
+$APPLICATION->SetPageProperty("title", "Табао на русском языке | Alitao.shop");
+$APPLICATION->SetPageProperty("description", "Как искать товары на Табао на русском языке? Узнайте на нашем сайте.");
+$APPLICATION->SetTitle("Табао на русском языке");
+$APPLICATION->AddHeadString('<link rel="canonical" href="' . ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '"/>');
 
 use \Bitrix\Main\Localization\Loc;
 Loc::loadMessages(__FILE__);
@@ -9,7 +12,7 @@ Loc::loadMessages(__FILE__);
     <article class="container pt-7 mt-1 pb-10 mb-4  text">
         <section class="mb-6">
             <h1 class="h1 mb-4"><?=Loc::getMessage('RUSSIAN_TAOBAO_TITLE');?></h1>
-            <p class="mb-6 text-dark fw-bold"><a class="link-secondary" href="https://taobao.com" target="_blank">Taobao.com</a><?=Loc::getMessage('TAOBAO_QUESTION');?></p>
+            <p class="mb-6 text-dark fw-bold"><a class="link-secondary" href="https://taobao.com" target="_blank">Taobao.com</a> <?=Loc::getMessage('TAOBAO_QUESTION');?></p>
 
             <?$APPLICATION->IncludeComponent(
                 "bitrix:main.include", 

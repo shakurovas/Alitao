@@ -1,6 +1,9 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("title", "Как выбрать размер одежды в китайских интернет-магазинах | Alitao.shop");
+$APPLICATION->SetPageProperty("description", "Узнайте, как точно выбрать размер одежды при покупках в китайских интернет-магазинах. Наши советы помогут вам избежать ошибок - Alitao.shop");
 $APPLICATION->SetTitle("Выбор размера");
+$APPLICATION->AddHeadString('<link rel="canonical" href="' . ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '"/>');
 
 use \Bitrix\Main\Localization\Loc;
 Loc::loadMessages(__FILE__);
@@ -47,7 +50,7 @@ Loc::loadMessages(__FILE__);
         <p class="fw-bold  fs-5 mb-lg-4 mb-2"><?=Loc::getMessage('TABLE_1_DESCRIPTION');?></p>
         
         <div class="d-sm-none d-flex justify-content-center">
-            <img src="assets/img/select-size/table-1.png" alt="" class="img">
+            <img src="<?=SITE_TEMPLATE_PATH;?>/img/select-size/table-1.png" alt="" class="img">
         </div>
 
         <div class="d-none d-sm-block">
@@ -129,7 +132,7 @@ Loc::loadMessages(__FILE__);
     <div class="py-lg-6 py-4 pb-2 text-dark">
         <p class="fw-bold fs-5 mb-2 mb-lg-4"><?=Loc::getMessage('TABLE_2_DESCRIPTION');?></p>
         <div class="d-sm-none d-flex justify-content-center">
-            <img src="assets/img/select-size/table-2.png" alt="" class="img">
+            <img src="<?=SITE_TEMPLATE_PATH;?>/img/select-size/table-2.png" alt="" class="img">
         </div>
         <div class="d-none d-sm-block">
             <table width="100%" class="fs-5 text-dark">
@@ -232,7 +235,7 @@ Loc::loadMessages(__FILE__);
     <div class="py-lg-6 py-4 pb-2 text-dark">
         <p class="fw-bold fs-5 mb-2 mb-lg-4"><?=Loc::getMessage('TABLE_3_DESCRIPTION');?></p>
         <div class="d-sm-none d-flex justify-content-center">
-            <img src="assets/img/select-size/table-3.png" alt="" class="img">
+            <img src="<?=SITE_TEMPLATE_PATH;?>/img/select-size/table-3.png" alt="" class="img">
         </div>
         <div class="d-none d-sm-block">
             <table width="100%" class="fs-5 text-dark">
@@ -293,7 +296,7 @@ Loc::loadMessages(__FILE__);
     <div class="py-lg-6 py-4 pb-2 text-dark mb-6">
         <p class="fw-bold fs-5 mb-2 mb-lg-4"><?=Loc::getMessage('TABLE_4_DESCRIPTION');?></p>
         <div class="d-sm-none d-flex justify-content-center">
-            <img src="assets/img/select-size/table-4.png" alt="" class="img">
+            <img src="<?=SITE_TEMPLATE_PATH;?>/img/select-size/table-4.png" alt="" class="img">
         </div>
         <div class="d-none d-sm-block">
             <table width="100%" class="fs-5 text-dark">

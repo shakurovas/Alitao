@@ -1,5 +1,10 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 define("NEED_AUTH", true);?>
+
+
+
+
+
 <?php global $USER, $APPLICATION;
 use Bitrix\Main\Page\Asset;
 use \Bitrix\Main\Localization\Loc;
@@ -56,9 +61,26 @@ $isChangePasswordPage = !empty($_GET['USER_LOGIN']) && !empty($_GET['USER_CHECKW
 <!DOCTYPE html>
 <html lang="ru_RU">
 <head>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(94717754, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/94717754" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Краткое описание страницы"/>
     <title><?= $APPLICATION->ShowTitle();?></title>
     <? $APPLICATION->ShowHead();?>
     <link rel="shortcut icon" href="<?=SITE_TEMPLATE_PATH;?>/img/favicon.svg" type="image/x-icon">
@@ -84,6 +106,7 @@ $isChangePasswordPage = !empty($_GET['USER_LOGIN']) && !empty($_GET['USER_CHECKW
     Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/js/main.js");
     
     $APPLICATION->AddHeadString('<script src="//code.jivo.ru/widget/uVIN73ZcQ1" async></script>', true);
+    
     ?>
 
 </head>
@@ -667,7 +690,9 @@ $isChangePasswordPage = !empty($_GET['USER_LOGIN']) && !empty($_GET['USER_CHECKW
             </div>
             </div>
         </div>
-    <?php endif;?>
-
-  
     
+
+
+
+
+<?php endif;?>

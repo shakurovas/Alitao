@@ -1,6 +1,9 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
-$APPLICATION->SetTitle("Alitao.shop");
+$APPLICATION->SetPageProperty("title", "Выкуп товара из Китая и доставка в Россию | Alitao.shop");
+$APPLICATION->SetPageProperty("description", "Ищете посредника для выкупа товаров из Китая? Alitao.shop - ваш выбор! Низкая комиссия от 3%. Розница и опт. Быстрая доставка в Россию. 3 собственных склада в Китае.");
+$APPLICATION->SetTitle("Посредник в Китае");
+$APPLICATION->AddHeadString('<link rel="canonical" href="' . ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '"/>');
 
 use \Bitrix\Main\Localization\Loc;
 Loc::loadMessages(__FILE__);

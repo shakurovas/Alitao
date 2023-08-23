@@ -1,7 +1,9 @@
 <?php
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("title", "Политика конфиденциальности | Alitao.shop");
+$APPLICATION->SetPageProperty("description", "Политика конфиденциальности компании Alitao.shop");
 $APPLICATION->SetTitle("Политика конфиденциальности");
-
+$APPLICATION->AddHeadString('<link rel="canonical" href="' . ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '"/>');
 use \Bitrix\Main\Localization\Loc;
 Loc::loadMessages(__FILE__);
 ?>
