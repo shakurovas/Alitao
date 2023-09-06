@@ -240,7 +240,7 @@ Loc::loadLanguageFile(__FILE__);
         <?php echo $isMobile ? '<div class="footer__bottom py-sm-6 py-2" style="text-align: center;"' : '';?>
             <div class="container px-xxl-10 <?php echo $isMobile ? 'footer-in-line-links' : 'd-flex';?> justify-content-evenly justify-content-sm-between  align-items-center">
                 
-                <a href="https://itdr.pro/"><img src="/images/logo.svg" width="60"></a>
+                <a href="https://itdr.pro/"><img src="/images/logo_white.png" width="60"></a>
                 <a href="/personal_data_processing/" class="text-white">
                     <?=Loc::getMessage('OUR_COMPANY_LOGO_DESCRIPTION');?>
                 </a>
