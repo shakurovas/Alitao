@@ -10,6 +10,9 @@ AddEventHandler("main", "OnBeforeUserUpdate", Array('Handlers', "OnBeforeUserUpd
 // привязываем метод для отсылки сообщений на почту пользователю после изменения статуса заказа
 AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", Array("Handlers", "InformAboutStatusChange"));
 
+// привязываем метод для отсылки сообщений на почту пользователю после изменения статуса заказа
+AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", Array("Handlers", "RecountSumWhenOrderContentChanged"));
+
 
 class Handlers
 {
@@ -81,6 +84,114 @@ class Handlers
             CEvent::SendImmediate('ORDER_STATUS_WAS_CHANGED', 's1', $arEventFields, 'N', 56);  // письмо про обновление статуса заказа
         }
     }
+
+
+    // метод для пересчёта стоимости заказа и изменения соответствующего поля при изменении состава заказа
+    public static function RecountSumWhenOrderContentChanged(&$arFields)
+    {
+        CModule::IncludeModule('iblock');
+        CModule::IncludeModule('highloadblock');
+
+        // определяем id свойства ORDER_CONTENT
+        $arFilter = array(
+            'IBLOCK_ID' => $arFields['IBLOCK_ID'],
+            'CODE' => 'ORDER_CONTENT'
+        );
+
+        $res = CIBlockProperty::GetList(array(), $arFilter);
+        while ($field = $res->Fetch()) {
+            $propOrderContentId = $field['ID'];
+        };
+
+        if (isset($arFields['PROPERTY_VALUES'][$propOrderContentId]) && !empty($arFields['PROPERTY_VALUES'][$propOrderContentId])) {
+            // определяем id свойства TOTAL_SUM_YUAN
+            $arFilter = array(
+                'IBLOCK_ID' => $arFields['IBLOCK_ID'],
+                'CODE' => 'TOTAL_SUM_YUAN'
+            );
+
+            $res = CIBlockProperty::GetList(array(), $arFilter);
+            while ($field = $res->Fetch()) {
+                $propTotalSumYuan = $field['ID'];
+            };
+
+            // определяем id свойства TOTAL_SUM_RUB
+            $arFilter = array(
+                'IBLOCK_ID' => $arFields['IBLOCK_ID'],
+                'CODE' => 'TOTAL_SUM_RUB'
+            );
+
+            $res = CIBlockProperty::GetList(array(), $arFilter);
+            while ($field = $res->Fetch()) {
+                $propTotalSumRub = $field['ID'];
+            };
+
+            // найдём текущее значение свойства ORDER_CONTENT
+            $arSelect = Array("ID", "IBLOCK_ID", "PROPERTY_ORDER_CONTENT", "PROPERTY_IS_INSURED");
+            $arFilter = Array("IBLOCK_ID" => $arFields['IBLOCK_ID'], "ID" => $arFields['ID'], "ACTIVE" => "Y");
+            $res = CIBlockElement::GetList(Array(), $arFilter, false, Array(), $arSelect);
+            $isInsured = '';
+            while($ob = $res->fetch()) {
+                $currentOrderContent = $ob['PROPERTY_ORDER_CONTENT_VALUE']['TEXT'];
+                $isInsured = $ob['PROPERTY_IS_INSURED_VALUE'];
+            }
+
+            // функция для правильной десериализации (когда в строке есть некодированный знак "=", unserialize() возвращает false)
+            function mb_unserialize($string) {
+                $decodedString = preg_replace_callback(
+                    '!s:(\d+):"(.*?)";!s',
+                    function($m){
+                        $len = strlen($m[2]);
+                        $result = "s:$len:\"{$m[2]}\";";
+                        return $result;
+            
+                    },
+                    $string);
+                return unserialize($decodedString);
+            }    
+
+            // проверяем, было ли изменено свойство ORDER_CONTENT у заказа
+            if ($currentOrderContent != $arFields['PROPERTY_VALUES'][$propOrderContentId][array_keys($arFields['PROPERTY_VALUES'][$propOrderContentId])[0]]['VALUE']['TEXT']) {
+                // если содержимое заказа было изменено, то пересчитаем его стоимость
+                $orderContent = mb_unserialize(base64_decode($arFields['PROPERTY_VALUES'][$propOrderContentId][array_keys($arFields['PROPERTY_VALUES'][$propOrderContentId])[0]]['VALUE']['TEXT']));
+                
+                $sumYuan = 0;
+                foreach ($orderContent as $link => $props) {
+                    $totalWithoutServices = ($props['price'] + $props['delivery_through_china']) * $props['quantity'];
+                    $services = 3 + 0.05 * $totalWithoutServices;
+                    if ($props['photo_report_is_needed']) $services += 5 * $props['quantity'];
+                    $sumYuan += $totalWithoutServices + $services;
+                }
+
+                if ($isInsured == 'да') $sumYuan *= 1.01;
+
+                
+                $entity = HL\HighloadBlockTable::compileEntity('ExchangeRate');
+                $curClass = $entity->getDataClass();
+
+                $resultCur = array();
+                $rsData = $curClass::getList(
+                    array(
+                    "select" => array('*'),
+                    "order" => array('ID' => 'ASC'),
+                    "filter" => array()
+                    )
+                );
+                while ($arData = $rsData->Fetch()) {
+                    $resultCur[$arData["ID"]] = $arData;
+                }
+
+                // получим текущее значение курса CNY-RUB
+                $cnyRate = $resultCur[2]['UF_MAIN_VALUE'];
+
+                // изменим значения полей TOTAL_SUM_YUAN и TOTAL_SUM_RUB
+                $arFields['PROPERTY_VALUES'][$propTotalSumYuan][array_keys($arFields['PROPERTY_VALUES'][$propTotalSumYuan])[0]]['VALUE'] = round($sumYuan, 4);
+                $arFields['PROPERTY_VALUES'][$propTotalSumRub][array_keys($arFields['PROPERTY_VALUES'][$propTotalSumRub])[0]]['VALUE'] = round($sumYuan * $cnyRate, 4);
+            }
+        }
+
+        return $arFields;
+    }
 }
 
 
@@ -132,18 +243,18 @@ class Agents
     
         $arFieldUSD['UF_CUR_DATE'] = DateTime::createFromTimestamp(time())->toString();
         // т. к. в бесплатной версии api курса валют в качестве базовой валюты доступен только USD, другие валюты считаем через него
-        $arFieldUSD['UF_MAIN_VALUE'] = round($decodedRates->RUB, 1);
+        $arFieldUSD['UF_MAIN_VALUE'] = round($decodedRates->RUB + 1, 1);
     
         $arFieldCNY['UF_CUR_DATE'] = DateTime::createFromTimestamp(time())->toString();
         // т. к. в бесплатной версии api курса валют в качестве базовой валюты доступен только USD, другие валюты считаем через него 
-        $arFieldCNY['UF_MAIN_VALUE'] = round($decodedRates->RUB / $decodedRates->CNY, 1);
+        $arFieldCNY['UF_MAIN_VALUE'] = round($decodedRates->RUB / $decodedRates->CNY + 1, 1);
         
         // обновляем данные в highload-блоке
         $curClass::update(1, $arFieldUSD);
         $curClass::update(2, $arFieldCNY);
     
-        $_SESSION['usdRate'] = round($decodedRates->RUB, 1);
-        $_SESSION['cnyRate'] = round($decodedRates->RUB / $decodedRates->CNY, 1);
+        $_SESSION['usdRate'] = round($decodedRates->RUB + 1, 1);
+        $_SESSION['cnyRate'] = round($decodedRates->RUB / $decodedRates->CNY + 1, 1);
         
         return "Agents::AgentGetCurrencyRate();";
     }

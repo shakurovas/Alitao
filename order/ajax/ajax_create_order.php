@@ -70,6 +70,7 @@ while($enumFields = $propertyEnums->GetNext())
 // формируем строчку с описанием заказанных товаров для письма и сумму заказа
 $orderContentString = '';
 $totalSum = 0;
+$allServicesCost = 0;
 
 // добавим вложения (картинки товаров) в письмо
 $files = [];
@@ -82,19 +83,23 @@ foreach ($order as $link => $props) {
     $orderContentString .= Loc::getMessage('QUANTITY') . ': ' . $props['quantity'] . '<br>';
     $orderContentString .= Loc::getMessage('COLOUR') . ': ' . $props['colour'] . '<br>';
     $orderContentString .= Loc::getMessage('SIZE') . ': ' . $props['size'] . '<br>';
-    $orderContentString .= Loc::getMessage('DELIVERY_THROUGH_CHINA') . '</b>: ' . $props['delivery_through_china'] . ' ¥<br>';
+    $orderContentString .= Loc::getMessage('DELIVERY_THROUGH_CHINA') . '</b>: ' . $props['delivery_through_china'] * $props['quantity'] . ' ¥<br>';
     if ($props['photo_report_is_needed']) {
         $needed = Loc::getMessage('YES');
-        $servicesCost = 5 * $props['quantity'];
+        $servicesCost = 3 + 5 * $props['quantity'];
     } else {
         $needed = Loc::getMessage('NO');
-        $servicesCost = 0;
+        $servicesCost = 3;
     }
+
+    $servicesCost += 0.05 * ($props['price'] + $props['delivery_through_china']) * $props['quantity'];
+
     $orderContentString .= Loc::getMessage('PHOTO_REPORT_IS_NEEDED') . ': ' . $needed . '<br><br>';
 
     // стоимость всех товаров с доставкой по Китаю
-    $totalSum += $props['price'] * $props['quantity'] + $props['delivery_through_china'] + $servicesCost;
+    $totalSum += ($props['price'] + $props['delivery_through_china']) * $props['quantity'] + $servicesCost;
 
+    
     // файлы для заполнения поля с картинками в инфоблоке и отправки в письме, используется последним аргументов в CEvent::SendImmediate()
     $arrPhotoFields = [];
     foreach ($props['photo'] as $file){
@@ -123,14 +128,6 @@ if ($_SESSION['users_info']['insurance_included']) {
 }
 
 
-// определяем комиссию (до 5000 включительно - 5%, свыше - 3%)
-if ($totalSum <= 5000) {
-    $comission = 5;
-} else {
-    $comission = 3;
-}
-
-
 // списки полей для создания/обновления элемента инофблока с заказами
 $elemProps = array(
     "CUSTOMER" => $USER->GetID(),
@@ -142,9 +139,9 @@ $elemProps = array(
     "PHONE" => $_SESSION['users_info']['phone'],
     "EMAIL" => $_SESSION['users_info']['email'],
     "STATUS" => $orderEnumFields['STATUS'][Loc::getMessage('NOT_PAID')],
-    "GOODS_AND_DELIVERY_THROUGH_CHINA_COST_YUAN" => $totalSum,
-    "GOODS_AND_DELIVERY_THROUGH_CHINA_COST_RUB" => $totalSum * $_SESSION['cnyRate'],
-    "COMISSION" => $comission,
+    "TOTAL_SUM_YUAN" => $totalSum,
+    "TOTAL_SUM_RUB" => $totalSum * $_SESSION['cnyRate'],
+    "COMISSION" => 5,
     "PICTURES" => $files
 );
 

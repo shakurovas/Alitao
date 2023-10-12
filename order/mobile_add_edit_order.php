@@ -112,7 +112,7 @@ if (!isset($_SESSION['editable_order'][$_GET['link']])) {
 
                         <div>
                             <p class="mb-2"><b><?=Loc::getMessage('SERVICES');?></b></p>
-                            <p class="text-secondary">¥ <span id="services-cost-calc" data-price-delivery="3">3</span></p>
+                            <p class="text-secondary">¥ <span id="services-cost-calc" data-price-delivery="3">8</span></p>
                         </div>
                         <div>
                             <p class="mb-2"><b><?=Loc::getMessage('TOTAL');?></b></p>

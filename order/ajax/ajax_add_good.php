@@ -173,7 +173,7 @@ if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем доба�
                             ' . Loc::getMessage('DELIVERY') . '
                         </div>
                         <div class=" mb-2 text-secondary" >
-                            '; $deliveryCost = number_format((float)$props['delivery_through_china'], 2, '.', ' '); $goodsString .= '
+                            '; $deliveryCost = number_format((float)$props['delivery_through_china'] * (float)$props['quantity'], 2, '.', ' '); $goodsString .= '
                             ¥ <span data-target-field="delivery_price" class="delivery-cost-yuan-list">' . $deliveryCost . '</span>
                         </div>
                         <div class="text-dark d-none d-lg-block delivery-cost-rub-list">
@@ -186,11 +186,14 @@ if (isset ($_POST['link']) && !empty($_POST['link'])) {  // будем доба�
                             ' . Loc::getMessage('SERVICES') . '
                         </div>
                         <div class=" mb-2 text-secondary services-cost-yuan-list">
-                            ¥ '; if ($props['photo_report_is_needed']) $services = 5.00 * $props['quantity']; else $services = 0.00;
-                            $goodsString .= $services . '
+                            ¥ ';
+                            $costsWithoutServices = ((float)$props['delivery_through_china'] + (float)$props['price']) * (float)$props['quantity'];
+                            $comission = 0.05 * $costsWithoutServices;
+                            if ($props['photo_report_is_needed']) $services = 3.00 + 5.00 * $props['quantity'] + $comission; else $services = 3.00 + $comission;
+                            $goodsString .= number_format($services, 2, '.', ' ') . '
                         </div>
                         <div class="text-dark d-none d-lg-block services-cost-rub-list">
-                            ₽ ' . $services * $_SESSION['cnyRate']. '
+                            ₽ ' . number_format($services * $_SESSION['cnyRate'], 2, '.', ' ') . '
                         </div>
                     </div>
                     

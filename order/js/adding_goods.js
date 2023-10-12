@@ -281,60 +281,102 @@ let totalCost = document.querySelector('#total-cost-calc');
 if (productPriceInput) {
   productPriceInput.addEventListener('keyup', function() {
     productCost.innerHTML = (productPriceInput.value * productQuantityInput.value).toFixed(2);
+    servCost = 3;
+    costsWithoutServicesYuan = ((isNaN(parseFloat(productPriceInput.value)) ? 0 : parseFloat(productPriceInput.value)) + (isNaN(parseFloat(deliveryPriceInput.value)) ? 0 : parseFloat(deliveryPriceInput.value))) * productQuantityInput.value;
+    
+    if (photoreport.checked) {
+      servCost += (5 * parseFloat(productQuantityInput.value));
+    }
+      
+    servCost += 0.05 * costsWithoutServicesYuan;
+
+    servicesCost.innerHTML = servCost.toFixed(2);
     totalCost.innerHTML = (parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML)).toFixed(2);
   })
 }
 
 if (plus) {
   plus.addEventListener('click', function() {
+    deliveryCost.innerHTML = (parseFloat(deliveryPriceInput.value * productQuantityInput.value)).toFixed(2);
     productCost.innerHTML = (productPriceInput.value * productQuantityInput.value).toFixed(2);
+    servCost = 3;
+    costsWithoutServicesYuan = ((isNaN(parseFloat(productPriceInput.value)) ? 0 : parseFloat(productPriceInput.value)) + (isNaN(parseFloat(deliveryPriceInput.value)) ? 0 : parseFloat(deliveryPriceInput.value))) * productQuantityInput.value;
     if (photoreport.checked) {
-      servicesCost.innerHTML = (5 * parseFloat(productQuantityInput.value)).toFixed(2);
-    } else {
-      servicesCost.innerHTML = Number(0.00).toFixed(2);
+      servCost += (5 * parseFloat(productQuantityInput.value));
     }
+    
+    servCost += 0.05 * costsWithoutServicesYuan;
+
+    servicesCost.innerHTML = servCost.toFixed(2);
     totalCost.innerHTML = (parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML)).toFixed(2);
   })
 }
 
 if (minus) {
   minus.addEventListener('click', function() {
+    deliveryCost.innerHTML = (parseFloat(deliveryPriceInput.value * productQuantityInput.value)).toFixed(2);
     productCost.innerHTML = (productPriceInput.value * productQuantityInput.value).toFixed(2);
+    servCost = 3;
+    costsWithoutServicesYuan = ((isNaN(parseFloat(productPriceInput.value)) ? 0 : parseFloat(productPriceInput.value)) + (isNaN(parseFloat(deliveryPriceInput.value)) ? 0 : parseFloat(deliveryPriceInput.value))) * productQuantityInput.value;
     if (photoreport.checked) {
-      servicesCost.innerHTML = (5 * parseFloat(productQuantityInput.value)).toFixed(2);
-    } else {
-      servicesCost.innerHTML = Number(0.00).toFixed(2);
+      servCost += (5 * parseFloat(productQuantityInput.value));
     }
+      
+    servCost += 0.05 * costsWithoutServicesYuan;
+
+    servicesCost.innerHTML = servCost.toFixed(2);
     totalCost.innerHTML = (parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML)).toFixed(2);
   })
 }
 
 if (productQuantityInput) {
   productQuantityInput.addEventListener('keyup', function() {
+    deliveryCost.innerHTML = (parseFloat(deliveryPriceInput.value * productQuantityInput.value)).toFixed(2);
     productCost.innerHTML = (productPriceInput.value * productQuantityInput.value).toFixed(2);
+
+    servCost = 3;
+    costsWithoutServicesYuan = ((isNaN(parseFloat(productPriceInput.value)) ? 0 : parseFloat(productPriceInput.value)) + (isNaN(parseFloat(deliveryPriceInput.value)) ? 0 : parseFloat(deliveryPriceInput.value))) * productQuantityInput.value;
     if (photoreport.checked) {
-      servicesCost.innerHTML = (5 * parseFloat(productQuantityInput.value)).toFixed(2);
-    } else {
-      servicesCost.innerHTML = Number(0.00).toFixed(2);
+      servCost += (5 * parseFloat(productQuantityInput.value));
     }
+      
+    servCost += 0.05 * costsWithoutServicesYuan;
+
+    servicesCost.innerHTML = servCost.toFixed(2);
     totalCost.innerHTML = (parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML)).toFixed(2);
   })
 }
 
 if (deliveryPriceInput) {
   deliveryPriceInput.addEventListener('keyup', function() {
-    deliveryCost.innerHTML = (parseFloat(deliveryPriceInput.value)).toFixed(2);
+    deliveryCost.innerHTML = (parseFloat(deliveryPriceInput.value * productQuantityInput.value)).toFixed(2);
+
+    servCost = 3;
+    costsWithoutServicesYuan = ((isNaN(parseFloat(productPriceInput.value)) ? 0 : parseFloat(productPriceInput.value)) + (isNaN(parseFloat(deliveryPriceInput.value)) ? 0 : parseFloat(deliveryPriceInput.value))) * productQuantityInput.value;
+    if (photoreport.checked) {
+      servCost += 5 * parseFloat(productQuantityInput.value);
+    }
+      
+    servCost += 0.05 * costsWithoutServicesYuan;
+
+    servicesCost.innerHTML = servCost.toFixed(2);
+
     totalCost.innerHTML = (parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML)).toFixed(2);
   })
 }
 
 if (photoreport) {
   photoreport.addEventListener('change', function(event) {
+    servCost = 3;
+    costsWithoutServicesYuan = ((isNaN(parseFloat(productPriceInput.value)) ? 0 : parseFloat(productPriceInput.value)) + (isNaN(parseFloat(deliveryPriceInput.value)) ? 0 : parseFloat(deliveryPriceInput.value))) * productQuantityInput.value;
     if (event.currentTarget.checked) {
-      servicesCost.innerHTML = (5 * parseFloat(productQuantityInput.value)).toFixed(2);
-    } else {
-      servicesCost.innerHTML = Number(0.00).toFixed(2);
+      servCost += (5 * parseFloat(productQuantityInput.value));
     }
+      
+    servCost += 0.05 * costsWithoutServicesYuan;
+
+    servicesCost.innerHTML = servCost.toFixed(2);
+
     totalCost.innerHTML = (parseFloat(productCost.innerHTML) + parseFloat(deliveryCost.innerHTML) + parseFloat(servicesCost.innerHTML)).toFixed(2);
   })
 }
@@ -367,24 +409,32 @@ if (minusList.length) {
     
       let price = parseFloat(this.dataset.price);
       let rate = parseFloat(this.dataset.rate);
-      productCostYuanList[i].innerHTML = (price * productQuantityInputList[i].value).toFixed(2);
-      productCostRubList[i].innerHTML = '₽ ' + (price * productQuantityInputList[i].value * rate).toFixed(2);
-      totalCostYuanListNone[i].innerHTML = '¥ ' +  (parseFloat(productCostYuanList[i].innerHTML.replace(/\s/g, "")) + parseFloat(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2);
-      totalCostRubListNone[i].innerHTML = '( ₽ ' +  (parseFloat(productCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(deliveryCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(servicesCostRubList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2) + ' )';
-      totalCostYuanList[i].innerHTML = '¥ ' + (parseFloat(productCostYuanList[i].innerHTML.replace(/\s/g, "")) + parseFloat(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2);
-      totalCostRubList[i].innerHTML = '₽ ' + (parseFloat(productCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(deliveryCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(servicesCostRubList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2);
+      let delivery_price = parseFloat(this.dataset.deliveryprice);
+      let is_photoreport_needed = parseFloat(this.dataset.photoreport);
+      deliveryCostYuanList[i].innerHTML = (delivery_price * productQuantityInputList[i].value).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      deliveryCostRubList[i].innerHTML = '₽ ' + (delivery_price * productQuantityInputList[i].value * rate).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+
+      servCosts = 3.00;
+      totalSumWithoutServices = (delivery_price + price) * productQuantityInputList[i].value;
+      servCosts += 0.05 * totalSumWithoutServices;
+
+      if (is_photoreport_needed) servCosts += 5.00 * productQuantityInputList[i].value;
+
+      servicesCostYuanList[i].innerHTML = '¥ ' + servCosts.toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      servicesCostRubList[i].innerHTML = '₽ ' + (servCosts * rate).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+
+      productCostYuanList[i].innerHTML = (price * productQuantityInputList[i].value).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      productCostRubList[i].innerHTML = '₽ ' + (price * productQuantityInputList[i].value * rate).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      totalCostYuanListNone[i].innerHTML = '¥ ' +  (parseFloat(productCostYuanList[i].innerHTML.replace(/\s/g, "")) + parseFloat(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      totalCostRubListNone[i].innerHTML = '( ₽ ' +  (parseFloat(productCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(deliveryCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(servicesCostRubList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ') + ' )';
+      totalCostYuanList[i].innerHTML = '¥ ' + (parseFloat(productCostYuanList[i].innerHTML.replace(/\s/g, "")) + parseFloat(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      totalCostRubList[i].innerHTML = '₽ ' + (parseFloat(productCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(deliveryCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(servicesCostRubList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
     
       let sum = 0;
       let sumYuan = 0;
       for (let j = 0; j < minusList.length; j++) {
         sum += parseFloat(totalCostRubList[j].innerHTML.replace(/\s/g, "").slice(1));
         sumYuan += parseFloat(totalCostYuanList[j].innerHTML.replace(/\s/g, "").slice(1));
-      }
-
-      if (sumYuan <= 5000) {
-        sum *= 1.05;
-      } else {
-        sum *= 1.03;
       }
   
       allTotalCost.innerHTML = 'Итого с учётом комисии: ' + sum.toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ') + ' ₽  ';
@@ -412,25 +462,32 @@ if (minusList.length) {
     
       let price = parseFloat(this.dataset.price);
       let rate = parseFloat(this.dataset.rate);
-    
-      productCostYuanList[i].innerHTML = (price * productQuantityInputList[i].value).toFixed(2);
-      productCostRubList[i].innerHTML = '₽ ' + (price * productQuantityInputList[i].value * rate).toFixed(2);
-      totalCostYuanListNone[i].innerHTML = '¥ ' +  (parseFloat(productCostYuanList[i].innerHTML.replace(/\s/g, "")) + parseFloat(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "")) + parseFloat(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2);
-      totalCostRubListNone[i].innerHTML = '( ₽ ' +  (parseFloat(productCostRubList[i].innerHTML.replace(/\s/g, "").replace(/\s/g, "").slice(1)) + parseFloat(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "")) + parseFloat(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2) + ')';
-      totalCostYuanList[i].innerHTML = '¥ ' + (parseFloat(productCostYuanList[i].innerHTML) + parseFloat(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "")) + parseFloat(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2);
-      totalCostRubList[i].innerHTML = '₽ ' + (parseFloat(productCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(deliveryCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(servicesCostRubList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2);
+      let delivery_price = parseFloat(this.dataset.deliveryprice);
+      let is_photoreport_needed = parseFloat(this.dataset.photoreport);
+      deliveryCostYuanList[i].innerHTML = (delivery_price * productQuantityInputList[i].value).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      deliveryCostRubList[i].innerHTML = '₽ ' + (delivery_price * productQuantityInputList[i].value * rate).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+
+      servCosts = 3.00;
+      totalSumWithoutServices = (delivery_price + price) * productQuantityInputList[i].value;
+      servCosts += 0.05 * totalSumWithoutServices;
+
+      if (is_photoreport_needed) servCosts += 5.00 * productQuantityInputList[i].value;
+
+      servicesCostYuanList[i].innerHTML = '¥ ' + servCosts.toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      servicesCostRubList[i].innerHTML = '₽ ' + (servCosts * rate).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      
+      productCostYuanList[i].innerHTML = (price * productQuantityInputList[i].value).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      productCostRubList[i].innerHTML = '₽ ' + (price * productQuantityInputList[i].value * rate).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      totalCostYuanListNone[i].innerHTML = '¥ ' +  (parseFloat(productCostYuanList[i].innerHTML.replace(/\s/g, "")) + parseFloat(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "")) + parseFloat(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      totalCostRubListNone[i].innerHTML = '( ₽ ' +  (parseFloat(productCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "")) + parseFloat(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ') + ')';
+      totalCostYuanList[i].innerHTML = '¥ ' + (parseFloat(productCostYuanList[i].innerHTML.replace(/\s/g, "")) + parseFloat(deliveryCostYuanList[i].innerHTML.replace(/\s/g, "")) + parseFloat(servicesCostYuanList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+      totalCostRubList[i].innerHTML = '₽ ' + (parseFloat(productCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(deliveryCostRubList[i].innerHTML.replace(/\s/g, "").slice(1)) + parseFloat(servicesCostRubList[i].innerHTML.replace(/\s/g, "").slice(1))).toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
     
       let sum = 0;
       let sumYuan = 0;
       for (let j = 0; j < minusList.length; j++) {
         sum += parseFloat(totalCostRubList[j].innerHTML.replace(/\s/g, "").slice(1));
         sumYuan += parseFloat(totalCostYuanList[j].innerHTML.replace(/\s/g, "").slice(1));
-      }
-
-      if (sumYuan <= 5000) {
-        sum *= 1.05;
-      } else {
-        sum *= 1.03;
       }
   
       allTotalCost.innerHTML = 'Итого с учётом комисии: ' + sum.toFixed(2).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ') + ' ₽  ';
@@ -482,8 +539,8 @@ if (typeof closingAddingGoodModalBtn !== undefined && closingAddingGoodModalBtn 
     document.getElementById("adding-good-form").reset();
     document.querySelector('#product-cost-calc').innerHTML = 0.00;
     document.querySelector('#delivery-cost-calc').innerHTML = 0.00;
-    document.querySelector('#services-cost-calc').innerHTML = 5.00;
-    document.querySelector('#total-cost-calc').innerHTML = 5.00;
+    document.querySelector('#services-cost-calc').innerHTML = 8.00;
+    document.querySelector('#total-cost-calc').innerHTML = 8.00;
     document.querySelector('input[name="files[]"').value = '';
     document.querySelector('.products-photo-grid').innerHTML = '';
   });

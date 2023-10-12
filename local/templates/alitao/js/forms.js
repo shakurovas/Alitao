@@ -640,7 +640,7 @@ if ( moOrderRemoveBtns.length && moOrderEditBtns.length){
                 
             }
 
-            // // если все заказы удалили, то нужно снова показать блок "добавить заказ с полем для ссылки"
+            // если все заказы удалили, то нужно снова показать блок "добавить заказ с полем для ссылки"
             let moOrderRemoveBtnsMinus1 = document.querySelectorAll('.mo-order__remove');
             let instructionsBeforeGoodsHided = document.querySelector('.mo-instructions');
             if (!moOrderRemoveBtnsMinus1.length && instructionsBeforeGoodsHided) {
@@ -648,25 +648,23 @@ if ( moOrderRemoveBtns.length && moOrderEditBtns.length){
             }
         })
     }
-    
 
     function sendValueInInput(parent, fieldName, fieldType = ''){
         const productValue = parent.querySelector('[data-target-field = "' + fieldName + '"  ]').innerHTML;            
         const productInput = document.querySelector('[name = "' + fieldName + '" ]'); 
         
         if (fieldName == 'product_price') {
-            productInput.value = (Number(parent.querySelector('[data-target-field = "product_price"]').innerHTML) / Number(parent.querySelector('.product-qty-list').value)).toFixed(2); 
+            productInput.value = (Number(parent.querySelector('[data-target-field = "product_price"]').innerHTML.replace(/\s/g, "")) / Number(parent.querySelector('.product-qty-list').value)).toFixed(2); 
+        } else if (fieldName == 'delivery_price') {
+            productInput.value = (Number(parent.querySelector('[data-target-field = "delivery_price"]').innerHTML.replace(/\s/g, "")) / Number(parent.querySelector('.product-qty-list').value)).toFixed(2); 
         } else {
             if (    fieldType === 'textarea' ){
                 productInput.innerHTML = productValue;
             } else {
-
                 productInput.value = productValue;
-                
             }
         }
-       
-        
+
     }
 
     moOrderEditBtns.forEach( btn => {

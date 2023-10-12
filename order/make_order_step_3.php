@@ -18,30 +18,28 @@ $totalSumYuan = 0;
 if (isset($_SESSION['editable_order']) && !empty($_SESSION['editable_order'])) {
     foreach ($_SESSION['editable_order'] as $key => $props) {
         if ($props['photo_report_is_needed']) 
-            $servicesCost = 5.00 * $props['quantity'];
+            $servicesCost = 3.00 + 5.00 * $props['quantity'];
         else {
-            $servicesCost = 0.00;
+            $servicesCost = 3.00;
         }
-        $totalSumYuan += (float)$props['price'] * (float)$props['quantity'] + (float)$props['delivery_through_china'] + $servicesCost;
+        $totalWithoutServices = ($props['price'] + $props['delivery_through_china']) * $props['quantity'];
+        $servicesCost += 0.05 * $totalWithoutServices;
+        $totalSumYuan += ((float)$props['price'] + (float)$props['delivery_through_china']) * (float)$props['quantity'] + $servicesCost;
     }
 } else {
     foreach ($_SESSION['cart'] as $key => $props) {
         if ($props['photo_report_is_needed']) 
-            $servicesCost = 5.00 * $props['quantity'];
+            $servicesCost = 3.00 + 5.00 * $props['quantity'];
         else {
-            $servicesCost = 0.00;
+            $servicesCost = 3.00;
         }
-        $totalSumYuan += (float)$props['price'] * (float)$props['quantity'] + (float)$props['delivery_through_china'] + $servicesCost;
+        $totalWithoutServices = ($props['price'] + $props['delivery_through_china']) * $props['quantity'];
+        $servicesCost += 0.05 * $totalWithoutServices;
+        $totalSumYuan += ((float)$props['price'] + (float)$props['delivery_through_china']) * (float)$props['quantity'] + $servicesCost;
     }
 }
 
 if ($_SESSION['users_info']['insurance_included']) $totalSumYuan *= 1.01;
-
-if ($totalSumYuan <= 5000) {
-    $totalSumYuan = $totalSumYuan * 1.05;  // комиссия 5%
-} else if ($totalSumYuan > 5000) {
-    $totalSumYuan = $totalSumYuan * 1.03;  // комиссия 3%
-}
 
 $totalSumYuanToShow = number_format($totalSumYuan, 2, '.', ' ');
 $totalSumRubToShow = number_format($_SESSION['cnyRate'] * $totalSumYuan, 2, '.', ' ');

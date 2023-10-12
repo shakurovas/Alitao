@@ -633,20 +633,24 @@ $isChangePasswordPage = !empty($_GET['USER_LOGIN']) && !empty($_GET['USER_CHECKW
                                     <div>
                                         <p class="mb-2"><b><?=Loc::getMessage('SUMMATION');?></b></p>
                                         <p class="text-secondary">¥ <span id="product-cost-calc" data-price-calc="">0</span></p>
+                                        <!-- <p class="text-secondary">₽ <span id="product-cost-calc-rub" data-price-calc="">0</span></p> -->
                                     </div>
 
                                     <div>
                                         <p class="mb-2"><b><?=Loc::getMessage('DELIVERY');?></b></p>
                                         <p class="text-secondary">¥ <span id="delivery-cost-calc" data-price-delivery="">0</span></p>
+                                        <!-- <p class="text-secondary">₽ <span id="delivery-cost-calc-rub" data-price-delivery="">0</span></p> -->
                                     </div>
 
                                     <div>
                                         <p class="mb-2"><b><?=Loc::getMessage('SERVICES');?></b></p>
-                                        <p class="text-secondary">¥ <span id="services-cost-calc" data-price-delivery="3">5</span></p>
+                                        <p class="text-secondary">¥ <span id="services-cost-calc" data-price-delivery="3">8</span></p>
+                                        <!-- <p class="text-secondary">₽ <span id="services-cost-calc-rub" data-price-delivery="3"><?=8 * $_SESSION['cnyRate'];?></span></p> -->
                                     </div>
                                     <div>
                                         <p class="mb-2"><b><?=Loc::getMessage('TOTAL');?></b></p>
                                         <p class="text-success">¥ <span id="total-cost-calc" data-summ="3">0</span></p>
+                                        <!-- <p class="text-success">₽ <span id="total-cost-calc-rub" data-summ="3">0</span></p> -->
                                     </div>
                                 </div>
                             </div>

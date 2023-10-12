@@ -114,9 +114,9 @@ session_start();
                             <div class=" mo-order__price-table-wrap">
                                 <div class="mo-order__widget-wrap">
                                     <div class="inc-widget vertical">
-                                        <div data-rate="<?=$_SESSION['cnyRate'];?>" data-price="<?=$props['price'];?>" class="inc-widget__btn inc plus-cost-calc-list"></div>
+                                        <div data-rate="<?=$_SESSION['cnyRate'];?>" data-price="<?=$props['price'];?>" data-deliveryprice="<?=$props['delivery_through_china'];?>" data-photoreport="<?php echo ($props['photo_report_is_needed']) ? 1 : 0;?>" class="inc-widget__btn inc plus-cost-calc-list"></div>
                                         <input type="tel" class="inc-widget__input product-qty-list" name="product_qty" min="1" value="<?=$props['quantity'];?>" data-cross-field="product_price" data-calc="data-price-calc">
-                                        <div data-rate="<?=$_SESSION['cnyRate'];?>" data-price="<?=$props['price'];?>" class="inc-widget__btn dec minus-cost-calc-list"></div>
+                                        <div data-rate="<?=$_SESSION['cnyRate'];?>" data-price="<?=$props['price'];?>" data-deliveryprice="<?=$props['delivery_through_china'];?>" data-photoreport="<?php echo ($props['photo_report_is_needed']) ? 1 : 0;?>" class="inc-widget__btn dec minus-cost-calc-list"></div>
                                     </div>
                                 </div>
                                 <div class="mo-order__price-table text-dark flex-grow-1">
@@ -128,11 +128,11 @@ session_start();
                                             <?=Loc::getMessage('SUMMATION');?>
                                         </div>
                                         <div class=" mb-2 text-secondary" >
-                                            <?php $cost = number_format((int)$props['quantity'] * (int)$props['price'], 2, '.', ' ');?>
-                                            ¥ <span class="product-cost-yuan-list" data-target-field="product_price"><?=$cost;?></span>
+                                            <?php $cost = (float)$props['quantity'] * (float)$props['price'];?>
+                                            ¥ <span class="product-cost-yuan-list" data-target-field="product_price"><?=number_format($cost, 2, '.', ' ');?></span>
                                         </div>
                                         <div class="text-dark d-none d-lg-block product-cost-rub-list">
-                                            ₽ <?=number_format((float)$cost * $_SESSION['cnyRate'], 2, '.', ' ');?>
+                                            ₽ <?=number_format($cost * $_SESSION['cnyRate'], 2, '.', ' ');?>
                                         </div>
                                     </div>
             
@@ -141,8 +141,8 @@ session_start();
                                             <?=Loc::getMessage('DELIVERY');?>
                                         </div>
                                         <div class=" mb-2 text-secondary" >
-                                            <?php $deliveryCost = number_format((float)$props['delivery_through_china'], 2, '.', ' ');?>
-                                            ¥ <span data-target-field="delivery_price" class="delivery-cost-yuan-list"><?=$deliveryCost;?></span>
+                                            <?php $deliveryCost = (float)$props['delivery_through_china'] * (float)$props['quantity'];?>
+                                            ¥ <span data-target-field="delivery_price" class="delivery-cost-yuan-list"><?=number_format($deliveryCost, 2, '.', ' ');?></span>
                                         </div>
                                         <div class="text-dark d-none d-lg-block delivery-cost-rub-list">
                                             ₽ <?=number_format($deliveryCost * $_SESSION['cnyRate'], 2, '.', ' ');?>
@@ -154,8 +154,11 @@ session_start();
                                             <?=Loc::getMessage('SERVICES');?>
                                         </div>
                                         <div class=" mb-2 text-secondary services-cost-yuan-list">
-                                            ¥ <?php if ($props['photo_report_is_needed']) $services = 5.00 * $props['quantity'];
-                                            else $services = 0.00;
+                                            ¥ <?php
+                                            $costsWithoutServices = ((float)$props['delivery_through_china'] + (float)$props['price']) * (float)$props['quantity'];
+                                            $comission = 0.05 * $costsWithoutServices;
+                                            if ($props['photo_report_is_needed']) $services = 3.00 + 5.00 * $props['quantity'] + $comission;
+                                            else $services = 3.00 + $comission;
                                             echo number_format($services, 2, '.', ' ');?>
                                         </div>
                                         <div class="text-dark d-none d-lg-block services-cost-rub-list">
@@ -208,11 +211,6 @@ session_start();
                         <a href="/order/mobile_add_edit_order.php<?php echo (null !== $_GET['edit'] && $_GET['edit'] == 'y') ? '?edit=y' : '';?>" class="btn btn-outline-primary add-goods-btn-cart btn-add-product w-100 w-sm-auto d-md-none" ><?=Loc::getMessage('ADD_GOOD');?></a>
                     </div>
 
-                    <?php if ($sumRub / $_SESSION['cnyRate'] <= 5000) {
-                        $sumRub *= 1.05;
-                    } else {
-                        $sumRub *= 1.03;
-                    }?>
                     <p class="my-7 text-dark text-center fs-5 delete-after-add-goods" id="total-with-commission-cost"><?=Loc::getMessage('TOTAL_WITH_COMMISSION');?>: <?=number_format($sumRub, 2, '.', ' ')?> ₽  </p>
                     <div class="d-flex justify-content-center delete-after-add-goods">
                         <a id="continue" class="btn btn-primary btn-add-product w-100 w-sm-auto" href="/order/make_order_step_2.php"><?=Loc::getMessage('CONTINUE');?></a>
