@@ -124,35 +124,111 @@ if ( helpSection ){
     }
 }
 
-
-var btnWasClicked = false;
-
-let askForBillBtns = document.querySelectorAll('.add-good-mobile');
-
-for (let i = 0; i < askForBillBtns.length; i++) {
-  askForBillBtns[i].addEventListener('click', function(){
-    let id = this.dataset.id;  // получение id заказа, по которому просят счёт
-  
-    if (!btnWasClicked) {
-      // если нажимают первый раз, то открываем окно с чатом и выводим приветственное сообщение
-      jivo_api.showProactiveInvitation(`Здравствуйте!
-      Если у вас есть вопросы по заказу, смело задавайте! 😉
-      Если вы хотите запросить счёт по заказу, напишите об этом или нажмите соответствующую кнопку в чате. Если вы хотите запросить счета сразу по нескольким заказам, укажите, пожалуйста, номера заказов (их можно посмотреть в списке заказов в своём профиле)
-      `);
-      btnWasClicked = true;
-    } else {  // если нажимают уже не первый раз, то открываем окно без нового сообщения с привествием
-      jivo_api.showProactiveInvitation(`
-      Если вы хотите запросить счёт по заказу, напишите об этом или нажмите соответствующую кнопку в чате. Если вы хотите запросить счета сразу по нескольким заказам, укажите, пожалуйста, номера заказов (их можно посмотреть в списке заказов в своём профиле)
-      `);
-    }
-   
-  
-    // передадим менеджеру в панели Jivo информацию об id заказа, для которого клиент просит счёт
-    jivo_api.setCustomData([
-      {
-          "content": "ID заказа: " + id,
+Fancybox.bind('[data-fancybox]', {
+    compact: false,
+    contentClick: "iterateZoom",
+    Images: {
+      Panzoom: {
+        maxScale: 2,
       },
-    ]);
-    jivo_api.open();
-  });
+    },
+    Toolbar: {
+      display: {
+        left: [
+          "infobar",
+        ],
+        middle : [],
+        right: [
+          "iterateZoom",
+          "close",
+        ],
+      }
+    }
+  });  
+
+
+  const swiper = new Swiper('.swiper.swiper-reviews', {
+    loop: true,
+    speed: 8000,
+      
+    autoplay: {
+        delay: 0,
+        pauseOnMouseEnter: true,        // stop autoplay when hovering
+        disableOnInteraction: false,    // restart autoplay when hover is removed
+        
+    },
+    breakpoints: {
+        300: {
+            slidesPerView: 1.5,
+            spaceBetween: 8
+            
+        },
+        480: {
+            slidesPerView: 2.5,
+            spaceBetween: 8
+        },
+        800: {
+            slidesPerView: 3.5,
+            spaceBetween: 8
+        },
+        1100: {
+            slidesPerView: 5,
+            spaceBetween: 16
+        },
+
+        
+    }
+})
+
+
+const thanksModal = document.querySelector('#thanksModal');
+const myModal = new bootstrap.Modal(thanksModal);
+
+
+
+const feedbackForm = document.querySelector('form[data-form="feedback-form"]');
+
+if ( feedbackForm ) {
+    feedbackForm.onsubmit = function(event){
+        event.preventDefault();
+        let name = this.name;
+        let phone = this.phone;
+        let email = this.email;
+
+
+        let data_body = "name=" + name.value + '&phone=' +  phone.value + '&email=' +  email.value; 
+        console.log(data_body)
+        fetch("script-name.php", {
+            method: "POST",
+            body: data_body,
+            headers:{"content-type": "application/x-www-form-urlencoded"} 
+        })
+        .then( (response) => {
+            if (response.status !== 200) {
+                return Promise.reject();
+            }
+            if (thanksModal){
+                myModal.show();
+            }
+            name.value = "";
+            phone.value = "";
+            email.value = "";
+            return response.text()
+        })
+        .then(i => console.log(i))
+        .catch(() => {
+            //для тестирования
+            if (thanksModal){
+                myModal.show();
+            }
+            name.value = "";
+            phone.value = "";
+            email.value = "";
+            console.log('ошибка')
+        });
+    }
+    
 }
+
+
+
